@@ -8,22 +8,14 @@ import FollowContainer from "../utilityComponents/FollowContainer";
 import { FollowType } from "@/types/followType";
 
 interface PropsType {
-  user: UserType & { filteredReviewCount?: number };
+  user: UserType & { _count?: { reviews: number } };
   index: number;
 }
 
 const UserProfileContainer = ({ user, index }: PropsType) => {
-  const { id, image, name, filteredReviewCount } = user;
+  const { id, image, name, _count } = user;
 
-  // const { data: followList } = useQuery({
-  //   queryKey: ["follow"],
-  //   queryFn: () => getAllFollowList(),
-  // });
-
-  // const followerCount = followList?.filter((v: FollowType) => {
-  //   return v.follower_id === id;
-  // }).length;
-
+  console.log(id,"유저아이디")
   return (
     <S.ProfileInfoContainer>
       <S.ProfileInfoInner>
@@ -36,17 +28,15 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
           <S.UserActivity>
             <S.Activity>
               <h3>
-                리뷰수<span>{filteredReviewCount}</span>
+                리뷰수<span>{_count?.reviews}</span>
               </h3>
             </S.Activity>
             <S.Activity>
-              <h3>
-                {/* 팔로워<span>{followerCount}</span> */}
-              </h3>
+              <h3>{/* 팔로워<span>{followerCount}</span> */}</h3>
             </S.Activity>
           </S.UserActivity>
         </S.UserInfoWrap>
-        {/* <FollowContainer id={id} /> */}
+        <FollowContainer id={id} />
       </S.ProfileInfoInner>
     </S.ProfileInfoContainer>
   );

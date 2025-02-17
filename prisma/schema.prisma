@@ -59,7 +59,7 @@ model User {
   sessions       Session[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  follows        Follow[]  @relation("UserFollowing")
+  followings     Follow[]  @relation("UserFollowing")
   followers      Follow[]  @relation("UserFollowers")
   reviews        Review[]  @relation("UserReviews")
 }
@@ -91,8 +91,8 @@ model Follow {
   followingId String
   createdAt   DateTime @default(now())
 
-  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
-  following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+  follower  User @relation(fields: [followerId], references: [id], onDelete: Cascade, name: "UserFollowers")
+  following User @relation(fields: [followingId], references: [id], onDelete: Cascade, name: "UserFollowing")
 
   @@id([followerId, followingId])
 }

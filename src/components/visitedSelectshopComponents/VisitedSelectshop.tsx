@@ -24,7 +24,7 @@ const VisitedSelectshop = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewData } = useQuery({
-    queryKey: ["review"],
+    queryKey: ["allReview"],
     queryFn: async () => {
       const res = await axios.get("/api/review");
       return res.data;

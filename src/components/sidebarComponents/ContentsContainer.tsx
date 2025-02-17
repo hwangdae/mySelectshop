@@ -1,12 +1,12 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import MyAddressContainer from "./MyAddressContainer";
 import ProfileContainer from "../profileComponents/ProfileContainer";
 import { showFollowListStore } from "@/globalState/zustand";
-// import ShowFollowContainer from "./ShowFollowContainer";
 import { useSession } from "next-auth/react";
+import ShowFollowContainer from "./ShowFollowContainer";
 
 const CONTENTSTABNAV = [
   { id: "nearbySelectshop", name: "편집샵 보기" },
@@ -30,10 +30,10 @@ const ContentsContainer = () => {
   return (
     <S.ContentsContainer>
       <ProfileContainer />
-      {/* {showFollowListToggle ? (
+      {showFollowListToggle ? (
         <ShowFollowContainer showFollow={showFollowListToggle} />
       ) : (
-        <> */}
+        <>
       <MyAddressContainer />
       <S.ContentsInner>
         {CONTENTSTABNAV.map((content) => {
@@ -49,8 +49,8 @@ const ContentsContainer = () => {
           );
         })}
       </S.ContentsInner>
-      {/* </> */}
-      {/* )} */}
+      </>
+      )}
     </S.ContentsContainer>
   );
 };

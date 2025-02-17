@@ -5,9 +5,9 @@ import React from "react";
 import styled from "styled-components";
 import Check from "@/assets/Check.svg";
 import { FollowType } from "@/types/followType";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface PropsType {
   id: string;
@@ -15,18 +15,25 @@ interface PropsType {
 
 const FollowContainer = ({ id }: PropsType) => {
   const { data: userData } = useSession();
-  const router = useRouter();
-
-  const { data: followList } = useQuery({
-    queryKey: ["followList"],
+  const queryClient = useQueryClient();
+  const { data: isFollowing } = useQuery({
+    queryKey: ["followList", id],
     queryFn: async () => {
-      const res = await axios.get("/api/follow");
+      const res = await axios.get(
+        `/api/follow?followerId=${id}&followingId=${userData?.user?.id}`
+      );
       return res.data;
     },
+    enabled: !!userData?.user?.id,
   });
-
-  const isFollowing = followList?.find((v: FollowType) => {
-    return v.following_id === id && v.follower_id === userData?.user?.id;
+  
+  const mutation = useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      return await axios.post("/api/follow", { id });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["followList", id] });
+    },
   });
 
   const followButtonHandler = async (
@@ -35,13 +42,16 @@ const FollowContainer = ({ id }: PropsType) => {
     event.stopPropagation();
     if (!userData) {
       alert("로그인이 필요한 서비스 입니다.");
-      router.push("?modal=login");
+      signIn();
       return;
     }
-    await axios.post("/api/follow",id);
+    try {
+      mutation.mutate({ id });
+    } catch (error) {
+      console.log(error);
+    }
   };
-  console.log(userData?.user?.id,"로그인 아이디")
-  console.log(id,"리뷰쓴 아이디")
+
   return (
     <S.FollowContainer>
       {userData?.user?.id !== id && (

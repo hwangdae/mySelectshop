@@ -2,6 +2,7 @@ import { showFollowListStore } from "@/globalState/zustand";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { FollowType } from "@/types/followType";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -13,28 +14,33 @@ interface PropsType {
 }
 
 const UserActivity = ({ loginUser, userId }: PropsType) => {
-  const [followList,setFollowList] = useState([])
-  const {showFollowListToggle,setShowFollowListToggle} = showFollowListStore()
+  const [followList, setFollowList] = useState([]);
+  const { showFollowListToggle, setShowFollowListToggle } =
+    showFollowListStore();
   const router = useRouter();
-  console.log()
-  // const { data: followList } = useQuery({
-  //   queryKey: ["follow"],
-  //   queryFn: () => getAllFollowList(),
-  // });
+  console.log(userId,"유저아이디")
+  const { data: followerCount } = useQuery({
+    queryKey: ["followerCount",userId],
+    queryFn: async () => {
+      const res = await axios.get(
+        `/api/follow/followCount?followerId=${userId}`
+      );
+      return res.data;
+    },
+  });
 
-  // const { data: reviewCount } = useQuery({
-  //   queryKey: ["review", loginUser],
-  //   queryFn: () => getReviewCount(loginUser),
-  // });
-
-  const followerCount = followList?.filter((v: FollowType) => {
-    return v.following_id === userId;
-  }).length;
-
-  const followingCount = followList?.filter((v: FollowType) => {
-    return v.follower_id === userId;
-  }).length;
-
+  const {data: followingCount } = useQuery({
+    queryKey: ["followingCount",userId],
+    queryFn: async () => {
+      const res = await axios.get(
+        `/api/follow/followCount?followingId=${userId}`
+      );
+      return res.data;
+    },
+  });
+  console.log(followerCount, "팔로워 카운트");
+  console.log(followingCount, "팔로워 카운트");
+  
   return (
     <S.UserActivity>
       <S.Activity>
@@ -43,10 +49,10 @@ const UserActivity = ({ loginUser, userId }: PropsType) => {
       </S.Activity>
       <S.Activity>
         <button
-          onClick={async() => {
+          onClick={async () => {
             setShowFollowListToggle(!showFollowListToggle);
-            const res = await axios.get("/api/follow")
-            setFollowList(res.data)
+            const res = await axios.get("/api/follow");
+            setFollowList(res.data);
             router.push(`/?follow=follower`);
           }}
         >

@@ -23,8 +23,8 @@ export default function RootLayout({
       <body className={notoSansKr.className}>
         <Script
           type="text/javascript"
-          src={KAKAO_SDK_URL}
           strategy="beforeInteractive"
+          src={KAKAO_SDK_URL}
         />
         <ClientLayout>{children}</ClientLayout>
       </body>

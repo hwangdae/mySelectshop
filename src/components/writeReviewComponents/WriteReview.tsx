@@ -20,8 +20,9 @@ import {
   UploadReviewType,
 } from "@/types/reviewType";
 import { useSession } from "next-auth/react";
-import { uploadImage } from "@/utils/uploadImage";
 import axios from "axios";
+import { uploadImagesFn } from "@/utils/uploadImages";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface PropsType {
   selectshopId?: string;
@@ -30,24 +31,6 @@ interface PropsType {
   prevReview?: ReviewType;
   setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const uploadImagesFn = async (files: File[]) => {
-  let imagesString: string[] = [];
-
-  if (files && files.length > 0) {
-    for (const file of files) {
-      try {
-        const files = await uploadImage(file);
-        imagesString.push(files);
-      } catch (error) {
-        alert("이미지 업로드 중 오류가 발생했습니다.");
-        console.error(error);
-        return;
-      }
-    }
-  }
-  return imagesString;
-};
 
 const WriteReview = ({
   selectshopId,
@@ -58,8 +41,6 @@ const WriteReview = ({
 }: PropsType) => {
   const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
-
-  console.log(files, "파일들");
 
   const {
     register,
@@ -101,6 +82,19 @@ const WriteReview = ({
     control,
     name: "disAdvantages",
   });
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (review: NewReviewType) => {
+      if (type !== "edit") {
+        return await axios.post("/api/review", review);
+      } else {
+        return await axios.patch("/api/review", review);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["review"] });
+    },
+  });
 
   const addReviewSubmit: SubmitHandler<UploadReviewType> = async ({
     description,
@@ -121,7 +115,7 @@ const WriteReview = ({
 
     try {
       if (type !== "edit") {
-        await axios.post("/api/review", newReview);
+        mutation.mutate(newReview);
         alert("작성이 완료 되었습니다.");
         setIsWriteReviewOpen!(false);
       } else {
@@ -129,7 +123,7 @@ const WriteReview = ({
           ...newReview,
           id: prevReview?.id,
         };
-        await axios.patch("/api/review", updateReview);
+        mutation.mutate(updateReview);
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }

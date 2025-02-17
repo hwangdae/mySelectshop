@@ -3,13 +3,12 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const followerId = searchParams.get("followerId") ?? undefined;
+  const followingId = searchParams.get("followingId") ?? undefined;
   try {
-    const session = await getCurrentUser();
-    const userId = session?.id;
-
-    const followingList = await prisma.follow.findMany({
-      where: { followerId: userId },
-      include: { following: true },
+    const followingList = await prisma.follow.findFirst({
+      where: { followerId, followingId },
     });
 
     return NextResponse.json(followingList);
@@ -20,12 +19,15 @@ export const GET = async (request: Request) => {
 
 export const POST = async (request: Request) => {
   try {
+    const body = await request.json();
+    const { id } = body;
+
+    const followerId = id;
     const session = await getCurrentUser();
-    if (!session) return alert("세션이 만료 되었습니다.");
-
-    const followingId = await request.json();
-    const followerId = session.id;
-
+    if (!session) {
+      return NextResponse.json({ error: "Session expired" }, { status: 401 });
+    }
+    const followingId = session.id;
     const existingFollow = await prisma.follow.findUnique({
       where: { followerId_followingId: { followerId, followingId } },
     });
@@ -33,14 +35,15 @@ export const POST = async (request: Request) => {
       await prisma.follow.delete({
         where: { followerId_followingId: { followerId, followingId } },
       });
-      return NextResponse.json({ message: "Unfollowed" });
+      return NextResponse.json({ status: 200 });
     } else {
-      await prisma.follow.create({
+      const follow = await prisma.follow.create({
         data: { followerId, followingId },
       });
-      return NextResponse.json({ message: "Followed" });
+      return NextResponse.json(follow);
     }
   } catch (error) {
-    console.log(error);
+    console.error("Error in POST /api/follow:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 };

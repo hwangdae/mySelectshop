@@ -31,8 +31,6 @@ const MapComponent = () => {
           );
         }
       });
-    } else {
-      console.log("??");
     }
   }, []);
 
