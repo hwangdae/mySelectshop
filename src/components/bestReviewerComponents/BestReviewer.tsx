@@ -25,7 +25,7 @@ const BestReviewer = () => {
       return res.data
     },
   });
-  console.log(users,"유저스")
+
   useEffect(() => {
     searchAllPlaces();
   }, []);

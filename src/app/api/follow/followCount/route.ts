@@ -7,12 +7,12 @@ export const GET = async (request: Request) => {
   const followingId = searchParams.get("followingId") ?? undefined;
   try {
     if (followerId) {
-      const followerCount = await prisma.follow.count({
+      const followerCount = await prisma.follow.findMany({
         where: { followerId },
       });
       return NextResponse.json(followerCount);
     } else {
-      const follwingCount = await prisma.follow.count({
+      const follwingCount = await prisma.follow.findMany({
         where: { followingId },
       });
       return NextResponse.json(follwingCount);

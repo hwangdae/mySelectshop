@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import UserContainer from "../utilityComponents/UserContainer";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import People from "@/assets/People.svg";
 import { formatFollowCount } from "@/utils/formatFollowCount";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 interface PropsType {
   showFollow: boolean;
@@ -19,19 +20,33 @@ interface TabType {
 
 const ShowFollowContainer = ({ showFollow }: PropsType) => {
   const router = useRouter();
-    const pathname = usePathname()
-  const { data: followList } = useQuery({
-    queryKey: ["followList"],
+  const searchParams = useSearchParams();
+  const followTab = searchParams?.get("follow");
+  const { data: userData } = useSession();
+  
+  const { data: followerList } = useQuery({
+    queryKey: ["followerList", userData?.user?.id],
     queryFn: async () => {
-      const res = await axios.get("/api/follow");
+      const res = await axios.get(
+        `/api/follow/followUsers?followerId=${userData?.user?.id}`
+      );
       return res.data;
     },
   });
-  console.log(followList,"팔로우 리스트")
+
+  const { data: followingList } = useQuery({
+    queryKey: ["followingList", userData?.user?.id],
+    queryFn: async () => {
+      const res = await axios.get(
+        `/api/follow/followUsers?followingId=${userData?.user?.id}`
+      );
+      return res.data;
+    },
+  });
 
   const FOLLOWTABNAV = [
-    { id: "follower", name: "팔로워", count: followList?.length },
-    { id: "following", name: "팔로잉", count: followList?.length },
+    { id: "follower", name: "팔로워", count: followerList?.length || 0 },
+    { id: "following", name: "팔로잉", count: followingList?.length || 0 },
   ];
 
   return (
@@ -42,7 +57,7 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
             <S.Content key={tab.id}>
               <S.TabButton
                 onClick={() => router.push(`/?follow=${tab.id}`)}
-                $isActive={pathname === tab.id}
+                $isActive={followTab === tab.id}
               >
                 <h1>
                   <span>{formatFollowCount(tab.count)}</span>
@@ -54,9 +69,9 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
         })}
       </S.FollowNavWrap>
       <ul>
-        {pathname === "follower" ? (
-          followList && followList.length > 0 ? (
-            followList?.map((user: any) => {
+        {followTab === "follower" ? (
+          followerList && followerList?.length > 0 ? (
+            followerList?.map((user: any) => {
               return (
                 <li key={user.id}>
                   <UserContainer user={user} type={"follow"} />
@@ -69,8 +84,8 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
               아직 팔로워가 없습니다.
             </S.EmptyMessage>
           )
-        ) : followList && followList.length > 0 ? (
-            followList.map((user: any) => {
+        ) : followingList && followingList?.length > 0 ? (
+          followingList?.map((user: any) => {
             return (
               <li key={user.id}>
                 <UserContainer user={user} type={"follow"} />

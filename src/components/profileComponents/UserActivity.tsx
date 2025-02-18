@@ -9,18 +9,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface PropsType {
-  loginUser: string | undefined;
   userId: string | undefined;
 }
 
-const UserActivity = ({ loginUser, userId }: PropsType) => {
+const UserActivity = ({ userId }: PropsType) => {
   const [followList, setFollowList] = useState([]);
   const { showFollowListToggle, setShowFollowListToggle } =
     showFollowListStore();
   const router = useRouter();
-  console.log(userId,"유저아이디")
+
   const { data: followerCount } = useQuery({
-    queryKey: ["followerCount",userId],
+    queryKey: ["followerList", userId],
     queryFn: async () => {
       const res = await axios.get(
         `/api/follow/followCount?followerId=${userId}`
@@ -29,8 +28,8 @@ const UserActivity = ({ loginUser, userId }: PropsType) => {
     },
   });
 
-  const {data: followingCount } = useQuery({
-    queryKey: ["followingCount",userId],
+  const { data: followingCount } = useQuery({
+    queryKey: ["followingList", userId],
     queryFn: async () => {
       const res = await axios.get(
         `/api/follow/followCount?followingId=${userId}`
@@ -38,26 +37,30 @@ const UserActivity = ({ loginUser, userId }: PropsType) => {
       return res.data;
     },
   });
-  console.log(followerCount, "팔로워 카운트");
-  console.log(followingCount, "팔로워 카운트");
-  
+
+  const { data: reviewCount } = useQuery({
+    queryKey: ["reviewCount"],
+    queryFn: async () => {
+      const res = await axios.get(`/api/review/reviewCount?userId=${userId}`);
+      return res.data;
+    },
+  });
+
   return (
     <S.UserActivity>
       <S.Activity>
         <h3>리뷰수</h3>
-        {/* <p>{reviewCount}</p> */}
+        <p>{reviewCount}</p>
       </S.Activity>
       <S.Activity>
         <button
           onClick={async () => {
             setShowFollowListToggle(!showFollowListToggle);
-            const res = await axios.get("/api/follow");
-            setFollowList(res.data);
             router.push(`/?follow=follower`);
           }}
         >
           <h3>팔로워</h3>
-          <p>{followerCount}</p>
+          <p>{followerCount?.length || 0}</p>
         </button>
       </S.Activity>
       <S.Activity>
@@ -68,7 +71,7 @@ const UserActivity = ({ loginUser, userId }: PropsType) => {
           }}
         >
           <h3>팔로잉</h3>
-          <p>{followingCount}</p>
+          <p>{followingCount?.length || 0}</p>
         </button>
       </S.Activity>
     </S.UserActivity>

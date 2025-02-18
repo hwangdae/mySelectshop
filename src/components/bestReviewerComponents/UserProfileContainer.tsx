@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import FollowContainer from "../utilityComponents/FollowContainer";
 import { FollowType } from "@/types/followType";
+import axios from "axios";
 
 interface PropsType {
   user: UserType & { _count?: { reviews: number } };
@@ -15,7 +16,14 @@ interface PropsType {
 const UserProfileContainer = ({ user, index }: PropsType) => {
   const { id, image, name, _count } = user;
 
-  console.log(id,"유저아이디")
+  const { data: followerCount } = useQuery({
+    queryKey: ["followerList", id],
+    queryFn: async () => {
+      const res = await axios.get(`/api/follow/followCount?followerId=${id}`);
+      return res.data;
+    },
+  });
+
   return (
     <S.ProfileInfoContainer>
       <S.ProfileInfoInner>
@@ -32,7 +40,7 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
               </h3>
             </S.Activity>
             <S.Activity>
-              <h3>{/* 팔로워<span>{followerCount}</span> */}</h3>
+              <h3>팔로워<span>{followerCount?.length}</span></h3>
             </S.Activity>
           </S.UserActivity>
         </S.UserInfoWrap>

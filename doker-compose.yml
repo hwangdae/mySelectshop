@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:latest
     restart: always
-    ports: -"5431:5431"
+    ports: -"5432:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "password"

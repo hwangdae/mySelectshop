@@ -15,7 +15,7 @@ const UserContainer = ({ user, type }: PropsType) => {
     <S.UserContainer $type={type}>
       <S.UserInfo>
         <S.ProfileImage
-          src={user?.image ? user?.image : undefined}
+          src={user?.image || "/images/basicUserImage.png"}
           alt="유저 이미지"
         />
         <S.UserName $type={type}>{user?.name}</S.UserName>

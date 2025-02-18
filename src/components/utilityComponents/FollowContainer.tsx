@@ -16,6 +16,7 @@ interface PropsType {
 const FollowContainer = ({ id }: PropsType) => {
   const { data: userData } = useSession();
   const queryClient = useQueryClient();
+
   const { data: isFollowing } = useQuery({
     queryKey: ["followList", id],
     queryFn: async () => {
@@ -26,13 +27,19 @@ const FollowContainer = ({ id }: PropsType) => {
     },
     enabled: !!userData?.user?.id,
   });
-  
+
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
       return await axios.post("/api/follow", { id });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["followList", id] });
+      queryClient.invalidateQueries({
+        queryKey: ["followerList", userData?.user?.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followingList", userData?.user?.id],
+      });
     },
   });
 

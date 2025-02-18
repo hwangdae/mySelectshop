@@ -38,7 +38,7 @@ const ProfileContainer = () => {
             </S.ProfileImageContainer>
             <S.ProfileInfo>
               <S.UserEmail>{userData.user?.email}</S.UserEmail>
-              <UserActivity loginUser={userData.user?.id} userId={userData.user?.id} />
+              <UserActivity userId={userData.user?.id} />
             </S.ProfileInfo>
           </S.ProfileInfoContainer>
         </S.ProfileContainer>
