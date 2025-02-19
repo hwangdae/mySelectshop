@@ -25,7 +25,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
   const filteredReviews = reviews?.filter((v1) => {
     return selectshops.some((v2) => v2.id === v1.selectshopId);
   });
-
+  console.log(filteredReviews);
   const reviewsWithShopInfo = filteredReviews?.map((v: ReviewType) => {
     const shopInfo = selectshops.find((shop) => shop.id === v.selectshopId);
     return { ...v, shopInfo };
@@ -33,6 +33,8 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
 
   useEffect(() => {
     if (
+      reviewsWithShopInfo &&
+      reviewsWithShopInfo.length > 0 &&
       typeof window !== "undefined" &&
       window.kakao &&
       window.kakao.maps &&

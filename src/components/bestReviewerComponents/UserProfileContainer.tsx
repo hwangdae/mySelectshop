@@ -7,14 +7,15 @@ import styled from "styled-components";
 import FollowContainer from "../utilityComponents/FollowContainer";
 import { FollowType } from "@/types/followType";
 import axios from "axios";
+import { ReviewType } from "@/types/reviewType";
 
 interface PropsType {
-  user: UserType & { _count?: { reviews: number } };
+  user: UserType & { reviews: ReviewType };
   index: number;
 }
 
 const UserProfileContainer = ({ user, index }: PropsType) => {
-  const { id, image, name, _count } = user;
+  const { id, image, name, reviews } = user;
 
   const { data: followerCount } = useQuery({
     queryKey: ["followerList", id],
@@ -36,11 +37,13 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
           <S.UserActivity>
             <S.Activity>
               <h3>
-                리뷰수<span>{_count?.reviews}</span>
+                리뷰수<span>{reviews?.length}</span>
               </h3>
             </S.Activity>
             <S.Activity>
-              <h3>팔로워<span>{followerCount?.length}</span></h3>
+              <h3>
+                팔로워<span>{followerCount?.length}</span>
+              </h3>
             </S.Activity>
           </S.UserActivity>
         </S.UserInfoWrap>

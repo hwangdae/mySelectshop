@@ -16,7 +16,7 @@ const ReviewContainer = ({ review }: PropsType) => {
     <S.ReviewContainer>
       <h2>
         {reviewImages === null || reviewImages === "" ? (
-          <S.NoImage src="images/noImage.jpg" alt="없는 리뷰 이미지" />
+          <S.NoImage src="/images/noImage.png" alt="없는 리뷰 이미지" />
         ) : (
           <img src={reviewImages.split(",")[0]} alt="리뷰 이미지"></img>
         )}

@@ -21,6 +21,7 @@ const RenderMarkers = () => {
   const { shopCoordinates } = shopCoordinatesStore();
   const pathname = usePathname();
   const { data: userData } = useSession();
+  console.log(shopCoordinates);
 
   const { data: reviewData } = useQuery({
     queryKey: ["Allreview"],
@@ -55,11 +56,11 @@ const RenderMarkers = () => {
   const renderContent = () => {
     if (pathname === "/nearbySelectshop") {
       return filteredShops;
-    } else if (pathname === "visitedSelectshop") {
+    } else if (pathname === "/visitedSelectshop") {
       return getPaginatedItems(visitedSelectshops, currentPage);
-    } else if (pathname === "notVisiteSelectshop") {
+    } else if (pathname === "/notVisiteSelectshop") {
       return getPaginatedItems(notVisitedSelectshops, currentPage);
-    } else if (pathname === "bestReviewer") {
+    } else if (pathname === "/bestReviewer") {
       return shopCoordinates;
     } else {
       return [];

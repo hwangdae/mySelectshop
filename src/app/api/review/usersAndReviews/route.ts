@@ -8,9 +8,7 @@ export const GET = async (request: Request) => {
         id: true,
         name: true,
         image: true,
-        _count: {
-          select: { reviews: true },
-        },
+        reviews: true,
       },
       orderBy: {
         reviews: { _count: "desc" },

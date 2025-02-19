@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
@@ -22,27 +22,19 @@ const BestReviewer = () => {
     queryKey: ["allUser"],
     queryFn: async () => {
       const res = await axios.get("/api/review/usersAndReviews");
-      return res.data
+      return res.data;
     },
   });
 
   useEffect(() => {
     searchAllPlaces();
   }, []);
-  // const sortedUsers = users
-  //   ?.map((user: UserType) => {
-  //     const filteredReviewCount = user!.reviews!.filter((v1: ReviewType) => {
-  //       return selectshops.some((v2: PlaceType) => v2.id === v1.selectshopId);
-  //     }).length;
-  //     return { ...user, filteredReviewCount };
-  //   })
-  //   .sort((a, b) => b.filteredReviewCount - a.filteredReviewCount);
 
   return (
     <S.BestReviewerContainer>
       <S.InnerContainer>
-        {users?.filter((user:any) => {
-          return user._count.reviews > 0;
+        {users?.filter((user: any) => {
+          return user.reviews.length > 0;
         }).length === 0 ? (
           <S.NoBestReviewer>
             <span>🏆</span>
@@ -65,7 +57,7 @@ const BestReviewer = () => {
             <ul>
               {users?.map((user: any, index: number) => {
                 return (
-                  user._count.reviews !== 0 && (
+                  user.reviews !== 0 && (
                     <li key={user.id} onClick={() => setActiveuserId(user.id)}>
                       <UserProfileContainer user={user} index={index} />
                       {activeUserId === user.id && (

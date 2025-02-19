@@ -24,7 +24,7 @@ const MarkerContainer = ({ selectshop, index }: PropsType) => {
     },
     enabled: !!id,
   });
-
+  console.log(selectshop,"셀렉트샵 아이디")
   return (
     <CustomOverlayMap key={`marker-${y},${x}-${index}`} position={position}>
       <S.MarkerContainer>
