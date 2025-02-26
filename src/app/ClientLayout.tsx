@@ -9,10 +9,12 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "@/styles/defaultTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import GlobalModal from "@/globalState/GlobalModal";
+import { ModalProvider } from "./context/ModalContext";
 
 const queryClient = new QueryClient();
 
-const KakaoMap = dynamic(() => import('../components/mapComponents/Map'), {
+const KakaoMap = dynamic(() => import("../components/mapComponents/Map"), {
   ssr: false, // 서버 사이드 렌더링을 비활성화
 });
 
@@ -21,17 +23,20 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <S.Container>
-            <S.SideContainer>
-              <S.StyleHeader>
-                <HeaderContainer />
-              </S.StyleHeader>
-              <S.StyleContent>{children}</S.StyleContent>
-            </S.SideContainer>
-            <S.MapContainer>
-              <KakaoMap />
-            </S.MapContainer>
-          </S.Container>
+          <ModalProvider>
+            <S.Container>
+              <S.SideContainer>
+                <S.StyleHeader>
+                  <HeaderContainer />
+                </S.StyleHeader>
+                <S.StyleContent>{children}</S.StyleContent>
+                <GlobalModal />
+              </S.SideContainer>
+              <S.MapContainer>
+                <KakaoMap />
+              </S.MapContainer>
+            </S.Container>
+          </ModalProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>

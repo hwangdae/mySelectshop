@@ -1,3 +1,4 @@
+import { useModal } from "@/app/context/ModalContext";
 import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
@@ -12,6 +13,7 @@ interface PropsType {
 const SelectshopReviewContainer = ({ onWriteReviewClick }: PropsType) => {
   const { data: userData } = useSession();
   const router = useRouter();
+  const { openModal } = useModal();
 
   return (
     <S.SelectshopReviewContainer>
@@ -23,7 +25,7 @@ const SelectshopReviewContainer = ({ onWriteReviewClick }: PropsType) => {
           onClick={() => {
             if (!userData) {
               alert("로그인이 필요한 서비스 입니다.");
-              router.push("?modal=login");
+              openModal("login")
               return;
             }
             onWriteReviewClick();

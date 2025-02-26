@@ -13,6 +13,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import MarkerContainer from "./MarkerContainer";
 import { getPaginatedItems } from "@/utils/pagenate";
+import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 
 const RenderMarkers = () => {
   const { selectshops } = selectshopsStore();
@@ -21,7 +22,6 @@ const RenderMarkers = () => {
   const { shopCoordinates } = shopCoordinatesStore();
   const pathname = usePathname();
   const { data: userData } = useSession();
-  console.log(shopCoordinates);
 
   const { data: reviewData } = useQuery({
     queryKey: ["Allreview"],
@@ -31,27 +31,8 @@ const RenderMarkers = () => {
     },
   });
 
-  const filteredShops = selectshops.filter((selectshop) =>
-    selectshop.place_name.includes(searchTerm)
-  );
-
-  const visitedSelectshops = selectshops?.filter(
-    (selectshop: PlaceType) =>
-      reviewData?.some(
-        (review: ReviewType) =>
-          review.selectshopId === selectshop.id &&
-          review.userId === userData?.user?.id
-      ) && selectshop.place_name.includes(searchTerm)
-  );
-
-  const notVisitedSelectshops = selectshops?.filter(
-    (selectshop: PlaceType) =>
-      !reviewData?.some(
-        (review: ReviewType) =>
-          review.selectshopId === selectshop.id &&
-          review.userId === userData?.user?.id
-      ) && selectshop.place_name.includes(searchTerm)
-  );
+  const { filteredShops, visitedSelectshops, notVisitedSelectshops } =
+    useGetFilteredSelectshops(selectshops, reviewData, searchTerm, userData);
 
   const renderContent = () => {
     if (pathname === "/nearbySelectshop") {

@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 const ProfileContainer = () => {
   const router = useRouter();
   const { data: userData } = useSession();
-  console.log(userData)
+  
   const updateProfileButtonhandle = () => {
     router.push("/updateProfile");
   };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { PlaceType } from "@/types/placeType";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -15,6 +15,7 @@ import { searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import { getPaginatedItems } from "@/utils/pagenate";
 import axios from "axios";
+import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 
 const VisitedSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
@@ -34,6 +35,12 @@ const VisitedSelectshop = () => {
   });
 
   const { searchAllPlaces, selectshops, center } = useKakaoSearch();
+  const { visitedSelectshops } = useGetFilteredSelectshops(
+    selectshops,
+    reviewData,
+    searchTerm,
+    userData
+  );
 
   useEffect(() => {
     if (
@@ -47,15 +54,6 @@ const VisitedSelectshop = () => {
       }
     }
   }, [currentPage, center.lat, center.lng]);
-
-  const visitedSelectshops = selectshops?.filter(
-    (selectshop: PlaceType) =>
-      reviewData?.some(
-        (review: ReviewType) =>
-          review.selectshopId === selectshop.id &&
-          review.userId === userData?.user?.id
-      ) && selectshop.place_name.includes(searchTerm)
-  );
 
   const currentItems = getPaginatedItems(visitedSelectshops, currentPage);
 

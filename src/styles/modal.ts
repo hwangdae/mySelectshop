@@ -8,6 +8,7 @@ export const modal = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fff;
+  opacity: 0.5;
 `;
 export const modalContent = styled.div`
   position: relative;
@@ -24,4 +25,5 @@ export const modalContent = styled.div`
   border-radius: 4px;
   padding: 30px;
   z-index: 99999;
+  opacity: 1 !important;
 `;

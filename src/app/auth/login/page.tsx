@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { registerLoginSchema } from "@/validators/auth";
 import { signIn } from "next-auth/react";
 import Input from "@/components/utilityComponents/Input";
+import Modal from "@/app/ui/Modal";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -42,75 +43,75 @@ const LoginPage = () => {
   };
 
   return (
-    <S.LoginContainer>
-      <S.LoginInner>
-        <S.LoginTitle>
-          시간 날 때 쇼핑하는 사람들,
-          <span>마이 셀렉트샵</span>
-        </S.LoginTitle>
-        <S.LoginForm onSubmit={handleSubmit(loginHandleSubmit)}>
-          <S.LoginFormInner>
-            <S.LoginListItem>
-              <Input
-                id="email"
-                type="text"
-                disabled={isLoading}
-                placeholder="이메일 주소"
-                register={register}
-              />
-              <ErrorMessage
-                errors={errors}
-                name="email"
-                render={({ message }) => (
-                  <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
-                )}
-              />
-            </S.LoginListItem>
-            <S.LoginListItem>
-              <S.InputContainer>
-              <Input
-                id="password"
-                type="password"
-                disabled={isLoading}
-                placeholder="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                register={register}
-              />
-              </S.InputContainer>
-              <ErrorMessage
-                errors={errors}
-                name="password"
-                render={({ message }) => (
-                  <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
-                )}
-              />
-            </S.LoginListItem>
-          </S.LoginFormInner>
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            disableFocusRipple={true}
-            fullWidth
-          >
-            로그인
-          </Button>
-        </S.LoginForm>
-        <S.SignUpLinkContainer>
-          회원이 아니신가요?{" "}
-          <button onClick={() => router.push("/auth/register")}>
-            회원가입
-          </button>
-        </S.SignUpLinkContainer>
-      </S.LoginInner>
-    </S.LoginContainer>
+      <S.LoginContainer>
+        <S.LoginInner>
+          <S.LoginTitle>
+            시간 날 때 쇼핑하는 사람들,
+            <span>마이 셀렉트샵</span>
+          </S.LoginTitle>
+          <S.LoginForm onSubmit={handleSubmit(loginHandleSubmit)}>
+            <S.LoginFormInner>
+              <S.LoginListItem>
+                <Input
+                  id="email"
+                  type="text"
+                  disabled={isLoading}
+                  placeholder="이메일 주소"
+                  register={register}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="email"
+                  render={({ message }) => (
+                    <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
+                  )}
+                />
+              </S.LoginListItem>
+              <S.LoginListItem>
+                <S.InputContainer>
+                  <Input
+                    id="password"
+                    type="password"
+                    disabled={isLoading}
+                    placeholder="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                    register={register}
+                  />
+                </S.InputContainer>
+                <ErrorMessage
+                  errors={errors}
+                  name="password"
+                  render={({ message }) => (
+                    <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
+                  )}
+                />
+              </S.LoginListItem>
+            </S.LoginFormInner>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disableFocusRipple={true}
+              fullWidth
+            >
+              로그인
+            </Button>
+          </S.LoginForm>
+          <S.SignUpLinkContainer>
+            회원이 아니신가요?{" "}
+            <button onClick={() => router.push("/auth/register")}>
+              회원가입
+            </button>
+          </S.SignUpLinkContainer>
+        </S.LoginInner>
+      </S.LoginContainer>
   );
 };
 
 export default LoginPage;
 
 const S = {
-  LoginContainer: styled(modal)``,
-  LoginInner: styled(modalContent)``,
+  LoginContainer: styled.div``,
+  LoginInner: styled.div``,
   LoginTitle: styled.h1`
     font-size: 30px;
     line-height: 50px;

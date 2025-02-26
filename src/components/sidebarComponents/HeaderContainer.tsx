@@ -8,13 +8,17 @@ import { usePathname, useRouter } from "next/navigation";
 import { searchTermStore, showFollowListStore } from "@/globalState/zustand";
 import Search from "@/assets/Search.svg";
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import Link from "next/link";
+import { useModal } from "@/app/context/ModalContext";
 
 const HeaderContainer = () => {
   const { searchTerm, setSearchTerm } = searchTermStore();
   const { setShowFollowListToggle } = showFollowListStore();
   const router = useRouter();
   const pathname = usePathname();
-  const { data: userData } = useSession();
+  const { data: userData } = useSession()
+
+  const { openModal } = useModal();
 
   const searchSelectshopSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +42,10 @@ const HeaderContainer = () => {
             </button>
           </S.Logo>
           {!userData?.user ? (
+            <div>
             <Button onClick={() => signIn()}>로그인</Button>
+            <button onClick={() => openModal("login")}>로그인</button>
+            <Link href="/auth/login" as="/auth/login">로그인2</Link></div>
           ) : (
             <Button onClick={() => signOut()}>로그아웃</Button>
           )}
