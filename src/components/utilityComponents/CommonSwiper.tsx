@@ -6,13 +6,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
+import { styleColor } from "@/styles/styleColor";
 
 interface PropsType {
   slideImages: string | null;
 }
 
 const CommonSwiper = ({ slideImages }: PropsType) => {
-
   return (
     <S.SwiperWrap>
       <S.CustomSwiper
@@ -23,7 +23,12 @@ const CommonSwiper = ({ slideImages }: PropsType) => {
         {slideImages?.split(",").map((img: string, index: number) => {
           return (
             <S.SwiperSlide key={index}>
-              <img src={img} alt={`${index+1}번째 업로드 이미지 `} width={300} height={90}/>
+              <img
+                src={img}
+                alt={`${index + 1}번째 업로드 이미지 `}
+                width={300}
+                height={90}
+              />
             </S.SwiperSlide>
           );
         })}
@@ -38,6 +43,15 @@ const S = {
   SwiperWrap: styled.div`
     width: 100%;
     height: 180px;
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      background-color: ${styleColor.WHITE};
+      opacity: 0.7;
+    }
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+    }
   `,
   CustomSwiper: styled(Swiper)`
     width: 100%;
