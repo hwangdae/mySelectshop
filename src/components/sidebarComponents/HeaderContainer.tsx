@@ -16,7 +16,7 @@ const HeaderContainer = () => {
   const { setShowFollowListToggle } = showFollowListStore();
   const router = useRouter();
   const pathname = usePathname();
-  const { data: userData } = useSession()
+  const { data: userData } = useSession();
 
   const { openModal } = useModal();
 
@@ -36,16 +36,14 @@ const HeaderContainer = () => {
               onClick={() => {
                 router.push("/");
                 setShowFollowListToggle(false);
+                setSearchTerm("")
               }}
             >
               MySelectshop
             </button>
           </S.Logo>
           {!userData?.user ? (
-            <div>
-            <Button onClick={() => signIn()}>로그인</Button>
-            <button onClick={() => openModal("login")}>로그인</button>
-            <Link href="/auth/login" as="/auth/login">로그인2</Link></div>
+            <Button onClick={() => openModal("login")}>로그인</Button>
           ) : (
             <Button onClick={() => signOut()}>로그아웃</Button>
           )}

@@ -8,7 +8,13 @@ interface ModalContextProps {
   closeModal: () => void;
 }
 
-const ModalContext = createContext<ModalContextProps | undefined>(undefined);
+const defaultContextValue: ModalContextProps = {
+  modalType: null,
+  openModal: () => {},
+  closeModal: () => {},
+};
+
+const ModalContext = createContext<ModalContextProps>(defaultContextValue);
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -25,8 +31,5 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
 
 export const useModal = () => {
   const context = useContext(ModalContext);
-  if (!context) {
-    return;
-  }
-  return context
+  return context;
 };

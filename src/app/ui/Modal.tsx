@@ -1,6 +1,4 @@
 "use client";
-
-import { styleColor } from "@/styles/styleColor";
 import React from "react";
 import styled from "styled-components";
 
@@ -47,12 +45,5 @@ const S = {
     border-radius: 4px;
     padding: 30px;
     z-index: 99999;
-  `,
-  CloseButton: styled.button`
-    margin-top: 10px;
-    padding: 5px 10px;
-    border: none;
-    background: #ccc;
-    cursor: pointer;
   `,
 };

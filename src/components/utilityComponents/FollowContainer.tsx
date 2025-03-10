@@ -1,13 +1,12 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { useRouter } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 import Check from "@/assets/Check.svg";
-import { FollowType } from "@/types/followType";
 import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useModal } from "@/app/context/ModalContext";
 
 interface PropsType {
   id: string;
@@ -15,6 +14,8 @@ interface PropsType {
 
 const FollowContainer = ({ id }: PropsType) => {
   const { data: userData } = useSession();
+    const { openModal } = useModal();
+
   const queryClient = useQueryClient();
 
   const { data: isFollowing } = useQuery({
@@ -49,7 +50,7 @@ const FollowContainer = ({ id }: PropsType) => {
     event.stopPropagation();
     if (!userData) {
       alert("로그인이 필요한 서비스 입니다.");
-      signIn();
+      openModal("login");
       return;
     }
     try {

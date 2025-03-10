@@ -8,7 +8,6 @@ import { ErrorMessage } from "@hookform/error-message";
 import Eye from "@/assets/Eye.svg";
 import EyeInvisible from "@/assets/EyeInvisible.svg";
 import { useRouter } from "next/navigation";
-import { modal, modalContent } from "@/styles/modal";
 import axios from "axios";
 import Input from "@/components/utilityComponents/Input";
 import useToggle from "@/hook/useToggle";
@@ -19,7 +18,6 @@ const RegisterPage = () => {
   const [showCheckPassword, handleCheckPasswordToggle] = useToggle(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -170,15 +168,8 @@ const RegisterPage = () => {
 export default RegisterPage;
 
 const S = {
-  BackgroundColor: styled.div`
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-  `,
-  SignUpContainer: styled(modal)``,
-  SignUpInner: styled(modalContent)``,
+  SignUpContainer: styled.div``,
+  SignUpInner: styled.div``,
   SignUpTitle: styled.h1`
     font-size: 30px;
     line-height: 50px;

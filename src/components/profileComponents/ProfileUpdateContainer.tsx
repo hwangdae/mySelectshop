@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { modal, modalContent } from "@/styles/modal";
 import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
 import ImageUploadContainer from "./ImageUploadContainer";
-import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { uploadImage } from "@/utils/uploadImage";
 import axios from "axios";
+import { useModal } from "@/app/context/ModalContext";
 
 const ProfileUpdateContainer = () => {
   const [previewProfileImage, setPreviewProfileImage] = useState<
@@ -17,7 +16,7 @@ const ProfileUpdateContainer = () => {
   const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
   const [name, setName] = useState<string>("");
   const { data: userData, update } = useSession();
-  const router = useRouter();
+  const {closeModal} = useModal()
 
   useEffect(() => {
     setPreviewProfileImage(userData?.user?.image as string);
@@ -26,7 +25,9 @@ const ProfileUpdateContainer = () => {
 
   const profileUpdateHandle = async (e: React.FormEvent) => {
     e.preventDefault();
-    const imageUrl = uploadImageFile ? await uploadImage(uploadImageFile as File) : null;
+    const imageUrl = uploadImageFile
+      ? await uploadImage(uploadImageFile as File)
+      : null;
     const updateProfileData = {
       id: userData?.user?.id,
       image: imageUrl || (userData?.user?.image as string),
@@ -36,7 +37,7 @@ const ProfileUpdateContainer = () => {
       await axios.patch("/api/register/profileUpdate", updateProfileData);
       await update(updateProfileData);
       alert("프로필 수정이 완료 되었습니다.");
-      router.push("/");
+      closeModal()
     } catch (error) {
       console.log(error);
     }
@@ -73,8 +74,8 @@ const ProfileUpdateContainer = () => {
 export default ProfileUpdateContainer;
 
 const S = {
-  ProfileUpdateContainer: styled(modal)``,
-  ProfileUpdateInner: styled(modalContent)``,
+  ProfileUpdateContainer: styled.div``,
+  ProfileUpdateInner: styled.div``,
   ProfileTitle: styled.h1`
     ${styleFont.title.tit_md}
     font-weight: 600;

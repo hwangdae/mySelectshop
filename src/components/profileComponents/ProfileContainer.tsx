@@ -4,17 +4,13 @@ import { styleFont } from "@/styles/styleFont";
 import React from "react";
 import styled from "styled-components";
 import ProfileUpdate from "@/assets/ProfileUpdate.svg";
-import { useRouter } from "next/navigation";
 import UserActivity from "./UserActivity";
 import { useSession } from "next-auth/react";
+import { useModal } from "@/app/context/ModalContext";
 
 const ProfileContainer = () => {
-  const router = useRouter();
   const { data: userData } = useSession();
-  
-  const updateProfileButtonhandle = () => {
-    router.push("/updateProfile");
-  };
+  const { openModal } = useModal();
 
   return (
     <div>
@@ -25,10 +21,12 @@ const ProfileContainer = () => {
             <S.ProfileImageContainer>
               <S.ProfileImage
                 src={
-                  userData.user?.image ? `${userData.user?.image}` : "/images/basicUserImage.png"
+                  userData.user?.image
+                    ? `${userData.user?.image}`
+                    : "/images/basicUserImage.png"
                 }
               />
-              <S.ProfileUpdateButton onClick={updateProfileButtonhandle}>
+              <S.ProfileUpdateButton onClick={() => openModal("profile")}>
                 <ProfileUpdate
                   width={"15px"}
                   height={"15px"}

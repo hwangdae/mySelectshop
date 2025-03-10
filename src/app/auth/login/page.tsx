@@ -1,22 +1,22 @@
 "use client";
-import { modal, modalContent } from "@/styles/modal";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@mui/material";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { registerLoginSchema } from "@/validators/auth";
 import { signIn } from "next-auth/react";
 import Input from "@/components/utilityComponents/Input";
-import Modal from "@/app/ui/Modal";
+import { useModal } from "@/app/context/ModalContext";
+import { ClipLoader } from "react-spinners";
+import CommonSpinner from "@/components/utilityComponents/CommonSpinner";
 
 const LoginPage = () => {
-  const router = useRouter();
   const [isLoading, setIsloading] = useState(false);
+  const { openModal } = useModal();
 
   const {
     register,
@@ -43,75 +43,96 @@ const LoginPage = () => {
   };
 
   return (
-      <S.LoginContainer>
-        <S.LoginInner>
-          <S.LoginTitle>
-            시간 날 때 쇼핑하는 사람들,
-            <span>마이 셀렉트샵</span>
-          </S.LoginTitle>
-          <S.LoginForm onSubmit={handleSubmit(loginHandleSubmit)}>
-            <S.LoginFormInner>
-              <S.LoginListItem>
+    <S.LoginContainer>
+      <S.LoginInner>
+        <S.LoginTitle>
+          시간 날 때 쇼핑하는 사람들,
+          <span>마이 셀렉트샵</span>
+        </S.LoginTitle>
+        <S.LoginForm onSubmit={handleSubmit(loginHandleSubmit)}>
+          <S.LoginFormInner>
+            <S.LoginListItem>
+              <Input
+                id="email"
+                type="text"
+                disabled={isLoading}
+                placeholder="이메일 주소"
+                register={register}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="email"
+                render={({ message }) => (
+                  <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
+                )}
+              />
+            </S.LoginListItem>
+            <S.LoginListItem>
+              <S.InputContainer>
                 <Input
-                  id="email"
-                  type="text"
+                  id="password"
+                  type="password"
                   disabled={isLoading}
-                  placeholder="이메일 주소"
+                  placeholder="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
                   register={register}
                 />
-                <ErrorMessage
-                  errors={errors}
-                  name="email"
-                  render={({ message }) => (
-                    <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
-                  )}
-                />
-              </S.LoginListItem>
-              <S.LoginListItem>
-                <S.InputContainer>
-                  <Input
-                    id="password"
-                    type="password"
-                    disabled={isLoading}
-                    placeholder="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                    register={register}
-                  />
-                </S.InputContainer>
-                <ErrorMessage
-                  errors={errors}
-                  name="password"
-                  render={({ message }) => (
-                    <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
-                  )}
-                />
-              </S.LoginListItem>
-            </S.LoginFormInner>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              disableFocusRipple={true}
-              fullWidth
-            >
-              로그인
-            </Button>
-          </S.LoginForm>
-          <S.SignUpLinkContainer>
-            회원이 아니신가요?{" "}
-            <button onClick={() => router.push("/auth/register")}>
-              회원가입
-            </button>
-          </S.SignUpLinkContainer>
-        </S.LoginInner>
-      </S.LoginContainer>
+              </S.InputContainer>
+              <ErrorMessage
+                errors={errors}
+                name="password"
+                render={({ message }) => (
+                  <S.LoginErrorMessage>{message}</S.LoginErrorMessage>
+                )}
+              />
+            </S.LoginListItem>
+          </S.LoginFormInner>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            disableFocusRipple={true}
+            fullWidth
+          >
+            로그인{isLoading && <CommonSpinner />}
+          </Button>
+        </S.LoginForm>
+        <S.SignUpLinkContainer>
+          회원이 아니신가요?
+          <button onClick={() => openModal("signup")}>회원가입</button>
+        </S.SignUpLinkContainer>
+      </S.LoginInner>
+    </S.LoginContainer>
   );
 };
 
 export default LoginPage;
 
 const S = {
-  LoginContainer: styled.div``,
-  LoginInner: styled.div``,
+  LoginContainer: styled.div`
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  `,
+  LoginInner: styled.div`
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 360px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: solid 1px #000;
+    border-radius: 4px;
+    padding: 30px;
+    z-index: 99999;
+  `,
   LoginTitle: styled.h1`
     font-size: 30px;
     line-height: 50px;

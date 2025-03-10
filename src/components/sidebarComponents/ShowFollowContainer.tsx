@@ -80,7 +80,7 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
             })
           ) : (
             <S.EmptyMessage>
-              <People fill={`${styleColor.BLACK[100]}`} />
+              <People fill={`${styleColor.WHITE}`} />
               아직 팔로워가 없습니다.
             </S.EmptyMessage>
           )
@@ -111,7 +111,7 @@ const S = {
     left: 0;
     top: 0;
     height: calc(100vh - 272.5px);
-    background-color: ${styleColor.GRAY[400]};
+    background-color: ${styleColor.GRAY[500]};
   `,
   FollowNavWrap: styled.ul`
     padding: 0px 12px;

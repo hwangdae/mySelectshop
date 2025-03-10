@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import { uploadImagesFn } from "@/utils/uploadImages";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import CommonSpinner from "../utilityComponents/CommonSpinner";
 
 interface PropsType {
   selectshopId?: string;
@@ -32,7 +33,7 @@ interface PropsType {
   setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const WriteReview = ({
+const WriteReviewContainer = ({
   selectshopId,
   setIsWriteReviewOpen,
   type,
@@ -41,6 +42,7 @@ const WriteReview = ({
 }: PropsType) => {
   const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -82,7 +84,9 @@ const WriteReview = ({
     control,
     name: "disAdvantages",
   });
+
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: async (review: NewReviewType) => {
       if (type !== "edit") {
@@ -102,6 +106,7 @@ const WriteReview = ({
     disAdvantages,
     tags,
   }) => {
+    setIsLoading(true);
     const uploadImages = await uploadImagesFn(files);
     const newReview: NewReviewType = {
       selectshopId,
@@ -114,11 +119,13 @@ const WriteReview = ({
     };
 
     try {
+      //타입이 write일 때 작성 기능
       if (type !== "edit") {
         mutation.mutate(newReview);
         alert("작성이 완료 되었습니다.");
         setIsWriteReviewOpen!(false);
       } else {
+        //타입이 edit일 때 수정 기능
         const updateReview = {
           ...newReview,
           id: prevReview?.id,
@@ -129,6 +136,8 @@ const WriteReview = ({
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -262,7 +271,7 @@ const WriteReview = ({
         </S.WriteReviewUl>
         <S.WriteButtonWrap>
           <Button color="secondary" type="submit" sx={{ width: "100%" }}>
-            저장
+            저장{isLoading && <CommonSpinner />}
           </Button>
         </S.WriteButtonWrap>
       </S.WriteReviewInner>
@@ -270,7 +279,7 @@ const WriteReview = ({
   );
 };
 
-export default WriteReview;
+export default WriteReviewContainer;
 
 const S = {
   WriteReviewContainer: styled.div``,

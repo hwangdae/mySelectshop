@@ -6,7 +6,7 @@ import { styleFont } from "@/styles/styleFont";
 import { PlaceType } from "@/types/placeType";
 import { ReviewType } from "@/types/reviewType";
 import AllReview from "./AllReview";
-import WriteReview from "../writeReviewComponents/WriteReview";
+import WriteReview from "../writeReviewComponents/WriteReviewContainer";
 import { Button } from "@mui/material";
 // import useReviewMutate from "@/hook/useReviewMutate";
 import { styleColor } from "@/styles/styleColor";
