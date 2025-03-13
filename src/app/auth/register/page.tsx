@@ -12,6 +12,7 @@ import axios from "axios";
 import Input from "@/components/utilityComponents/Input";
 import useToggle from "@/hook/useToggle";
 import { registerSignUpSchema } from "@/validators/auth";
+import CommonSpinner from "@/components/utilityComponents/CommonSpinner";
 
 const RegisterPage = () => {
   const [showPassword, handlePasswordToggle] = useToggle(false);
@@ -35,17 +36,16 @@ const RegisterPage = () => {
   const signupHandleSubmit: SubmitHandler<FieldValues> = async (body) => {
     setIsLoading(true);
     try {
-      const res = await axios.post("/api/register", body);
-
-      if (res.status !== 200) {
-        alert("이미 존재하는 이메일 입니다.");
-        return;
-      }
-
+      await axios.post("/api/register", body);
       alert("회원가입이 완료 되었습니다.");
       router.push("/");
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      if (err.response?.status === 400) {
+        alert(err.response.data.message);
+      } else {
+        console.error(err);
+        alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -156,7 +156,7 @@ const RegisterPage = () => {
               disableFocusRipple={true}
               fullWidth
             >
-              회원가입
+              회원가입{isLoading && <CommonSpinner />}
             </Button>
           </S.SignUpForm>
         </S.SignUpInner>

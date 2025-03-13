@@ -11,12 +11,11 @@ import { registerLoginSchema } from "@/validators/auth";
 import { signIn } from "next-auth/react";
 import Input from "@/components/utilityComponents/Input";
 import { useModal } from "@/app/context/ModalContext";
-import { ClipLoader } from "react-spinners";
 import CommonSpinner from "@/components/utilityComponents/CommonSpinner";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const {
     register,
@@ -33,8 +32,19 @@ const LoginPage = () => {
   const loginHandleSubmit: SubmitHandler<FieldValues> = async (body) => {
     setIsloading(true);
     try {
-      await signIn("credentials", body);
+      const res = await signIn("credentials", {
+        ...body,
+        redirect: false,
+      });
+      console.log(res)
+      if (res?.error) {
+        alert(
+          "아이디 또는 비밀번호가 잘못 되었습니다.\n아이디와 비밀번호를 정확히 입력해 주세요."
+        );
+        return;
+      }
       alert("로그인이 완료 되었습니다.");
+      closeModal();
     } catch (err) {
       console.error(err);
     } finally {

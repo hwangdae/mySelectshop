@@ -3,12 +3,10 @@ import { styleFont } from "@/styles/styleFont";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 import { styleColor } from "@/styles/styleColor";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { searchTermStore, showFollowListStore } from "@/globalState/zustand";
 import Search from "@/assets/Search.svg";
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
-import Link from "next/link";
 import { useModal } from "@/app/context/ModalContext";
 
 const HeaderContainer = () => {
@@ -36,7 +34,7 @@ const HeaderContainer = () => {
               onClick={() => {
                 router.push("/");
                 setShowFollowListToggle(false);
-                setSearchTerm("")
+                setSearchTerm("");
               }}
             >
               MySelectshop

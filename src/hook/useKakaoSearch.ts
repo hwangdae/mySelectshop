@@ -11,7 +11,7 @@ const useKakaoSearch = () => {
   const { center } = myLocationStore();
   const { selectshops, setSelectshops } = selectshopsStore();
   const [pagination, setPagination] = useState<PaginationType>();
-  const { bounds, setBounds } = boundsStore();
+  const { setBounds } = boundsStore();
   const { setMarkers } = markersStore();
 
   const searchPlaces = (currentPage: number = 1) => {

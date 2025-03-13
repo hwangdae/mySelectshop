@@ -1,12 +1,11 @@
 "use client";
 import { PlaceType } from "@/types/placeType";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SelectshopInfoContainer from "../nearbySelectshopComponents/SelectshopInfoContainer";
 import SelectshopDetailInfoContainer from "../nearbySelectshopComponents/SelectshopDetailInfoContainer";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import { useQuery } from "@tanstack/react-query";
-import { ReviewType } from "@/types/reviewType";
 import NoSearchResultContainer from "../utilityComponents/NoSearchResultContainer";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
@@ -16,12 +15,14 @@ import { currentPageStore, searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
+import useDebounce from "@/hook/useDebounce";
 
 const NotVisiteSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
   const { currentPage, setCurrentPage } = currentPageStore();
   const { data: userData } = useSession();
   const { searchTerm } = searchTermStore();
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewData } = useQuery({
@@ -38,7 +39,7 @@ const NotVisiteSelectshop = () => {
   const { notVisitedSelectshops } = useGetFilteredSelectshops(
     selectshops,
     reviewData,
-    searchTerm,
+    debouncedSearchTerm,
     userData
   );
 
@@ -59,7 +60,7 @@ const NotVisiteSelectshop = () => {
 
   return (
     <S.SearchResultsContainer ref={scrollRef}>
-      {currentItems.length === 0 && searchTerm === "" ? (
+      {currentItems.length === 0 && debouncedSearchTerm === "" ? (
         <S.VisitedShopMessage>
           🏬 모든 편집샵을 다 방문 했어요.
         </S.VisitedShopMessage>

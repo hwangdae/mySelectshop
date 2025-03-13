@@ -14,7 +14,6 @@ export const authOptions: NextAuthOptions = {
         password: {},
       },
       async authorize(credentials, req) {
-        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }
@@ -37,7 +36,6 @@ export const authOptions: NextAuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
-
         return user;
       },
     }),
@@ -54,13 +52,13 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update" && session !== null) {
         const { name, image } = session;
-        console.log(token,"토큰");
-        console.log(user,"유저")
         token.name = name;
         token.image = image;
       }

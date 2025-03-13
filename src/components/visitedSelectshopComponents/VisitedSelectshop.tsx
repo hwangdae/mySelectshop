@@ -16,12 +16,14 @@ import { useSession } from "next-auth/react";
 import { getPaginatedItems } from "@/utils/pagenate";
 import axios from "axios";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
+import useDebounce from "@/hook/useDebounce";
 
 const VisitedSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { data: userData } = useSession();
   const { searchTerm } = searchTermStore();
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewData } = useQuery({
@@ -38,7 +40,7 @@ const VisitedSelectshop = () => {
   const { visitedSelectshops } = useGetFilteredSelectshops(
     selectshops,
     reviewData,
-    searchTerm,
+    debouncedSearchTerm,
     userData
   );
 
@@ -59,7 +61,7 @@ const VisitedSelectshop = () => {
 
   return (
     <S.SearchResultsContainer>
-      {currentItems.length === 0 && searchTerm === "" ? (
+      {currentItems.length === 0 && debouncedSearchTerm === "" ? (
         <S.VisitedShopMessage>
           🏬 아직 방문한 편집샵이 없어요.
         </S.VisitedShopMessage>

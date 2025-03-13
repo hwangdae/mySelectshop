@@ -5,7 +5,6 @@ import styled from "styled-components";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Image from "next/image";
 import { styleColor } from "@/styles/styleColor";
 
 interface PropsType {

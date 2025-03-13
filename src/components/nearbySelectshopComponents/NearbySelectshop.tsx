@@ -8,13 +8,15 @@ import PaginationContainer from "../utilityComponents/PaginationContainer";
 import SelectshopInfoContainer from "./SelectshopInfoContainer";
 import SelectshopDetailInfoContainer from "./SelectshopDetailInfoContainer";
 import { searchTermStore } from "@/globalState/zustand";
+import useDebounce from "@/hook/useDebounce";
 
 const NearbySelectshop = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
   const { searchTerm } = searchTermStore();
+  const debouncedSearchTerm = useDebounce(searchTerm,300)
   const scrollRef = useRef<HTMLDivElement>(null);
-
+  console.log("흠")
   const { searchPlaces, pagination, selectshops, center } = useKakaoSearch();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const NearbySelectshop = () => {
   }, [currentPage, center.lat, center.lng]);
 
   const filteredShops = selectshops.filter((selectshop) =>
-    selectshop.place_name.includes(searchTerm)
+    selectshop.place_name.includes(debouncedSearchTerm)
   );
 
   return (
