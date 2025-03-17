@@ -7,11 +7,11 @@ export const GET = async (request: Request) => {
   const followerId = searchParams.get("followerId") ?? undefined;
   const followingId = searchParams.get("followingId") ?? undefined;
   try {
-    const followingList = await prisma.follow.findFirst({
+    const isFollowing = await prisma.follow.findFirst({
       where: { followerId, followingId },
     });
 
-    return NextResponse.json(followingList);
+    return NextResponse.json(isFollowing);
   } catch (error) {
     console.log(error);
   }
@@ -43,7 +43,7 @@ export const POST = async (request: Request) => {
       return NextResponse.json(follow);
     }
   } catch (error) {
-    console.error("Error in POST /api/follow:", error);
+    console.error(error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 };

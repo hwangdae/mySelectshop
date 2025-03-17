@@ -31,7 +31,7 @@ const ContentsContainer = () => {
     <S.ContentsContainer>
       <ProfileContainer />
       {showFollowListToggle ? (
-        <ShowFollowContainer showFollow={showFollowListToggle} />
+        <ShowFollowContainer/>
       ) : (
         <>
       <MyAddressContainer />

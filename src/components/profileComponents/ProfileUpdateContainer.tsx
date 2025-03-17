@@ -7,7 +7,10 @@ import ImageUploadContainer from "./ImageUploadContainer";
 import { signOut, useSession } from "next-auth/react";
 import { uploadImage } from "@/utils/uploadImage";
 import axios from "axios";
-import { useModal } from "@/app/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { profileUpdateSchema } from "@/validators/auth";
 
 const ProfileUpdateContainer = () => {
   const [previewProfileImage, setPreviewProfileImage] = useState<
@@ -16,7 +19,15 @@ const ProfileUpdateContainer = () => {
   const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
   const [name, setName] = useState<string>("");
   const { data: userData, update } = useSession();
-  const {closeModal} = useModal()
+  const { closeModal } = useModal();
+
+  const { register, handleSubmit } = useForm({
+    resolver: zodResolver(profileUpdateSchema),
+    defaultValues: {
+      uploadImage: "",
+      name: "",
+    },
+  });
 
   useEffect(() => {
     setPreviewProfileImage(userData?.user?.image as string);
@@ -37,7 +48,7 @@ const ProfileUpdateContainer = () => {
       await axios.patch("/api/register/profileUpdate", updateProfileData);
       await update(updateProfileData);
       alert("프로필 수정이 완료 되었습니다.");
-      closeModal()
+      closeModal();
     } catch (error) {
       console.log(error);
     }

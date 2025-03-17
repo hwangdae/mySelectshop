@@ -1,6 +1,5 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { UserType } from "@/types/authType";
 import { ReviewType } from "@/types/reviewType";
 import React from "react";
 import styled from "styled-components";

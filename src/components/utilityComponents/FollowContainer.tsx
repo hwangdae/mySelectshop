@@ -6,7 +6,7 @@ import Check from "@/assets/Check.svg";
 import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useModal } from "@/app/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 
 interface PropsType {
   id: string;

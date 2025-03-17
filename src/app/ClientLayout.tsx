@@ -10,7 +10,7 @@ import { theme } from "@/styles/defaultTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import GlobalModal from "@/globalState/GlobalModal";
-import { ModalProvider } from "./context/ModalContext";
+import { ModalProvider } from "../context/ModalContext";
 
 const queryClient = new QueryClient();
 

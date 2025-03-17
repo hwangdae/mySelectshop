@@ -1,4 +1,4 @@
-import { useModal } from "@/app/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";

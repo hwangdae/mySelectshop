@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import UserContainer from "../utilityComponents/UserContainer";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
@@ -8,33 +8,31 @@ import People from "@/assets/People.svg";
 import { formatFollowCount } from "@/utils/formatFollowCount";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { UserType } from "@/types/authType";
 
-interface PropsType {
-  showFollow: boolean;
-}
 interface TabType {
   id: string;
   name: string;
   count: number | undefined;
 }
 
-const ShowFollowContainer = ({ showFollow }: PropsType) => {
+const ShowFollowContainer = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const followTab = searchParams?.get("follow");
   const { data: userData } = useSession();
-  
-  const { data: followerList } = useQuery({
+
+  const { data: followerData } = useQuery({
     queryKey: ["followerList", userData?.user?.id],
     queryFn: async () => {
       const res = await axios.get(
-        `/api/follow/followUsers?followerId=${userData?.user?.id}`
+        `/api/follow/followList?followerId=${userData?.user?.id}`
       );
       return res.data;
     },
   });
 
-  const { data: followingList } = useQuery({
+  const { data: followingData } = useQuery({
     queryKey: ["followingList", userData?.user?.id],
     queryFn: async () => {
       const res = await axios.get(
@@ -43,6 +41,22 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
       return res.data;
     },
   });
+
+  const { data: allUsers } = useQuery({
+    queryKey: ["allUsers"],
+    queryFn: async () => {
+      const res = await axios.get("/api/follow/allUsers");
+      return res.data;
+    },
+  });
+
+  const followerList = allUsers?.filter((user: any) =>
+    followerData?.some((follower: any) => user?.id === follower?.followingId)
+  );
+
+  const followingList = allUsers?.filter((user: any) =>
+    followingData?.some((following: any) => user?.id === following?.followerId)
+  );
 
   const FOLLOWTABNAV = [
     { id: "follower", name: "팔로워", count: followerList?.length || 0 },
@@ -68,37 +82,39 @@ const ShowFollowContainer = ({ showFollow }: PropsType) => {
           );
         })}
       </S.FollowNavWrap>
-      <ul>
-        {followTab === "follower" ? (
-          followerList && followerList?.length > 0 ? (
-            followerList?.map((user: any) => {
+      {followTab === "follower" ? (
+        followerList && followerList?.length > 0 ? (
+          <ul>
+            {followerList?.map((user: any) => {
               return (
                 <li key={user.id}>
                   <UserContainer user={user} type={"follow"} />
                 </li>
               );
-            })
-          ) : (
-            <S.EmptyMessage>
-              <People fill={`${styleColor.WHITE}`} />
-              아직 팔로워가 없습니다.
-            </S.EmptyMessage>
-          )
-        ) : followingList && followingList?.length > 0 ? (
-          followingList?.map((user: any) => {
+            })}
+          </ul>
+        ) : (
+          <S.EmptyMessage>
+            <People fill={`${styleColor.WHITE}`} />
+            아직 팔로워가 없습니다.
+          </S.EmptyMessage>
+        )
+      ) : followingList && followingList?.length > 0 ? (
+        <ul>
+          {followingList?.map((user: any) => {
             return (
               <li key={user.id}>
                 <UserContainer user={user} type={"follow"} />
               </li>
             );
-          })
-        ) : (
-          <S.EmptyMessage>
-            <People fill={`${styleColor.WHITE}`} />
-            아직 팔로잉이 없습니다.
-          </S.EmptyMessage>
-        )}
-      </ul>
+          })}
+        </ul>
+      ) : (
+        <S.EmptyMessage>
+          <People fill={`${styleColor.WHITE}`} />
+          아직 팔로잉이 없습니다.
+        </S.EmptyMessage>
+      )}
     </S.ShowFollowContainer>
   );
 };

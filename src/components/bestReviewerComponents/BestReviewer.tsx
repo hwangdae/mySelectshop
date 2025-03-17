@@ -7,9 +7,6 @@ import styled from "styled-components";
 import UserProfileContainer from "./UserProfileContainer";
 import ReviewListContainer from "./ReviewListContainer";
 import useKakaoSearch from "@/hook/useKakaoSearch";
-import { ReviewType } from "@/types/reviewType";
-import { PlaceType } from "@/types/placeType";
-import { UserType } from "@/types/authType";
 import { myAddressStore } from "@/globalState/zustand";
 import axios from "axios";
 
@@ -25,7 +22,7 @@ const BestReviewer = () => {
       return res.data;
     },
   });
-
+  console.log(users);
   useEffect(() => {
     searchAllPlaces();
   }, []);
@@ -57,7 +54,7 @@ const BestReviewer = () => {
             <ul>
               {users?.map((user: any, index: number) => {
                 return (
-                  user.reviews !== 0 && (
+                  user.reviews.length !== 0 && (
                     <li key={user.id} onClick={() => setActiveuserId(user.id)}>
                       <UserProfileContainer user={user} index={index} />
                       {activeUserId === user.id && (

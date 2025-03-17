@@ -1,10 +1,9 @@
 "use client";
-
-import LoginPage from "@/app/auth/login/page";
-import RegisterPage from "@/app/auth/register/page";
-import { useModal } from "@/app/context/ModalContext";
-import Modal from "@/app/ui/Modal";
+import { useModal } from "@/context/ModalContext";
+import Modal from "@/ui/Modal";
 import UpdateProfilePage from "@/app/updateProfile/page";
+import RegisterPage from "@/app/auth/register/page";
+import LoginPage from "@/app/auth/login/page";
 
 
 export default function GlobalModal() {

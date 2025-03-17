@@ -10,7 +10,7 @@ interface PropsType {
   type: string;
 }
 const UserContainer = ({ user, type }: PropsType) => {
-  console.log(user);
+
   return (
     <S.UserContainer $type={type}>
       <S.UserInfo>

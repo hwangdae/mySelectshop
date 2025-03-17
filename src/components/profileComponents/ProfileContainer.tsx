@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ProfileUpdate from "@/assets/ProfileUpdate.svg";
 import UserActivity from "./UserActivity";
 import { useSession } from "next-auth/react";
-import { useModal } from "@/app/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 
 const ProfileContainer = () => {
   const { data: userData } = useSession();

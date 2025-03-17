@@ -7,7 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { searchTermStore, showFollowListStore } from "@/globalState/zustand";
 import Search from "@/assets/Search.svg";
-import { useModal } from "@/app/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 
 const HeaderContainer = () => {
   const { searchTerm, setSearchTerm } = searchTermStore();

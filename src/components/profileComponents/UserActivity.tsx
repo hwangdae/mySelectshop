@@ -13,7 +13,6 @@ interface PropsType {
 }
 
 const UserActivity = ({ userId }: PropsType) => {
-  const [followList, setFollowList] = useState([]);
   const { showFollowListToggle, setShowFollowListToggle } =
     showFollowListStore();
   const router = useRouter();
@@ -96,14 +95,17 @@ const S = {
     border-right: solid 1px #eee;
     padding-left: 10px;
     button {
+      all: unset;
       cursor: pointer;
       text-align: start;
     }
     h3 {
+      display: block;
       ${styleFont.text.txt_sm}
       color: ${styleColor.GRAY[600]};
     }
     p {
+      display: block;
       ${styleFont.text.txt_sm}
       color: ${styleColor.GRAY[600]};
     }
