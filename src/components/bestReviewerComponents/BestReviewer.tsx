@@ -22,7 +22,7 @@ const BestReviewer = () => {
       return res.data;
     },
   });
-  console.log(users);
+  
   useEffect(() => {
     searchAllPlaces();
   }, []);

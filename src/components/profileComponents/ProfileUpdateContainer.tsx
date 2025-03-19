@@ -8,41 +8,51 @@ import { signOut, useSession } from "next-auth/react";
 import { uploadImage } from "@/utils/uploadImage";
 import axios from "axios";
 import { useModal } from "@/context/ModalContext";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileUpdateSchema } from "@/validators/auth";
+import { ErrorMessage } from "@hookform/error-message";
+import Input from "../utilityComponents/Input";
+import CommonSpinner from "../utilityComponents/CommonSpinner";
 
 const ProfileUpdateContainer = () => {
   const [previewProfileImage, setPreviewProfileImage] = useState<
     string | ArrayBuffer | null
   >("");
-  const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
-  const [name, setName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const { data: userData, update } = useSession();
   const { closeModal } = useModal();
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FieldValues>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
-      uploadImage: "",
-      name: "",
+      uploadImage: userData?.user?.image || "",
+      name: userData?.user?.name || "",
     },
   });
 
   useEffect(() => {
-    setPreviewProfileImage(userData?.user?.image as string);
-    setName(userData?.user?.name as string);
+    if (userData?.user?.image) {
+      setPreviewProfileImage(userData.user.image);
+    }
   }, [userData]);
 
-  const profileUpdateHandle = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const imageUrl = uploadImageFile
-      ? await uploadImage(uploadImageFile as File)
+  const profileUpdateHandleSubmit: SubmitHandler<FieldValues> = async (
+    body
+  ) => {
+    setIsLoading(true);
+    const imageUrl = body.uploadImage
+      ? await uploadImage(body.uploadImage as File)
       : null;
     const updateProfileData = {
       id: userData?.user?.id,
       image: imageUrl || (userData?.user?.image as string),
-      name: name || (userData?.user?.name as string),
+      name: body.name || (userData?.user?.name as string),
     };
     try {
       await axios.patch("/api/register/profileUpdate", updateProfileData);
@@ -51,6 +61,8 @@ const ProfileUpdateContainer = () => {
       closeModal();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,22 +70,33 @@ const ProfileUpdateContainer = () => {
     <S.ProfileUpdateContainer>
       <S.ProfileUpdateInner>
         <S.ProfileTitle>프로필 수정</S.ProfileTitle>
-        <S.ProfileFormContainer onSubmit={profileUpdateHandle}>
+        <S.ProfileFormContainer
+          onSubmit={handleSubmit(profileUpdateHandleSubmit)}
+        >
           <S.ProfileContents>
             <ImageUploadContainer
               previewProfileImage={previewProfileImage}
               setPreviewProfileImage={setPreviewProfileImage}
-              setUploadImageFile={setUploadImageFile}
+              setValue={setValue}
             />
             <h1>{userData?.user?.email}</h1>
-            <S.NickNameInput
-              value={name || ""}
+            <Input
+              id="name"
               type="text"
-              onChange={(e) => setName(e.target.value)}
+              disabled={isLoading}
+              placeholder="닉네임"
+              register={register}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="name"
+              render={({ message }) => (
+                <S.SignUpErrorMessage>{message}</S.SignUpErrorMessage>
+              )}
             />
           </S.ProfileContents>
           <S.ProfileFn>
-            <Button type="submit">수정</Button>
+            <Button type="submit">수정{isLoading && <CommonSpinner />}</Button>
             <Button onClick={() => signOut()}>로그아웃</Button>
           </S.ProfileFn>
         </S.ProfileFormContainer>
@@ -113,5 +136,9 @@ const S = {
     display: flex;
     justify-content: center;
     gap: 10px;
+  `,
+  SignUpErrorMessage: styled.p`
+    color: red;
+    font-size: 14px;
   `,
 };

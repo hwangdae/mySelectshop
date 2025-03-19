@@ -10,13 +10,13 @@ interface PropsType {
   setPreviewProfileImage: React.Dispatch<
     React.SetStateAction<string | ArrayBuffer | null>
   >;
-  setUploadImageFile: React.Dispatch<React.SetStateAction<File | null>>;
+  setValue: any;
 }
 
 const ImageUploadContainer = ({
   previewProfileImage,
   setPreviewProfileImage,
-  setUploadImageFile,
+  setValue,
 }: PropsType) => {
   const onchangeImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -24,12 +24,7 @@ const ImageUploadContainer = ({
     try {
       const uploadImageFile = e.target.files![0];
       const fileType = uploadImageFile.type.split("/")[1];
-      if (
-        !fileType.includes("jpg") &&
-        !fileType.includes("jpeg") &&
-        !fileType.includes("png") &&
-        !fileType.includes("webp")
-      ) {
+      if (!["jpg", "jpeg", "png", "webp"].includes(fileType)) {
         alert(
           '파일은 "*jpg, *jpeg, *png" 만 가능합니다.\n이미지를 다시 업로드 해주세요.'
         );
@@ -41,7 +36,7 @@ const ImageUploadContainer = ({
       );
       if (compressionFile) {
         previewImage(compressionFile, setPreviewProfileImage);
-        setUploadImageFile(compressionFile);
+        setValue("uploadImage", compressionFile);
       }
     } catch (error) {
       console.log(error);
@@ -52,6 +47,7 @@ const ImageUploadContainer = ({
     <S.ProfileImageContainer>
       <S.ProfileImage
         src={previewProfileImage ? `${previewProfileImage}` : undefined}
+        alt="프로필 이미지"
       />
       <S.ImageLabel htmlFor="profileImg">
         <Camera
@@ -64,6 +60,7 @@ const ImageUploadContainer = ({
         type="file"
         accept="image/*, .jpg, .jpeg, .png"
         id="profileImg"
+        // {...register("uploadImage")}
         onChange={onchangeImageUpload}
       ></S.ImageInput>
     </S.ProfileImageContainer>

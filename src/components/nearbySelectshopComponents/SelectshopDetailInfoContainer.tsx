@@ -14,6 +14,7 @@ import useInitializeMapState from "@/hook/useInitializeMapState";
 import { useSession } from "next-auth/react";
 import MyReviewContainer from "../utilityComponents/MyReviewContainer";
 import axios from "axios";
+import WriteReviewContainer from "../writeReviewComponents/WriteReviewContainer";
 
 interface PropsType {
   selectshop: PlaceType;
@@ -80,7 +81,8 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
         )}
       </S.DetailSelectshopHeader>
       {isWriteReviewOpen ? (
-        <WriteReview
+        <WriteReviewContainer
+        type={"write"}
           selectshopId={id}
           setIsWriteReviewOpen={setIsWriteReviewOpen}
         />

@@ -4,7 +4,7 @@ import { styleFont } from "@/styles/styleFont";
 import { registerReviewSchema } from "@/validators/review";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useForm,
   useFieldArray,
@@ -20,10 +20,10 @@ import {
   UploadReviewType,
 } from "@/types/reviewType";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 import { uploadImagesFn } from "@/utils/uploadImages";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CommonSpinner from "../utilityComponents/CommonSpinner";
+import useReviewMutate from "@/hook/mutate/useReviewMutate";
+import { previewImage } from "@/utils/previewImage";
 
 interface PropsType {
   selectshopId?: string;
@@ -43,7 +43,7 @@ const WriteReviewContainer = ({
   const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { reviewMutate } = useReviewMutate(type);
   const {
     register,
     handleSubmit,
@@ -66,7 +66,7 @@ const WriteReviewContainer = ({
       tags: prevReview?.tags || "",
     },
   });
-
+  console.log(prevReview?.reviewImages?.split(","))
   const {
     fields: advantageFields,
     append: advantageAppend,
@@ -85,20 +85,6 @@ const WriteReviewContainer = ({
     name: "disAdvantages",
   });
 
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: async (review: NewReviewType) => {
-      if (type !== "edit") {
-        return await axios.post("/api/review", review);
-      } else {
-        return await axios.patch("/api/review", review);
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["review"] });
-    },
-  });
 
   const addReviewSubmit: SubmitHandler<UploadReviewType> = async ({
     description,
@@ -108,9 +94,11 @@ const WriteReviewContainer = ({
   }) => {
     setIsLoading(true);
     const uploadImages = await uploadImagesFn(files);
+    const existingImages = prevReview?.reviewImages ? prevReview.reviewImages.split(",") : [];
+    const newUploadedImages = uploadImages!.length > 0 ? uploadImages : existingImages;
     const newReview: NewReviewType = {
       selectshopId,
-      reviewImages: uploadImages!.length > 0 ? uploadImages?.join(",") : null,
+      reviewImages: newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
       description,
       advantages: advantages?.map((item) => item.value) || null,
       disAdvantages: disAdvantages?.map((item) => item.value) || null,
@@ -119,18 +107,16 @@ const WriteReviewContainer = ({
     };
 
     try {
-      //타입이 write일 때 작성 기능
-      if (type !== "edit") {
-        mutation.mutate(newReview);
+      if (type === "write") {
+        reviewMutate.mutate(newReview);
         alert("작성이 완료 되었습니다.");
         setIsWriteReviewOpen!(false);
-      } else {
-        //타입이 edit일 때 수정 기능
+      } else if (type === "edit") {
         const updateReview = {
           ...newReview,
           id: prevReview?.id,
         };
-        mutation.mutate(updateReview);
+        reviewMutate.mutate(updateReview);
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }

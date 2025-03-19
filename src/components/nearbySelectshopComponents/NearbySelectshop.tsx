@@ -16,7 +16,7 @@ const NearbySelectshop = () => {
   const { searchTerm } = searchTermStore();
   const debouncedSearchTerm = useDebounce(searchTerm,300)
   const scrollRef = useRef<HTMLDivElement>(null);
-  console.log("흠")
+
   const { searchPlaces, pagination, selectshops, center } = useKakaoSearch();
 
   useEffect(() => {

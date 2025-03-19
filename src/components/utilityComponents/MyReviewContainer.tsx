@@ -8,6 +8,7 @@ import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
 import WriteReview from "../writeReviewComponents/WriteReviewContainer";
 import CommonSwiper from "./CommonSwiper";
+import WriteReviewContainer from "../writeReviewComponents/WriteReviewContainer";
 
 interface PropsType {
   review: ReviewType & { shopInfo: PlaceType[] };
@@ -36,7 +37,7 @@ const MyReviewContainer = ({
   useInitializeMapState(shopInfo?.y, shopInfo?.x);
 
   return isEditReview ? (
-    <WriteReview
+    <WriteReviewContainer
       type={"edit"}
       prevReview={review}
       setIsEditReview={setIsEditReview}
