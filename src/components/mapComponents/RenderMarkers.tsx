@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import MarkerContainer from "./MarkerContainer";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
+import { getReview } from "@/lib/review";
 
 const RenderMarkers = () => {
   const { selectshops } = selectshopsStore();
@@ -24,11 +25,8 @@ const RenderMarkers = () => {
   const { data: userData } = useSession();
 
   const { data: reviewData } = useQuery({
-    queryKey: ["Allreview"],
-    queryFn: async () => {
-      const res = await axios.get("/api/review");
-      return res.data;
-    },
+    queryKey: ["allReview"],
+    queryFn: getReview
   });
 
   const { filteredShops, visitedSelectshops, notVisitedSelectshops } =

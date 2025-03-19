@@ -7,6 +7,7 @@ import Tags from "../utilityComponents/Tags";
 import { useQuery } from "@tanstack/react-query";
 import UserContainer from "../utilityComponents/UserContainer";
 import axios from "axios";
+import { getUserDetails } from "@/lib/register";
 
 interface PropsType {
   review: ReviewType;
@@ -17,11 +18,8 @@ const AllReview = ({ review, id }: PropsType) => {
   const { selectshopId, userId, description, tags } = review;
 
   const { data: user } = useQuery({
-    queryKey: ["user", userId],
-    queryFn: async () => {
-      const res = await axios.get(`/api/register?userId=${userId}`);
-      return res.data;
-    },
+    queryKey: ["userDetails", userId],
+    queryFn: () => getUserDetails(userId),
   });
 
   return (

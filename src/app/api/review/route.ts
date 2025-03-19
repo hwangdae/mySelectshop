@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const selectshopId = searchParams.get("selectshopId") ?? undefined;
-
+  if(!selectshopId) {
+    return NextResponse.json({ error: "Missing selectshopId" }, { status: 400 });
+  }
   try {
     const reviews = selectshopId
       ? await prisma.review.findMany({

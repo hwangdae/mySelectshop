@@ -1,3 +1,4 @@
+import { getReviewsBySelectshop } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { PlaceType } from "@/types/placeType";
@@ -17,14 +18,11 @@ const MarkerContainer = ({ selectshop, index }: PropsType) => {
   const position = { lat: y, lng: x };
 
   const { data: reviewData } = useQuery({
-    queryKey: ["review", id],
-    queryFn: async () => {
-      const res = await axios.get(`/api/review?selectshopId=${id}`);
-      return res.data;
-    },
+    queryKey: ["reviewsBySelectshop", id],
+    queryFn: () => getReviewsBySelectshop(id),
     enabled: !!id,
   });
-  
+
   return (
     <CustomOverlayMap key={`marker-${y},${x}-${index}`} position={position}>
       <S.MarkerContainer>

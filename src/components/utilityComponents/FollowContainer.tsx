@@ -7,6 +7,8 @@ import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useModal } from "@/context/ModalContext";
+import { isUserFollowing, toggleFollow } from "@/lib/follow";
+import useFollowMutate from "@/hook/mutate/useFollowMutate";
 
 interface PropsType {
   id: string;
@@ -14,34 +16,13 @@ interface PropsType {
 
 const FollowContainer = ({ id }: PropsType) => {
   const { data: userData } = useSession();
-    const { openModal } = useModal();
-
-  const queryClient = useQueryClient();
+  const { openModal } = useModal();
+  const { followMutate } = useFollowMutate(id, userData?.user?.id);
 
   const { data: isFollowing } = useQuery({
-    queryKey: ["followList", id],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/follow?followerId=${id}&followingId=${userData?.user?.id}`
-      );
-      return res.data;
-    },
+    queryKey: ["isFollowing", id, userData?.user?.id],
+    queryFn: () => isUserFollowing(id, userData?.user?.id),
     enabled: !!userData?.user?.id,
-  });
-
-  const mutation = useMutation({
-    mutationFn: async ({ id }: { id: string }) => {
-      return await axios.post("/api/follow", { id });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["followList", id] });
-      queryClient.invalidateQueries({
-        queryKey: ["followerList", userData?.user?.id],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["followingList", userData?.user?.id],
-      });
-    },
   });
 
   const followButtonHandler = async (
@@ -54,7 +35,7 @@ const FollowContainer = ({ id }: PropsType) => {
       return;
     }
     try {
-      mutation.mutate({ id });
+      followMutate.mutate(id);
     } catch (error) {
       console.log(error);
     }

@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import MyReviewContainer from "../utilityComponents/MyReviewContainer";
 import axios from "axios";
 import WriteReviewContainer from "../writeReviewComponents/WriteReviewContainer";
+import { getReviewsBySelectshop } from "@/lib/review";
 
 interface PropsType {
   selectshop: PlaceType;
@@ -28,11 +29,8 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
   useInitializeMapState(y, x);
 
   const { data: reviewData } = useQuery({
-    queryKey: ["review", id],
-    queryFn: async () => {
-      const res = await axios.get(`/api/review?selectshopId=${id}`);
-      return res.data;
-    },
+    queryKey: ["reviewsBySelectshop", id],
+    queryFn: () => getReviewsBySelectshop(id),
     enabled: !!id,
   });
 
@@ -82,7 +80,7 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
       </S.DetailSelectshopHeader>
       {isWriteReviewOpen ? (
         <WriteReviewContainer
-        type={"write"}
+          type={"write"}
           selectshopId={id}
           setIsWriteReviewOpen={setIsWriteReviewOpen}
         />

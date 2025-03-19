@@ -8,6 +8,7 @@ import FollowContainer from "../utilityComponents/FollowContainer";
 import { FollowType } from "@/types/followType";
 import axios from "axios";
 import { ReviewType } from "@/types/reviewType";
+import { getFollowerCount } from "@/lib/follow";
 
 interface PropsType {
   user: UserType & { reviews: ReviewType };
@@ -18,11 +19,8 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
   const { id, image, name, reviews } = user;
 
   const { data: followerCount } = useQuery({
-    queryKey: ["followerList", id],
-    queryFn: async () => {
-      const res = await axios.get(`/api/follow/followCount?followerId=${id}`);
-      return res.data;
-    },
+    queryKey: ["followerCount", id],
+    queryFn: () => getFollowerCount(id),
   });
 
   return (
@@ -42,7 +40,7 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
             </S.Activity>
             <S.Activity>
               <h3>
-                팔로워<span>{followerCount?.length}</span>
+                팔로워<span>{followerCount}</span>
               </h3>
             </S.Activity>
           </S.UserActivity>

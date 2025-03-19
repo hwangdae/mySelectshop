@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
+import { getReview } from "@/lib/review";
 
 const NotVisiteSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
@@ -26,11 +27,8 @@ const NotVisiteSelectshop = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewData } = useQuery({
-    queryKey: ["review"],
-    queryFn: async () => {
-      const res = await axios.get("/api/review");
-      return res.data;
-    },
+    queryKey: ["allReview"],
+    queryFn: getReview,
     enabled: !!userData,
     refetchOnWindowFocus: false,
   });

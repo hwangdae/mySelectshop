@@ -17,6 +17,7 @@ import { getPaginatedItems } from "@/utils/pagenate";
 import axios from "axios";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
+import { getReview } from "@/lib/review";
 
 const VisitedSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
@@ -28,10 +29,7 @@ const VisitedSelectshop = () => {
 
   const { data: reviewData } = useQuery({
     queryKey: ["allReview"],
-    queryFn: async () => {
-      const res = await axios.get("/api/review");
-      return res.data;
-    },
+    queryFn: getReview,
     enabled: !!userData,
     refetchOnWindowFocus: false,
   });

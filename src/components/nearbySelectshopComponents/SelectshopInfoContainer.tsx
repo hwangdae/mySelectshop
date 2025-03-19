@@ -9,6 +9,7 @@ import { ReviewType } from "@/types/reviewType";
 import { searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { getReviewsBySelectshop } from "@/lib/review";
 
 interface PropsType {
   selectshop: PlaceType;
@@ -21,11 +22,8 @@ const SelectshopInfoContainer = ({ selectshop, type }: PropsType) => {
   const { data: userData } = useSession();
 
   const { data: reviewData } = useQuery({
-    queryKey: ["review", id],
-    queryFn: async () => {
-      const res = await axios.get(`/api/review?selectshopId=${id}`);
-      return res.data;
-    },
+    queryKey: ["reviewsBySelectshop", id],
+    queryFn: () => getReviewsBySelectshop(id),
     enabled: !!id,
   });
 

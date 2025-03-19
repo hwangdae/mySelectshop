@@ -9,20 +9,18 @@ import ReviewListContainer from "./ReviewListContainer";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import { myAddressStore } from "@/globalState/zustand";
 import axios from "axios";
+import { getBestReviewers } from "@/lib/bestReviewers";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<String>();
   const { searchAllPlaces, selectshops } = useKakaoSearch();
   const { myAddress } = myAddressStore();
 
-  const { data: users } = useQuery({
-    queryKey: ["allUser"],
-    queryFn: async () => {
-      const res = await axios.get("/api/review/usersAndReviews");
-      return res.data;
-    },
+  const { data: bestReviewers } = useQuery({
+    queryKey: ["bestReviewers"],
+    queryFn: getBestReviewers,
   });
-  
+
   useEffect(() => {
     searchAllPlaces();
   }, []);
@@ -30,8 +28,8 @@ const BestReviewer = () => {
   return (
     <S.BestReviewerContainer>
       <S.InnerContainer>
-        {users?.filter((user: any) => {
-          return user.reviews.length > 0;
+        {bestReviewers?.filter((bestReviewer: any) => {
+          return bestReviewer.reviews.length > 0;
         }).length === 0 ? (
           <S.NoBestReviewer>
             <span>🏆</span>
@@ -52,14 +50,17 @@ const BestReviewer = () => {
               </S.BestReviewerText>
             </S.BestReviewerTitleWrap>
             <ul>
-              {users?.map((user: any, index: number) => {
+              {bestReviewers?.map((bestReviewer: any, index: number) => {
                 return (
-                  user.reviews.length !== 0 && (
-                    <li key={user.id} onClick={() => setActiveuserId(user.id)}>
-                      <UserProfileContainer user={user} index={index} />
-                      {activeUserId === user.id && (
+                  bestReviewer.reviews.length !== 0 && (
+                    <li
+                      key={bestReviewer.id}
+                      onClick={() => setActiveuserId(bestReviewer.id)}
+                    >
+                      <UserProfileContainer user={bestReviewer} index={index} />
+                      {activeUserId === bestReviewer.id && (
                         <ReviewListContainer
-                          user={user}
+                          user={bestReviewer}
                           selectshops={selectshops}
                         />
                       )}

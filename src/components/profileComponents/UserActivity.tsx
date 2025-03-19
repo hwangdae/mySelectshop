@@ -1,11 +1,12 @@
 import { showFollowListStore } from "@/globalState/zustand";
+import { getFollowerCount, getFollowingCount } from "@/lib/follow";
+import { getReviewCount } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { FollowType } from "@/types/followType";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 interface PropsType {
@@ -18,31 +19,19 @@ const UserActivity = ({ userId }: PropsType) => {
   const router = useRouter();
 
   const { data: followerCount } = useQuery({
-    queryKey: ["followerList", userId],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/follow/followCount?followerId=${userId}`
-      );
-      return res.data;
-    },
+    queryKey: ["followerCount", userId],
+    queryFn: () => getFollowerCount(userId),
   });
 
   const { data: followingCount } = useQuery({
-    queryKey: ["followingList", userId],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/follow/followCount?followingId=${userId}`
-      );
-      return res.data;
-    },
+    queryKey: ["followingCount", userId],
+    queryFn: () => getFollowingCount(userId),
   });
 
   const { data: reviewCount } = useQuery({
-    queryKey: ["reviewCount"],
-    queryFn: async () => {
-      const res = await axios.get(`/api/review/reviewCount?userId=${userId}`);
-      return res.data;
-    },
+    queryKey: ["reviewCount", userId],
+    queryFn: () => getReviewCount(userId),
+    enabled: !!userId,
   });
 
   return (
@@ -59,7 +48,7 @@ const UserActivity = ({ userId }: PropsType) => {
           }}
         >
           <h3>팔로워</h3>
-          <p>{followerCount?.length || 0}</p>
+          <p>{followerCount || 0}</p>
         </button>
       </S.Activity>
       <S.Activity>
@@ -70,7 +59,7 @@ const UserActivity = ({ userId }: PropsType) => {
           }}
         >
           <h3>팔로잉</h3>
-          <p>{followingCount?.length || 0}</p>
+          <p>{followingCount || 0}</p>
         </button>
       </S.Activity>
     </S.UserActivity>

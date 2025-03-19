@@ -6,9 +6,11 @@ import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import People from "@/assets/People.svg";
 import { formatFollowCount } from "@/utils/formatFollowCount";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import { UserType } from "@/types/authType";
+import { getFollowers, getFollowing } from "@/lib/follow";
+import { getUserList } from "@/lib/user";
+import { FollowType } from "@/types/followType";
 
 interface TabType {
   id: string;
@@ -24,38 +26,29 @@ const ShowFollowContainer = () => {
 
   const { data: followerData } = useQuery({
     queryKey: ["followerList", userData?.user?.id],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/follow/followList?followerId=${userData?.user?.id}`
-      );
-      return res.data;
-    },
+    queryFn: () => getFollowers(userData?.user?.id),
   });
 
   const { data: followingData } = useQuery({
     queryKey: ["followingList", userData?.user?.id],
-    queryFn: async () => {
-      const res = await axios.get(
-        `/api/follow/followUsers?followingId=${userData?.user?.id}`
-      );
-      return res.data;
-    },
+    queryFn: () => getFollowing(userData?.user?.id),
+  });
+  console.log(followerData)
+  const { data: userList } = useQuery({
+    queryKey: ["userList"],
+    queryFn: getUserList,
   });
 
-  const { data: allUsers } = useQuery({
-    queryKey: ["allUsers"],
-    queryFn: async () => {
-      const res = await axios.get("/api/follow/allUsers");
-      return res.data;
-    },
-  });
-
-  const followerList = allUsers?.filter((user: any) =>
-    followerData?.some((follower: any) => user?.id === follower?.followingId)
+  const followerList = userList?.filter((user: UserType) =>
+    followerData?.some(
+      (follower: FollowType) => user?.id === follower?.followingId
+    )
   );
 
-  const followingList = allUsers?.filter((user: any) =>
-    followingData?.some((following: any) => user?.id === following?.followerId)
+  const followingList = userList?.filter((user: UserType) =>
+    followingData?.some(
+      (following: FollowType) => user?.id === following?.followerId
+    )
   );
 
   const FOLLOWTABNAV = [

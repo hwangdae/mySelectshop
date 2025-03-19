@@ -18,5 +18,6 @@ export const GET = async (request: Request) => {
     return NextResponse.json(bestReviewers);
   } catch (error) {
     console.log(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 };

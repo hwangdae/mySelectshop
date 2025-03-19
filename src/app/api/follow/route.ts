@@ -2,35 +2,22 @@ import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async (request: Request) => {
-  const { searchParams } = new URL(request.url);
-  const followerId = searchParams.get("followerId") ?? undefined;
-  const followingId = searchParams.get("followingId") ?? undefined;
-  try {
-    const isFollowing = await prisma.follow.findFirst({
-      where: { followerId, followingId },
-    });
-
-    return NextResponse.json(isFollowing);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const POST = async (request: Request) => {
   try {
     const body = await request.json();
-    const { id } = body;
+    const { id: followerId } = body;
 
-    const followerId = id;
     const session = await getCurrentUser();
     if (!session) {
       return NextResponse.json({ error: "Session expired" }, { status: 401 });
     }
+
     const followingId = session.id;
+
     const existingFollow = await prisma.follow.findUnique({
       where: { followerId_followingId: { followerId, followingId } },
     });
+
     if (existingFollow) {
       await prisma.follow.delete({
         where: { followerId_followingId: { followerId, followingId } },
