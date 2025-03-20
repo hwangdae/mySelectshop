@@ -1,12 +1,9 @@
-// import { getAllFollowList } from "@/api/follow";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { UserType } from "@/types/authType";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import FollowContainer from "../utilityComponents/FollowContainer";
-import { FollowType } from "@/types/followType";
-import axios from "axios";
 import { ReviewType } from "@/types/reviewType";
 import { getFollowerCount } from "@/lib/follow";
 
@@ -19,7 +16,7 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
   const { id, image, name, reviews } = user;
 
   const { data: followerCount } = useQuery({
-    queryKey: ["followerCount", id],
+    queryKey: ["followCount", id],
     queryFn: () => getFollowerCount(id),
   });
 

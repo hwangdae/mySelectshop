@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { PlaceType } from "@/types/placeType";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
-import WriteReview from "../writeReviewComponents/WriteReviewContainer";
 import CommonSwiper from "./CommonSwiper";
 import WriteReviewContainer from "../writeReviewComponents/WriteReviewContainer";
 

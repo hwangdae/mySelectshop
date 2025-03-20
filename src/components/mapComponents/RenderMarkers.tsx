@@ -25,7 +25,7 @@ const RenderMarkers = () => {
   const { data: userData } = useSession();
 
   const { data: reviewData } = useQuery({
-    queryKey: ["allReview"],
+    queryKey: ["review"],
     queryFn: getReview
   });
 

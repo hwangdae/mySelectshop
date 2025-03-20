@@ -25,12 +25,12 @@ const ShowFollowContainer = () => {
   const { data: userData } = useSession();
 
   const { data: followerData } = useQuery({
-    queryKey: ["followerList", userData?.user?.id],
+    queryKey: ["followList", userData?.user?.id],
     queryFn: () => getFollowers(userData?.user?.id),
   });
 
   const { data: followingData } = useQuery({
-    queryKey: ["followingList", userData?.user?.id],
+    queryKey: ["followList", userData?.user?.id],
     queryFn: () => getFollowing(userData?.user?.id),
   });
   console.log(followerData)

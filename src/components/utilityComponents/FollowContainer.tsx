@@ -3,12 +3,11 @@ import { styleFont } from "@/styles/styleFont";
 import React from "react";
 import styled from "styled-components";
 import Check from "@/assets/Check.svg";
-import { signIn, useSession } from "next-auth/react";
-import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 import { useModal } from "@/context/ModalContext";
-import { isUserFollowing, toggleFollow } from "@/lib/follow";
-import useFollowMutate from "@/hook/mutate/useFollowMutate";
+import { isUserFollowing } from "@/lib/follow";
+import useFollowMutate from "@/hook/mutate/follow/useFollow";
 
 interface PropsType {
   id: string;

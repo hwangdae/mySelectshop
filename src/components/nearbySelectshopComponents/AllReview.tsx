@@ -6,7 +6,6 @@ import styled from "styled-components";
 import Tags from "../utilityComponents/Tags";
 import { useQuery } from "@tanstack/react-query";
 import UserContainer from "../utilityComponents/UserContainer";
-import axios from "axios";
 import { getUserDetails } from "@/lib/register";
 
 interface PropsType {

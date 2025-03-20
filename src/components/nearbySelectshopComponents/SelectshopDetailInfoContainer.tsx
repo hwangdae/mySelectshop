@@ -6,16 +6,14 @@ import { styleFont } from "@/styles/styleFont";
 import { PlaceType } from "@/types/placeType";
 import { ReviewType } from "@/types/reviewType";
 import AllReview from "./AllReview";
-import WriteReview from "../writeReviewComponents/WriteReviewContainer";
 import { Button } from "@mui/material";
-// import useReviewMutate from "@/hook/useReviewMutate";
 import { styleColor } from "@/styles/styleColor";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import { useSession } from "next-auth/react";
 import MyReviewContainer from "../utilityComponents/MyReviewContainer";
-import axios from "axios";
 import WriteReviewContainer from "../writeReviewComponents/WriteReviewContainer";
 import { getReviewsBySelectshop } from "@/lib/review";
+import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
 
 interface PropsType {
   selectshop: PlaceType;
@@ -26,6 +24,7 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
   const { data: userData } = useSession();
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
   const [isEditReview, setIsEditReview] = useState(false);
+  const { deleteReviewMutate } = useDeleteReview(id, userData?.user?.id);
   useInitializeMapState(y, x);
 
   const { data: reviewData } = useQuery({
@@ -35,19 +34,13 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
   });
 
   const myReview = reviewData?.find((review: ReviewType) => {
-    return review?.selectshopId === id && review?.userId === userData?.user?.id;
+    return review?.userId === userData?.user?.id;
   });
 
-  const deleteReviewButton = async () => {
-    try {
-      if (confirm("리뷰를 삭제 하시겠어요?")) {
-        await axios.delete(
-          `/api/review?selectshopId=${id}&userId=${userData?.user?.id}`
-        );
-        alert("삭제가 완료 되었습니다.");
-      }
-    } catch (error) {
-      console.log(error);
+  const deleteReviewButton = () => {
+    if (confirm("리뷰를 삭제 하시겠어요?")) {
+      deleteReviewMutate.mutate();
+      alert("삭제가 완료 되었습니다.");
     }
   };
 
@@ -80,24 +73,20 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
       </S.DetailSelectshopHeader>
       {isWriteReviewOpen ? (
         <WriteReviewContainer
-          type={"write"}
+          type="write"
           selectshopId={id}
           setIsWriteReviewOpen={setIsWriteReviewOpen}
         />
+      ) : myReview ? (
+        <MyReviewContainer
+          review={myReview}
+          isEditReview={isEditReview}
+          setIsEditReview={setIsEditReview}
+        />
       ) : (
-        <>
-          {myReview ? (
-            <MyReviewContainer
-              review={myReview}
-              isEditReview={isEditReview}
-              setIsEditReview={setIsEditReview}
-            />
-          ) : (
-            <SelectshopReviewContainer
-              onWriteReviewClick={() => setIsWriteReviewOpen(true)}
-            />
-          )}
-        </>
+        <SelectshopReviewContainer
+          onWriteReviewClick={() => setIsWriteReviewOpen(true)}
+        />
       )}
       {!isWriteReviewOpen && (
         <S.AllReviewContainer>

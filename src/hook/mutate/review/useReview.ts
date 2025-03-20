@@ -1,11 +1,12 @@
 import { updateReview, writeReview } from "@/lib/review";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const useReviewMutate = (type?: string) => {
+const useReview = (type?: string, id?: string) => {
   const queryClient = useQueryClient();
 
   const success = () => {
     queryClient.invalidateQueries({ queryKey: ["review"] });
+    queryClient.invalidateQueries({ queryKey: ["reviewsBySelectshop", id] });
   };
 
   const reviewMutate = useMutation({
@@ -16,4 +17,4 @@ const useReviewMutate = (type?: string) => {
   return { reviewMutate };
 };
 
-export default useReviewMutate;
+export default useReview;

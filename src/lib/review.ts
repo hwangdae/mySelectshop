@@ -23,3 +23,9 @@ export const getReviewsBySelectshop = async (id: string) => {
   const res = await axios.get(`/api/review?selectshopId=${id}`);
   return res.data;
 };
+
+export const deleteReview = async (id: string, userId :string | undefined) => {
+  await axios.delete(
+    `/api/review?selectshopId=${id}&userId=${userId}`
+  );
+};

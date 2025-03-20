@@ -27,7 +27,7 @@ const NotVisiteSelectshop = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviewData } = useQuery({
-    queryKey: ["allReview"],
+    queryKey: ["review"],
     queryFn: getReview,
     enabled: !!userData,
     refetchOnWindowFocus: false,

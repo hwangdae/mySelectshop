@@ -4,7 +4,7 @@ import { styleFont } from "@/styles/styleFont";
 import { registerReviewSchema } from "@/validators/review";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   useForm,
   useFieldArray,
@@ -22,8 +22,7 @@ import {
 import { useSession } from "next-auth/react";
 import { uploadImagesFn } from "@/utils/uploadImages";
 import CommonSpinner from "../utilityComponents/CommonSpinner";
-import useReviewMutate from "@/hook/mutate/useReviewMutate";
-import { previewImage } from "@/utils/previewImage";
+import useReview from "@/hook/mutate/review/useReview";
 
 interface PropsType {
   selectshopId?: string;
@@ -43,7 +42,7 @@ const WriteReviewContainer = ({
   const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { reviewMutate } = useReviewMutate(type);
+  const { reviewMutate } = useReview(type,selectshopId);
   const {
     register,
     handleSubmit,
@@ -66,7 +65,7 @@ const WriteReviewContainer = ({
       tags: prevReview?.tags || "",
     },
   });
-  console.log(prevReview?.reviewImages?.split(","))
+
   const {
     fields: advantageFields,
     append: advantageAppend,
@@ -85,7 +84,6 @@ const WriteReviewContainer = ({
     name: "disAdvantages",
   });
 
-
   const addReviewSubmit: SubmitHandler<UploadReviewType> = async ({
     description,
     advantages,
@@ -94,11 +92,15 @@ const WriteReviewContainer = ({
   }) => {
     setIsLoading(true);
     const uploadImages = await uploadImagesFn(files);
-    const existingImages = prevReview?.reviewImages ? prevReview.reviewImages.split(",") : [];
-    const newUploadedImages = uploadImages!.length > 0 ? uploadImages : existingImages;
+    const existingImages = prevReview?.reviewImages
+      ? prevReview.reviewImages.split(",")
+      : [];
+    const newUploadedImages =
+      uploadImages!.length > 0 ? uploadImages : existingImages;
     const newReview: NewReviewType = {
       selectshopId,
-      reviewImages: newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
+      reviewImages:
+        newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
       description,
       advantages: advantages?.map((item) => item.value) || null,
       disAdvantages: disAdvantages?.map((item) => item.value) || null,

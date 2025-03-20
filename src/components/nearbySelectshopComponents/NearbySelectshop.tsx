@@ -14,7 +14,7 @@ const NearbySelectshop = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
   const { searchTerm } = searchTermStore();
-  const debouncedSearchTerm = useDebounce(searchTerm,300)
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { searchPlaces, pagination, selectshops, center } = useKakaoSearch();
@@ -58,9 +58,7 @@ const NearbySelectshop = () => {
         <NoSearchResultContainer />
       )}
 
-      {filteredShops.length < 15 ? (
-        ""
-      ) : (
+      {filteredShops.length < 15 && (
         <PaginationContainer
           pagination={pagination}
           currentPage={currentPage}
