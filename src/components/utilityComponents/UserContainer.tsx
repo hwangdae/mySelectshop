@@ -8,8 +8,9 @@ import { styleFont } from "@/styles/styleFont";
 interface PropsType {
   user: UserType;
   type: string;
+  isMutualFollow?:any
 }
-const UserContainer = ({ user, type }: PropsType) => {
+const UserContainer = ({ user, type, isMutualFollow }: PropsType) => {
 
   return (
     <S.UserContainer $type={type}>
@@ -20,7 +21,7 @@ const UserContainer = ({ user, type }: PropsType) => {
         />
         <S.UserName $type={type}>{user?.name}</S.UserName>
       </S.UserInfo>
-      <FollowContainer id={user?.id} />
+      <FollowContainer id={user?.id} isMutualFollow={isMutualFollow}/>
     </S.UserContainer>
   );
 };

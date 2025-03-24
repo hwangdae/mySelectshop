@@ -11,9 +11,10 @@ import useFollowMutate from "@/hook/mutate/follow/useFollow";
 
 interface PropsType {
   id: string;
+  isMutualFollow?: any;
 }
 
-const FollowContainer = ({ id }: PropsType) => {
+const FollowContainer = ({ id, isMutualFollow }: PropsType) => {
   const { data: userData } = useSession();
   const { openModal } = useModal();
   const { followMutate } = useFollowMutate(id, userData?.user?.id);
@@ -57,7 +58,7 @@ const FollowContainer = ({ id }: PropsType) => {
               팔로잉
             </S.Following>
           ) : (
-            <p>팔로우</p>
+            <>{isMutualFollow ? <p>맞팔로우</p> : <p>팔로우</p>}</>
           )}
         </S.FollowButton>
       )}

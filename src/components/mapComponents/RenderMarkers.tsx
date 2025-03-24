@@ -1,7 +1,6 @@
 import { PlaceType } from "@/types/placeType";
-import { ReviewType } from "@/types/reviewType";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React from "react";
 import {
   currentPageStore,
@@ -9,7 +8,6 @@ import {
   selectshopsStore,
   shopCoordinatesStore,
 } from "@/globalState/zustand";
-import axios from "axios";
 import { useSession } from "next-auth/react";
 import MarkerContainer from "./MarkerContainer";
 import { getPaginatedItems } from "@/utils/pagenate";
@@ -26,7 +24,7 @@ const RenderMarkers = () => {
 
   const { data: reviewData } = useQuery({
     queryKey: ["review"],
-    queryFn: getReview
+    queryFn: getReview,
   });
 
   const { filteredShops, visitedSelectshops, notVisitedSelectshops } =
@@ -48,7 +46,7 @@ const RenderMarkers = () => {
 
   return (
     <>
-      {renderContent().map((selectshop: any, index: number) => (
+      {renderContent().map((selectshop: PlaceType, index: number) => (
         <MarkerContainer
           key={selectshop.id}
           selectshop={selectshop}

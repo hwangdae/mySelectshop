@@ -21,7 +21,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
-
+  console.log(reviews)
   const filteredReviews = reviews?.filter((v1) => {
     return selectshops.some((v2) => v2.id === v1.selectshopId);
   });

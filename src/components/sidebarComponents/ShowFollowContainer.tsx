@@ -23,21 +23,32 @@ const ShowFollowContainer = () => {
   const searchParams = useSearchParams();
   const followTab = searchParams?.get("follow");
   const { data: userData } = useSession();
-
+  console.log(userData?.user?.id);
   const { data: followerData } = useQuery({
-    queryKey: ["followList", userData?.user?.id],
+    queryKey: ["followerList", userData?.user?.id],
     queryFn: () => getFollowers(userData?.user?.id),
   });
-
+  console.log(followerData, "팔로워데이터");
   const { data: followingData } = useQuery({
-    queryKey: ["followList", userData?.user?.id],
+    queryKey: ["followingList", userData?.user?.id],
     queryFn: () => getFollowing(userData?.user?.id),
   });
-  console.log(followerData)
+  console.log(followingData, "팔로잉 데이터");
   const { data: userList } = useQuery({
     queryKey: ["userList"],
     queryFn: getUserList,
   });
+
+  const isMutualFollow = () => {
+    return (
+      followerData?.some(
+        (follower: FollowType) => follower.followerId === userData?.user?.id
+      ) &&
+      followingData?.some(
+        (following: FollowType) => following.followingId === userData?.user?.id
+      )
+    );
+  };
 
   const followerList = userList?.filter((user: UserType) =>
     followerData?.some(
@@ -81,7 +92,7 @@ const ShowFollowContainer = () => {
             {followerList?.map((user: any) => {
               return (
                 <li key={user.id}>
-                  <UserContainer user={user} type={"follow"} />
+                  <UserContainer user={user} type={"follow"} isMutualFollow={()=>isMutualFollow()}/>
                 </li>
               );
             })}

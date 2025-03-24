@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import MyAddressContainer from "./MyAddressContainer";
 import ProfileContainer from "../profileComponents/ProfileContainer";
-import { showFollowListStore } from "@/globalState/zustand";
+import { myLocationStore, showFollowListStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import ShowFollowContainer from "./ShowFollowContainer";
+import useInitializeMapState from "@/hook/useInitializeMapState";
 
 const CONTENTSTABNAV = [
   { id: "nearbySelectshop", name: "편집샵 보기" },
@@ -19,6 +20,9 @@ const ContentsContainer = () => {
   const { showFollowListToggle } = showFollowListStore();
   const { data: session } = useSession();
   const router = useRouter();
+  const { center } = myLocationStore();
+  const { lat, lng } = center;
+  useInitializeMapState(lat, lng);
 
   const viewSelectshopHandle = (id: string) => {
     if (id !== "nearbySelectshop" && id !== "bestReviewer" && !session) {
@@ -31,25 +35,25 @@ const ContentsContainer = () => {
     <S.ContentsContainer>
       <ProfileContainer />
       {showFollowListToggle ? (
-        <ShowFollowContainer/>
+        <ShowFollowContainer />
       ) : (
         <>
-      <MyAddressContainer />
-      <S.ContentsInner>
-        {CONTENTSTABNAV.map((content) => {
-          return (
-            <S.Content key={content.id}>
-              <S.ContentButton
-                type="button"
-                onClick={() => viewSelectshopHandle(content.id)}
-              >
-                {content.name}
-              </S.ContentButton>
-            </S.Content>
-          );
-        })}
-      </S.ContentsInner>
-      </>
+          <MyAddressContainer />
+          <S.ContentsInner>
+            {CONTENTSTABNAV.map((content) => {
+              return (
+                <S.Content key={content.id}>
+                  <S.ContentButton
+                    type="button"
+                    onClick={() => viewSelectshopHandle(content.id)}
+                  >
+                    {content.name}
+                  </S.ContentButton>
+                </S.Content>
+              );
+            })}
+          </S.ContentsInner>
+        </>
       )}
     </S.ContentsContainer>
   );

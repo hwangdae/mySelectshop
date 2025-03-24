@@ -7,11 +7,12 @@ import { boundsStore, myLocationStore } from "@/globalState/zustand";
 
 const MapComponent = () => {
   const [map, setMap] = useState<any>();
-  const { center, setCenter,isLoading, setIsLoading } = myLocationStore();
+  const { center, setCenter, isLoading, setIsLoading } = myLocationStore();
   const { bounds } = boundsStore();
 
   useEffect(() => {
     if (map && bounds) {
+      map.setMaxLevel(5);
       map.setBounds(bounds);
     }
   }, [map, bounds]);

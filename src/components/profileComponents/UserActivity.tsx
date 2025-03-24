@@ -19,12 +19,12 @@ const UserActivity = ({ userId }: PropsType) => {
   const router = useRouter();
 
   const { data: followerCount } = useQuery({
-    queryKey: ["followCount", userId],
+    queryKey: ["followerCount", userId],
     queryFn: () => getFollowerCount(userId),
   });
 
   const { data: followingCount } = useQuery({
-    queryKey: ["followCount", userId],
+    queryKey: ["followingCount", userId],
     queryFn: () => getFollowingCount(userId),
   });
 
