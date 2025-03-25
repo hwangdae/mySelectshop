@@ -1,5 +1,5 @@
 "use client";
-import ContentsContainer from "@/components/sidebarComponents/ContentsContainer";
+import ContentsContainer from "@/components/sidebar/ContentsContainer";
 import styled from "styled-components";
 
 export default function Home() {

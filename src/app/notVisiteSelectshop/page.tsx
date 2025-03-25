@@ -1,4 +1,4 @@
-import NotVisiteSelectshop from '@/components/notVisiteSelectshopComponents/NotVisiteSelectshop'
+import NotVisiteSelectshop from '@/components/selectshop/notVisiteSelectshop/NotVisiteSelectshop'
 import React from 'react'
 
 const NotVisiteSelectshopPage = () => {

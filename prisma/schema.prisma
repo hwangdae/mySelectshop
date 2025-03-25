@@ -49,19 +49,22 @@ enum UserType {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String
-  hashedPassword String?
-  email          String?   @unique
-  emailVerified  DateTime? @map("email_verified")
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  followings     Follow[]  @relation("UserFollowing")
-  followers      Follow[]  @relation("UserFollowers")
-  reviews        Review[]  @relation("UserReviews")
+  id               String         @id @default(cuid())
+  name             String
+  hashedPassword   String?
+  email            String?        @unique
+  emailVerified    DateTime?      @map("email_verified")
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  followings       Follow[]       @relation("UserFollowing")
+  followers        Follow[]       @relation("UserFollowers")
+  reviews          Review[]       @relation("UserReviews")
+  conversations    Conversation[]
+  sentMessages     Message[]      @relation("sender")
+  receivedMessages Message[]      @relation("receiver")
 }
 
 model VerificationToken {
@@ -95,4 +98,28 @@ model Follow {
   following User @relation(fields: [followingId], references: [id], onDelete: Cascade, name: "UserFollowing")
 
   @@id([followerId, followingId])
+}
+
+model Conversation {
+  id         String    @id @default(cuid())
+  name       String?
+  senderId   String
+  receiverId String
+  users      User[]
+  messages   Message[]
+  createAt   DateTime  @default(now())
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  createAt       DateTime     @default(now())
+  updateAt       DateTime     @updatedAt
+  text           String?
+  image          String?
+  sender         User         @relation(name: "sender", fields: [senderId], references: [id])
+  senderId       String
+  receiver       User         @relation(name: "receiver", fields: [receiverId], references: [id])
+  receiverId     String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
 }

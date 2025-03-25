@@ -1,4 +1,4 @@
-import RegisterContainer from '@/components/registerComponents/RegisterContainer'
+import RegisterContainer from '@/components/register/RegisterContainer'
 import React from 'react'
 
 const RegisterPage = () => {

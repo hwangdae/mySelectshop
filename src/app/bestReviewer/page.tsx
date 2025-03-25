@@ -1,4 +1,4 @@
-import BestReviewer from "@/components/bestReviewerComponents/BestReviewer";
+import BestReviewer from "@/components/bestReviewers/BestReviewer";
 import React from "react";
 
 const BestReviewerPage = () => {

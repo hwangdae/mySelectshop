@@ -1,22 +1,21 @@
 "use client";
-import MapComponent from "@/components/mapComponents/Map";
-import HeaderContainer from "@/components/sidebarComponents/HeaderContainer";
+import HeaderContainer from "@/components/sidebar/HeaderContainer";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import styled from "styled-components";
-import { getCurrentUser } from "./actions/getCurrentUser";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "@/styles/defaultTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import GlobalModal from "@/globalState/GlobalModal";
 import { ModalProvider } from "../context/ModalContext";
+import MapComponent from "@/components/map/Map";
 
 const queryClient = new QueryClient();
 
-const KakaoMap = dynamic(() => import("../components/mapComponents/Map"), {
-  ssr: false, // 서버 사이드 렌더링을 비활성화
-});
+// const KakaoMap = dynamic(() => import("../components/mapComponents/Map"), {
+//   ssr: false, // 서버 사이드 렌더링을 비활성화
+// });
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -33,7 +32,8 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
                 <GlobalModal />
               </S.SideContainer>
               <S.MapContainer>
-                <KakaoMap />
+                {/* <KakaoMap /> */}
+                <MapComponent/>
               </S.MapContainer>
             </S.Container>
           </ModalProvider>

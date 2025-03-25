@@ -1,4 +1,4 @@
-import NearbySelectshop from '@/components/nearbySelectshopComponents/NearbySelectshop'
+import NearbySelectshop from '@/components/selectshop/nearbySelectshop/NearbySelectshop'
 import React from 'react'
 
 const NearbySelectshopPage = () => {
