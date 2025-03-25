@@ -1,16 +1,15 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { ReviewType } from "@/types/reviewType";
 import NoImage from "@/assets/NoImage.svg";
 import styled from "styled-components";
-import { PlaceType } from "@/types/placeType";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
 import CommonSwiper from "../ui/CommonSwiper";
 import WriteReviewContainer from "../reviewEditor/ReviewEditorContainer";
+import { TPlace, TReview } from "@/types";
 
 interface PropsType {
-  review: ReviewType & { shopInfo: PlaceType[] };
+  review: TReview & { shopInfo: TPlace[] };
   nickName?: string;
   type?: string;
   isEditReview?: boolean;

@@ -1,14 +1,13 @@
-import { PlaceType } from "@/types/placeType";
-import { ReviewType } from "@/types/reviewType";
+import { TPlace, TReview } from "@/types";
 import { Session } from "next-auth";
 
-const matchesSearchTerm = (selectshop: PlaceType, searchTerm: string) => {
+const matchesSearchTerm = (selectshop: TPlace, searchTerm: string) => {
   return selectshop.place_name.includes(searchTerm);
 };
 
 const useGetFilteredSelectshops = (
-  selectshops: PlaceType[],
-  reviewData: ReviewType[],
+  selectshops: TPlace[],
+  reviewData: TReview[],
   searchTerm: string,
   userData: Session | null
 ) => {
@@ -17,8 +16,8 @@ const useGetFilteredSelectshops = (
   );
 
   const visitedSelectshops = selectshops?.filter(
-    (selectshop: PlaceType) =>
-      reviewData?.some((review: ReviewType) => {
+    (selectshop: TPlace) =>
+      reviewData?.some((review: TReview) => {
         const isSameSelectshopId = review.selectshopId === selectshop.id;
         const isSameUserId = review.userId === userData?.user?.id;
         return isSameSelectshopId && isSameUserId;
@@ -26,8 +25,8 @@ const useGetFilteredSelectshops = (
   );
 
   const notVisitedSelectshops = selectshops?.filter(
-    (selectshop: PlaceType) =>
-      !reviewData?.some((review: ReviewType) => {
+    (selectshop: TPlace) =>
+      !reviewData?.some((review: TReview) => {
         const isSameSelectshopId = review.selectshopId === selectshop.id;
         const isSameUserId = review.userId === userData?.user?.id;
         return isSameSelectshopId && isSameUserId;

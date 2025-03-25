@@ -1,12 +1,11 @@
-import { ReviewType } from "@/types/reviewType";
 import React from "react";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { PlaceType } from "@/types/placeType";
+import { TPlace, TReview } from "@/types";
 
 interface PropsType {
-  review: ReviewType & { shopInfo?: PlaceType | undefined };
+  review: TReview & { shopInfo?: TPlace | undefined };
 }
 
 const ReviewContainer = ({ review }: PropsType) => {

@@ -1,4 +1,4 @@
-import { NewReviewType } from "@/types/reviewType";
+import { TNewReview } from "@/types";
 import axios from "axios";
 
 export const getReview = async () => {
@@ -6,11 +6,11 @@ export const getReview = async () => {
   return res.data;
 };
 
-export const writeReview = async (review: NewReviewType) => {
+export const writeReview = async (review: TNewReview) => {
   return await axios.post("/api/review", review);
 };
 
-export const updateReview = async (review: NewReviewType) => {
+export const updateReview = async (review: TNewReview) => {
   return await axios.patch("/api/review", review);
 };
 
@@ -24,8 +24,6 @@ export const getReviewsBySelectshop = async (id: string) => {
   return res.data;
 };
 
-export const deleteReview = async (id: string, userId :string | undefined) => {
-  await axios.delete(
-    `/api/review?selectshopId=${id}&userId=${userId}`
-  );
+export const deleteReview = async (id: string, userId: string | undefined) => {
+  await axios.delete(`/api/review?selectshopId=${id}&userId=${userId}`);
 };

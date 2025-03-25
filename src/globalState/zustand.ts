@@ -1,4 +1,4 @@
-import { MarkerType, PlaceType } from "@/types/placeType";
+import { TMarker, TPlace } from "@/types";
 import { create } from "zustand";
 
 interface MyLocationType {
@@ -27,16 +27,16 @@ interface MyAddressType {
   setMyAddress: (myAddress: string) => void;
 }
 interface MarkersType {
-  markers: MarkerType[];
-  setMarkers: (markers: MarkerType[]) => void;
+  markers: TMarker[];
+  setMarkers: (markers: TMarker[]) => void;
 }
 interface SelectshopsType {
-  selectshops: PlaceType[];
-  setSelectshops: (selectshops: PlaceType[]) => void;
+  selectshops: TPlace[];
+  setSelectshops: (selectshops: TPlace[]) => void;
 }
 interface ShopCoordinatesType {
-  shopCoordinates: PlaceType[];
-  setShopCoordinates: (shopCoordinates: PlaceType[]) => void;
+  shopCoordinates: TPlace[];
+  setShopCoordinates: (shopCoordinates: TPlace[]) => void;
 }
 interface CurrentPageType {
   currentPage: number;

@@ -1,15 +1,14 @@
 import { getReviewsBySelectshop } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { PlaceType } from "@/types/placeType";
+import { TPlace } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 
 interface PropsType {
-  selectshop: PlaceType;
+  selectshop: TPlace;
   index: number;
 }
 

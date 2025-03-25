@@ -8,8 +8,8 @@ import UserProfileContainer from "./UserProfileContainer";
 import ReviewListContainer from "./ReviewListContainer";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import { myAddressStore } from "@/globalState/zustand";
-import axios from "axios";
 import { getBestReviewers } from "@/lib/bestReviewers";
+import { TBestReviewer } from "@/types";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<String>();
@@ -20,7 +20,7 @@ const BestReviewer = () => {
     queryKey: ["bestReviewers"],
     queryFn: getBestReviewers,
   });
-
+  console.log(bestReviewers,"aa")
   useEffect(() => {
     searchAllPlaces();
   }, []);
@@ -28,8 +28,8 @@ const BestReviewer = () => {
   return (
     <S.BestReviewerContainer>
       <S.InnerContainer>
-        {bestReviewers?.filter((bestReviewer: any) => {
-          return bestReviewer.reviews.length > 0;
+        {bestReviewers?.filter((bestReviewer: TBestReviewer) => {
+          return bestReviewer.reviews?.length > 0;
         }).length === 0 ? (
           <S.NoBestReviewer>
             <span>🏆</span>
@@ -50,9 +50,9 @@ const BestReviewer = () => {
               </S.BestReviewerText>
             </S.BestReviewerTitleWrap>
             <ul>
-              {bestReviewers?.map((bestReviewer: any, index: number) => {
+              {bestReviewers?.map((bestReviewer: TBestReviewer, index: number) => {
                 return (
-                  bestReviewer.reviews.length !== 0 && (
+                  bestReviewer.reviews?.length !== 0 && (
                     <li
                       key={bestReviewer.id}
                       onClick={() => setActiveuserId(bestReviewer.id)}

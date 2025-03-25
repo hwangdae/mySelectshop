@@ -1,14 +1,13 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { UserType } from "@/types/authType";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import FollowContainer from "../layout/FollowContainer";
-import { ReviewType } from "@/types/reviewType";
+import FollowContainer from "../common/FollowContainer";
 import { getFollowerCount } from "@/lib/follow";
+import { TBestReviewer, TReview, TUser } from "@/types";
 
 interface PropsType {
-  user: UserType & { reviews: ReviewType };
+  user: TBestReviewer;
   index: number;
 }
 

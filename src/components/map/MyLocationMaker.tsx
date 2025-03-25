@@ -1,4 +1,4 @@
-import { MyLocationType } from "@/types/placeType";
+import { MyLocationType } from "@/types/map";
 import React, { useEffect, useState } from "react";
 import { MapMarker, MarkerClusterer } from "react-kakao-maps-sdk";
 

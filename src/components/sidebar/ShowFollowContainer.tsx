@@ -7,12 +7,11 @@ import { styleColor } from "@/styles/styleColor";
 import People from "@/assets/People.svg";
 import { formatFollowCount } from "@/utils/formatFollowCount";
 import { useSession } from "next-auth/react";
-import { UserType } from "@/types/authType";
 import { getFollowers, getFollowing } from "@/lib/follow";
 import { getUserList } from "@/lib/user";
-import { FollowType } from "@/types/followType";
+import { TFollow, TUser } from "@/types";
 
-interface TabType {
+interface TTab {
   id: string;
   name: string;
   count: number | undefined;
@@ -23,17 +22,17 @@ const ShowFollowContainer = () => {
   const searchParams = useSearchParams();
   const followTab = searchParams?.get("follow");
   const { data: userData } = useSession();
-  console.log(userData?.user?.id);
+
   const { data: followerData } = useQuery({
     queryKey: ["followerList", userData?.user?.id],
     queryFn: () => getFollowers(userData?.user?.id),
   });
-  console.log(followerData, "팔로워데이터");
+
   const { data: followingData } = useQuery({
     queryKey: ["followingList", userData?.user?.id],
     queryFn: () => getFollowing(userData?.user?.id),
   });
-  console.log(followingData, "팔로잉 데이터");
+
   const { data: userList } = useQuery({
     queryKey: ["userList"],
     queryFn: getUserList,
@@ -42,23 +41,23 @@ const ShowFollowContainer = () => {
   const isMutualFollow = () => {
     return (
       followerData?.some(
-        (follower: FollowType) => follower.followerId === userData?.user?.id
+        (follower: TFollow) => follower.followerId === userData?.user?.id
       ) &&
       followingData?.some(
-        (following: FollowType) => following.followingId === userData?.user?.id
+        (following: TFollow) => following.followingId === userData?.user?.id
       )
     );
   };
 
-  const followerList = userList?.filter((user: UserType) =>
+  const followerList = userList?.filter((user: TUser) =>
     followerData?.some(
-      (follower: FollowType) => user?.id === follower?.followingId
+      (follower: TFollow) => user?.id === follower?.followingId
     )
   );
 
-  const followingList = userList?.filter((user: UserType) =>
+  const followingList = userList?.filter((user: TUser) =>
     followingData?.some(
-      (following: FollowType) => user?.id === following?.followerId
+      (following: TFollow) => user?.id === following?.followerId
     )
   );
 
@@ -70,7 +69,7 @@ const ShowFollowContainer = () => {
   return (
     <S.ShowFollowContainer>
       <S.FollowNavWrap>
-        {FOLLOWTABNAV.map((tab: TabType) => {
+        {FOLLOWTABNAV.map((tab: TTab) => {
           return (
             <S.Content key={tab.id}>
               <S.TabButton
@@ -92,7 +91,11 @@ const ShowFollowContainer = () => {
             {followerList?.map((user: any) => {
               return (
                 <li key={user.id}>
-                  <UserContainer user={user} type={"follow"} isMutualFollow={()=>isMutualFollow()}/>
+                  <UserContainer
+                    user={user}
+                    type={"follow"}
+                    isMutualFollow={() => isMutualFollow()}
+                  />
                 </li>
               );
             })}

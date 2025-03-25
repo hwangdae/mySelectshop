@@ -3,8 +3,6 @@ import styled from "styled-components";
 import SelectshopReviewContainer from "./SelectshopReviewContainer";
 import { useQuery } from "@tanstack/react-query";
 import { styleFont } from "@/styles/styleFont";
-import { PlaceType } from "@/types/placeType";
-import { ReviewType } from "@/types/reviewType";
 import AllReview from "./AllReview";
 import { Button } from "@mui/material";
 import { styleColor } from "@/styles/styleColor";
@@ -14,9 +12,10 @@ import { getReviewsBySelectshop } from "@/lib/review";
 import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
 import WriteReviewContainer from "@/components/reviewEditor/ReviewEditorContainer";
 import MyReviewContainer from "@/components/common/MyReviewContainer";
+import { TPlace, TReview } from "@/types";
 
 interface PropsType {
-  selectshop: PlaceType;
+  selectshop: TPlace;
 }
 
 const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
@@ -33,7 +32,7 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
     enabled: !!id,
   });
 
-  const myReview = reviewData?.find((review: ReviewType) => {
+  const myReview = reviewData?.find((review: TReview) => {
     return review?.userId === userData?.user?.id;
   });
 
@@ -90,7 +89,7 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
       )}
       {!isWriteReviewOpen && (
         <S.AllReviewContainer>
-          {reviewData?.map((review: ReviewType) => (
+          {reviewData?.map((review: TReview) => (
             <AllReview key={review.id} review={review} id={id} />
           ))}
         </S.AllReviewContainer>

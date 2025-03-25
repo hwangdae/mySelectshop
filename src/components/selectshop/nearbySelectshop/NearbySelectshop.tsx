@@ -1,5 +1,4 @@
 "use client";
-import { PlaceType } from "@/types/placeType";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useKakaoSearch from "@/hook/useKakaoSearch";
@@ -9,6 +8,7 @@ import { searchTermStore } from "@/globalState/zustand";
 import useDebounce from "@/hook/useDebounce";
 import NoSearchResultContainer from "@/components/common/NoSearchResultContainer";
 import PaginationContainer from "@/components/common/PaginationContainer";
+import { TPlace } from "@/types";
 
 const NearbySelectshop = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -40,7 +40,7 @@ const NearbySelectshop = () => {
     <S.SearchResultsContainer ref={scrollRef}>
       {filteredShops.length > 0 ? (
         <S.SearchResultsInner>
-          {filteredShops?.map((selectshop: PlaceType) => (
+          {filteredShops?.map((selectshop: TPlace) => (
             <li
               key={selectshop.id}
               onClick={() => {

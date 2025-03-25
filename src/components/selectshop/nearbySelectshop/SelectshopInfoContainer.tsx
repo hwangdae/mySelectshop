@@ -1,18 +1,16 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import styled from "styled-components";
-import { PlaceType } from "@/types/placeType";
 import { useQuery } from "@tanstack/react-query";
 import PatchCheck from "@/assets/PatchCheck.svg";
 import FullfillPatchCheck from "@/assets/FullfillPatchCheck.svg";
-import { ReviewType } from "@/types/reviewType";
 import { searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 import { getReviewsBySelectshop } from "@/lib/review";
+import { TPlace, TReview } from "@/types";
 
 interface PropsType {
-  selectshop: PlaceType;
+  selectshop: TPlace;
   type?: string;
 }
 
@@ -30,7 +28,7 @@ const SelectshopInfoContainer = ({ selectshop, type }: PropsType) => {
   const myReview =
     reviewData && userData?.user?.id
       ? reviewData.find(
-          (review: ReviewType) => review.userId === userData?.user?.id
+          (review: TReview) => review.userId === userData?.user?.id
         )
       : null;
 
@@ -53,7 +51,7 @@ const SelectshopInfoContainer = ({ selectshop, type }: PropsType) => {
   };
 
   const shopReviews = reviewData?.filter(
-    (review: ReviewType) => review.selectshopId === id
+    (review: TReview) => review.selectshopId === id
   );
 
   return (

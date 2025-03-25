@@ -1,12 +1,12 @@
-import { UserType } from "@/types/authType";
 import React from "react";
-import FollowContainer from "../layout/FollowContainer";
+import FollowContainer from "./FollowContainer";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
+import { TUser } from "@/types/user";
 
 interface PropsType {
-  user: UserType;
+  user: TUser;
   type: string;
   isMutualFollow?: () => void;
 }
@@ -51,6 +51,5 @@ const S = {
     ${styleFont.text.txt_sm}
     font-weight: 400;
     color: ${styleColor.BLACK[100]};
-    // color: ${(props) => (props.$type === "follow" ? "#fff" : "#111")};
   `,
 };

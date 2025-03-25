@@ -1,8 +1,6 @@
-import { registerReviewSchema } from "@/validators/review";
-import { z } from "zod";
-import { PlaceType } from "./placeType";
+import { TPlace } from "./map";
 
-export interface ReviewType {
+export interface TReview {
   id: string;
   reviewImages: string | null;
   description: string;
@@ -11,10 +9,10 @@ export interface ReviewType {
   tags: string | null;
   userId: string;
   selectshopId: string;
-  shopInfo?: PlaceType | undefined;
+  shopInfo?: TPlace | undefined;
 }
 
-export interface UploadReviewType {
+export interface TReviewFormData {
   id?: string;
   reviewImages: string | null;
   description: string;
@@ -26,8 +24,8 @@ export interface UploadReviewType {
   test: string;
 }
 
-export interface NewReviewType {
-  id?:string;
+export interface TNewReview {
+  id?: string;
   selectshopId: string | undefined;
   reviewImages: string | null | undefined;
   description: string;
@@ -36,5 +34,3 @@ export interface NewReviewType {
   tags: string | null;
   userId: string | undefined;
 }
-
-export type RegisterReviewInput = z.infer<typeof registerReviewSchema>;

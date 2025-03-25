@@ -4,13 +4,13 @@ import {
   myLocationStore,
   selectshopsStore,
 } from "@/globalState/zustand";
-import { MarkerType, PaginationType, PlaceType } from "@/types/placeType";
+import { TMarker, TPagination, TPlace } from "@/types";
 import React, { useState } from "react";
 
 const useKakaoSearch = () => {
   const { center } = myLocationStore();
   const { selectshops, setSelectshops } = selectshopsStore();
-  const [pagination, setPagination] = useState<PaginationType>();
+  const [pagination, setPagination] = useState<TPagination>();
   const { setBounds } = boundsStore();
   const { setMarkers } = markersStore();
 
@@ -39,7 +39,7 @@ const useKakaoSearch = () => {
 
   const searchAllPlaces = (
     currentPage: number = 1,
-    accumulatedShops: PlaceType[] = []
+    accumulatedShops: TPlace[] = []
   ) => {
     if (
       typeof window !== "undefined" &&
@@ -66,8 +66,8 @@ const useKakaoSearch = () => {
   const placesSearchCB = (
     data: any[],
     status: string,
-    pagination: PaginationType,
-    accumulatedShops: PlaceType[] = [],
+    pagination: TPagination,
+    accumulatedShops: TPlace[] = [],
     isAllPages: boolean = false
   ) => {
     if (status === window.kakao.maps.services.Status.OK) {
@@ -87,7 +87,7 @@ const useKakaoSearch = () => {
 
   const displayPlaces = (data: any[]) => {
     const bounds = new window.kakao.maps.LatLngBounds();
-    let newMarkers: MarkerType[] = [];
+    let newMarkers: TMarker[] = [];
     data.forEach((place) => {
       const position = { lat: place.y, lng: place.x };
       newMarkers.push({ position });

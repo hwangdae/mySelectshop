@@ -1,15 +1,15 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { ReviewType } from "@/types/reviewType";
 import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { getUserDetails } from "@/lib/register";
 import UserContainer from "@/components/common/UserContainer";
 import Tags from "@/components/common/Tags";
+import { TReview } from "@/types";
 
 interface PropsType {
-  review: ReviewType;
+  review: TReview;
   id: string;
 }
 

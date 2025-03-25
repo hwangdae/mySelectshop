@@ -13,22 +13,18 @@ import {
 import styled from "styled-components";
 import Trash from "@/assets/Trash.svg";
 import { ErrorMessage } from "@hookform/error-message";
-import {
-  NewReviewType,
-  ReviewType,
-  UploadReviewType,
-} from "@/types/reviewType";
 import { useSession } from "next-auth/react";
 import { uploadImagesFn } from "@/utils/uploadImages";
 import CommonSpinner from "../ui/CommonSpinner";
 import useReview from "@/hook/mutate/review/useReview";
 import WriteReviewInputImage from "./InputImage";
+import { TReviewFormData, TNewReview, TReview } from "@/types";
 
 interface PropsType {
   selectshopId?: string;
   setIsWriteReviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   type?: string;
-  prevReview?: ReviewType;
+  prevReview?: TReview;
   setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -42,14 +38,14 @@ const ReviewEditorContainer = ({
   const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { reviewMutate } = useReview(type,selectshopId);
+  const { reviewMutate } = useReview(type, selectshopId);
   const {
     register,
     handleSubmit,
     control,
     watch,
     formState: { errors },
-  } = useForm<UploadReviewType>({
+  } = useForm<TReviewFormData>({
     resolver: zodResolver(registerReviewSchema),
     defaultValues: {
       reviewImages: null,
@@ -84,7 +80,7 @@ const ReviewEditorContainer = ({
     name: "disAdvantages",
   });
 
-  const addReviewSubmit: SubmitHandler<UploadReviewType> = async ({
+  const addReviewSubmit: SubmitHandler<TReviewFormData> = async ({
     description,
     advantages,
     disAdvantages,
@@ -97,7 +93,7 @@ const ReviewEditorContainer = ({
       : [];
     const newUploadedImages =
       uploadImages!.length > 0 ? uploadImages : existingImages;
-    const newReview: NewReviewType = {
+    const newReview: TNewReview = {
       selectshopId,
       reviewImages:
         newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
@@ -176,7 +172,7 @@ const ReviewEditorContainer = ({
             </S.Label>
             {advantageFields.map(
               (
-                field: FieldArrayWithId<UploadReviewType, "advantages", "id">,
+                field: FieldArrayWithId<TReviewFormData, "advantages", "id">,
                 index
               ) => (
                 <div key={field.id} style={{ marginBottom: "10px" }}>
@@ -214,11 +210,7 @@ const ReviewEditorContainer = ({
             </S.Label>
             {disAdvantageFields.map(
               (
-                field: FieldArrayWithId<
-                  UploadReviewType,
-                  "disAdvantages",
-                  "id"
-                >,
+                field: FieldArrayWithId<TReviewFormData, "disAdvantages", "id">,
                 index
               ) => {
                 return (

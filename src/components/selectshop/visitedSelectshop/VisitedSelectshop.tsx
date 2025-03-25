@@ -1,5 +1,4 @@
 "use client";
-import { PlaceType } from "@/types/placeType";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SelectshopInfoContainer from "../nearbySelectshop/SelectshopInfoContainer";
@@ -16,6 +15,7 @@ import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
 import { getReview } from "@/lib/review";
+import { TPlace } from "@/types";
 
 const VisitedSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);
@@ -63,7 +63,7 @@ const VisitedSelectshop = () => {
         </S.VisitedShopMessage>
       ) : currentItems.length > 0 ? (
         <S.SearchResultsInner>
-          {currentItems?.map((selectshop: PlaceType) => (
+          {currentItems?.map((selectshop: TPlace) => (
             <li
               key={selectshop.id}
               onClick={() => {

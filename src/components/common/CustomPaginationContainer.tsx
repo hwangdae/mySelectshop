@@ -3,10 +3,10 @@ import Chevron from "@/assets/Chevron.svg";
 import Chevrons from "@/assets/Chevrons.svg";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
-import { PlaceType } from "@/types/placeType";
+import { TPlace } from "@/types";
 
 interface PropsType {
-  selectshops: PlaceType[];
+  selectshops: TPlace[];
   currentPage: number;
   setCurrentPage: (page: number) => void;
   scrollRef: RefObject<HTMLDivElement | null>;

@@ -1,18 +1,16 @@
 import { styleFont } from "@/styles/styleFont";
-import { UserType } from "@/types/authType";
-import { ReviewType } from "@/types/reviewType";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReviewContainer from "./ReviewContainer";
-import { PlaceType } from "@/types/placeType";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
 import { styleColor } from "@/styles/styleColor";
 import MyReviewContainer from "../common/MyReviewContainer";
 import { boundsStore, shopCoordinatesStore } from "@/globalState/zustand";
+import { TBestReviewer, TPlace, TReview } from "@/types";
 
 interface PropsType {
-  user: UserType;
-  selectshops: PlaceType[];
+  user: TBestReviewer;
+  selectshops: TPlace[];
 }
 
 const ReviewListContainer = ({ user, selectshops }: PropsType) => {
@@ -21,14 +19,16 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
-  console.log(reviews)
+  console.log(reviews);
   const filteredReviews = reviews?.filter((v1) => {
     return selectshops.some((v2) => v2.id === v1.selectshopId);
   });
-  
-  const reviewsWithShopInfo = filteredReviews?.map((v: ReviewType) => {
-    const shopInfo = selectshops.find((shop) => shop.id === v.selectshopId);
-    return { ...v, shopInfo };
+
+  const reviewsWithShopInfo = filteredReviews?.map((review: TReview) => {
+    const shopInfo = selectshops.find(
+      (shop) => shop.id === review.selectshopId
+    );
+    return { ...review, shopInfo };
   });
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
         };
         bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
       });
-      setShopCoordinates(shopCoordinates as PlaceType[]);
+      setShopCoordinates(shopCoordinates as TPlace[]);
       setBounds(bounds);
     }
     return () => {
@@ -77,7 +77,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
         <MyReviewContainer review={detailReview} nickName={name} />
       ) : (
         <S.ReviewListWrap>
-          {reviewsWithShopInfo?.map((review: ReviewType) => {
+          {reviewsWithShopInfo?.map((review: TReview) => {
             return (
               <li
                 key={review.id}

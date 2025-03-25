@@ -4,13 +4,14 @@ import styled from "styled-components";
 import Camera from "@/assets/Camera.svg";
 import { imageCompressionFn } from "@/utils/imageCompression";
 import { previewImage } from "@/utils/previewImage";
+import { FieldValues, UseFormSetValue } from "react-hook-form";
 
 interface PropsType {
   previewProfileImage: string | ArrayBuffer | null;
   setPreviewProfileImage: React.Dispatch<
     React.SetStateAction<string | ArrayBuffer | null>
   >;
-  setValue: any;
+  setValue: UseFormSetValue<FieldValues>;
 }
 
 const ImageUploadContainer = ({
