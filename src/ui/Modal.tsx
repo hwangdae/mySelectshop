@@ -34,7 +34,7 @@ const S = {
     position: relative;
     left: 0;
     top: 0;
-    width: 360px;
+    /* width: 360px; */
     height: auto;
     position: absolute;
     top: 50%;
@@ -43,7 +43,7 @@ const S = {
     background-color: white;
     border: solid 1px #000;
     border-radius: 4px;
-    padding: 30px;
+    /* padding: 30px; */
     z-index: 99999;
   `,
 };

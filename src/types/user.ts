@@ -1,4 +1,4 @@
-import { TReview } from "./review";
+import { Message, Review, User } from "@prisma/client";
 
 export interface TUser {
   id: string;
@@ -7,5 +7,15 @@ export interface TUser {
   name: string;
   image: string;
   filteredReviewCount?: number;
-  reviews?: TReview[];
+  reviews?: Review[];
+}
+
+export interface TUserWithChat extends User {
+  conversations: TConversation[];
+}
+
+export interface TConversation {
+  id: string;
+  messages: Message[];
+  users: User[];
 }

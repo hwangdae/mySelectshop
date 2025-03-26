@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-type ModalType = "login" | "signup" | "profile" | null;
+type ModalType = "login" | "signup" | "profile" | "chat" | null;
 
 interface ModalContextProps {
   modalType: ModalType;

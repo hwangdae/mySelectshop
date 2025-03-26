@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import ShowFollowContainer from "./ShowFollowContainer";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import { myLocationStore, showFollowListStore } from "@/globalState";
+import { useModal } from "@/context/ModalContext";
 
 const CONTENTSTABNAV = [
   { id: "nearbySelectshop", name: "편집샵 보기" },
@@ -23,6 +24,7 @@ const ContentsContainer = () => {
   const { center } = myLocationStore();
   const { lat, lng } = center;
   useInitializeMapState(lat, lng);
+  const {openModal} = useModal()
 
   const viewSelectshopHandle = (id: string) => {
     if (id !== "nearbySelectshop" && id !== "bestReviewer" && !session) {
@@ -49,7 +51,7 @@ const ContentsContainer = () => {
                   >
                     {content.name}
                   </S.ContentButton>
-                  <button onClick={() => router.push("/chat")}>asd</button>
+                  <button onClick={() => openModal('chat')}>asd</button>
                 </S.Content>
               );
             })}

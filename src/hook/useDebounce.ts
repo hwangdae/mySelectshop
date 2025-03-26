@@ -1,4 +1,3 @@
-import { searchTermStore } from "@/globalState/zustand";
 import { useEffect, useState } from "react";
 
 const useDebounce = <T>(value: T, delay: number) => {

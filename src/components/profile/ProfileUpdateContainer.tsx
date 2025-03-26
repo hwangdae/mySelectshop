@@ -108,7 +108,9 @@ const ProfileUpdateContainer = () => {
 export default ProfileUpdateContainer;
 
 const S = {
-  ProfileUpdateContainer: styled.div``,
+  ProfileUpdateContainer: styled.div`
+    width: 360px;
+  `,
   ProfileUpdateInner: styled.div``,
   ProfileTitle: styled.h1`
     ${styleFont.title.tit_md}
