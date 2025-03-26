@@ -5,9 +5,9 @@ import { Button } from "@mui/material";
 import { styleColor } from "@/styles/styleColor";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { searchTermStore, showFollowListStore } from "@/globalState/zustand";
 import Search from "@/assets/Search.svg";
 import { useModal } from "@/context/ModalContext";
+import { searchTermStore, showFollowListStore } from "@/globalState";
 
 const HeaderContainer = () => {
   const { searchTerm, setSearchTerm } = searchTermStore();

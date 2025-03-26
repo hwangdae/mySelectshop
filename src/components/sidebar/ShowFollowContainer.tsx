@@ -88,7 +88,7 @@ const ShowFollowContainer = () => {
       {followTab === "follower" ? (
         followerList && followerList?.length > 0 ? (
           <ul>
-            {followerList?.map((user: any) => {
+            {followerList?.map((user: TUser) => {
               return (
                 <li key={user.id}>
                   <UserContainer
@@ -108,7 +108,7 @@ const ShowFollowContainer = () => {
         )
       ) : followingList && followingList?.length > 0 ? (
         <ul>
-          {followingList?.map((user: any) => {
+          {followingList?.map((user: TUser) => {
             return (
               <li key={user.id}>
                 <UserContainer user={user} type={"follow"} />

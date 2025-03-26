@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
 import RenderMarkers from "./RenderMarkers";
 import MyLocationMaker from "./MyLocationMaker";
-import { boundsStore, myLocationStore } from "@/globalState/zustand";
+import { boundsStore, myLocationStore } from "@/globalState";
 
 const MapComponent = () => {
   const [map, setMap] = useState<any>();

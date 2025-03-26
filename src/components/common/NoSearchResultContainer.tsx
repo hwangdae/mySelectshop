@@ -1,4 +1,4 @@
-import { searchTermStore } from "@/globalState/zustand";
+import { searchTermStore } from "@/globalState";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import React from "react";

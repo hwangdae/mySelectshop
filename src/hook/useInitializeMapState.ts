@@ -1,4 +1,4 @@
-import { boundsStore } from "@/globalState/zustand";
+import { boundsStore } from "@/globalState";
 import React, { useEffect } from "react";
 
 const useInitializeMapState = (y: number, x: number) => {

@@ -7,9 +7,9 @@ import styled from "styled-components";
 import UserProfileContainer from "./UserProfileContainer";
 import ReviewListContainer from "./ReviewListContainer";
 import useKakaoSearch from "@/hook/useKakaoSearch";
-import { myAddressStore } from "@/globalState/zustand";
 import { getBestReviewers } from "@/lib/bestReviewers";
 import { TBestReviewer } from "@/types";
+import { myAddressStore } from "@/globalState";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<String>();
@@ -20,7 +20,7 @@ const BestReviewer = () => {
     queryKey: ["bestReviewers"],
     queryFn: getBestReviewers,
   });
-  console.log(bestReviewers,"aa")
+  console.log(bestReviewers, "aa");
   useEffect(() => {
     searchAllPlaces();
   }, []);
@@ -50,24 +50,29 @@ const BestReviewer = () => {
               </S.BestReviewerText>
             </S.BestReviewerTitleWrap>
             <ul>
-              {bestReviewers?.map((bestReviewer: TBestReviewer, index: number) => {
-                return (
-                  bestReviewer.reviews?.length !== 0 && (
-                    <li
-                      key={bestReviewer.id}
-                      onClick={() => setActiveuserId(bestReviewer.id)}
-                    >
-                      <UserProfileContainer user={bestReviewer} index={index} />
-                      {activeUserId === bestReviewer.id && (
-                        <ReviewListContainer
+              {bestReviewers?.map(
+                (bestReviewer: TBestReviewer, index: number) => {
+                  return (
+                    bestReviewer.reviews?.length !== 0 && (
+                      <li
+                        key={bestReviewer.id}
+                        onClick={() => setActiveuserId(bestReviewer.id)}
+                      >
+                        <UserProfileContainer
                           user={bestReviewer}
-                          selectshops={selectshops}
+                          index={index}
                         />
-                      )}
-                    </li>
-                  )
-                );
-              })}
+                        {activeUserId === bestReviewer.id && (
+                          <ReviewListContainer
+                            user={bestReviewer}
+                            selectshops={selectshops}
+                          />
+                        )}
+                      </li>
+                    )
+                  );
+                }
+              )}
             </ul>
           </div>
         )}

@@ -5,8 +5,8 @@ import ReviewContainer from "./ReviewContainer";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
 import { styleColor } from "@/styles/styleColor";
 import MyReviewContainer from "../common/MyReviewContainer";
-import { boundsStore, shopCoordinatesStore } from "@/globalState/zustand";
 import { TBestReviewer, TPlace, TReview } from "@/types";
+import { boundsStore, shopCoordinatesStore } from "@/globalState";
 
 interface PropsType {
   user: TBestReviewer;
@@ -15,15 +15,17 @@ interface PropsType {
 
 const ReviewListContainer = ({ user, selectshops }: PropsType) => {
   const { name, reviews } = user;
-  const [detailReview, setDetailReview] = useState<any>();
+  const [detailReview, setDetailReview] = useState<TReview>();
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
-  console.log(reviews);
-  const filteredReviews = reviews?.filter((v1) => {
-    return selectshops.some((v2) => v2.id === v1.selectshopId);
-  });
 
+  const filteredReviews = reviews?.filter((review: TReview) => {
+    return selectshops.some(
+      (selectshop: TPlace) => selectshop.id === review.selectshopId
+    );
+  });
+  console.log(filteredReviews);
   const reviewsWithShopInfo = filteredReviews?.map((review: TReview) => {
     const shopInfo = selectshops.find(
       (shop) => shop.id === review.selectshopId

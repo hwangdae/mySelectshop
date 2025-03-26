@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { TPlace, TReview } from "@/types";
+import { TReview } from "@/types";
 
 interface PropsType {
-  review: TReview & { shopInfo?: TPlace | undefined };
+  review: TReview;
 }
 
 const ReviewContainer = ({ review }: PropsType) => {

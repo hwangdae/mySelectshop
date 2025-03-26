@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import PatchCheck from "@/assets/PatchCheck.svg";
 import FullfillPatchCheck from "@/assets/FullfillPatchCheck.svg";
-import { searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import { getReviewsBySelectshop } from "@/lib/review";
 import { TPlace, TReview } from "@/types";
+import { searchTermStore } from "@/globalState";
 
 interface PropsType {
   selectshop: TPlace;

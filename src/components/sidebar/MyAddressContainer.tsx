@@ -3,7 +3,7 @@ import styled from "styled-components";
 import LocationDot from "@/assets/LocationDot.svg";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
-import { myAddressStore, myLocationStore } from "@/globalState/zustand";
+import { myAddressStore, myLocationStore } from "@/globalState";
 
 const MyAddressContainer = () => {
   const { center } = myLocationStore();

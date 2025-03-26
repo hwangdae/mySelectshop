@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import React from "react";
-import {
-  currentPageStore,
-  searchTermStore,
-  selectshopsStore,
-  shopCoordinatesStore,
-} from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import MarkerContainer from "./MarkerContainer";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
+import {
+  currentPageStore,
+  searchTermStore,
+  selectshopsStore,
+  shopCoordinatesStore,
+} from "@/globalState";
 
 const RenderMarkers = () => {
   const { selectshops } = selectshopsStore();

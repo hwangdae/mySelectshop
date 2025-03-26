@@ -6,10 +6,10 @@ import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
 import CommonSwiper from "../ui/CommonSwiper";
 import WriteReviewContainer from "../reviewEditor/ReviewEditorContainer";
-import { TPlace, TReview } from "@/types";
+import { TReview } from "@/types";
 
 interface PropsType {
-  review: TReview & { shopInfo: TPlace[] };
+  review: TReview | undefined;
   nickName?: string;
   type?: string;
   isEditReview?: boolean;
@@ -23,6 +23,9 @@ const MyReviewContainer = ({
   isEditReview,
   setIsEditReview,
 }: PropsType) => {
+
+  if (!review) return;
+
   const {
     reviewImages,
     description,
@@ -32,7 +35,7 @@ const MyReviewContainer = ({
     shopInfo,
   } = review;
 
-  useInitializeMapState(shopInfo?.y, shopInfo?.x);
+  useInitializeMapState(shopInfo!.y, shopInfo!.x);
 
   return isEditReview ? (
     <WriteReviewContainer
@@ -59,7 +62,7 @@ const MyReviewContainer = ({
         <S.ReviewTextRow>
           <S.ReviewTitle>👍 셀렉샵 장점</S.ReviewTitle>
           <ul>
-            {advantages?.map((advantage: string, index) => {
+            {advantages?.map((advantage: string, index: number) => {
               return <li key={`${advantage}-${index}`}>{advantage}</li>;
             })}
           </ul>
@@ -67,7 +70,7 @@ const MyReviewContainer = ({
         <S.ReviewTextRow>
           <S.ReviewTitle>👎 설렉샵 단점</S.ReviewTitle>
           <ul>
-            {disAdvantages?.map((disAdvantage: string, index) => {
+            {disAdvantages?.map((disAdvantage: string, index: number) => {
               return <li key={`${disAdvantage}-${index}`}>{disAdvantage}</li>;
             })}
           </ul>

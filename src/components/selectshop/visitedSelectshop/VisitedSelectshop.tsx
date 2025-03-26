@@ -9,13 +9,13 @@ import CustomPaginationContainer from "../../common/CustomPaginationContainer";
 import NoSearchResultContainer from "../../common/NoSearchResultContainer";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
-import { searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
 import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
+import { searchTermStore } from "@/globalState";
 
 const VisitedSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);

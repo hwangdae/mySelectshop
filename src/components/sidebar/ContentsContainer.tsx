@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import MyAddressContainer from "./MyAddressContainer";
 import ProfileContainer from "../profile/ProfileContainer";
-import { myLocationStore, showFollowListStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import ShowFollowContainer from "./ShowFollowContainer";
 import useInitializeMapState from "@/hook/useInitializeMapState";
+import { myLocationStore, showFollowListStore } from "@/globalState";
 
 const CONTENTSTABNAV = [
   { id: "nearbySelectshop", name: "편집샵 보기" },
@@ -49,9 +49,8 @@ const ContentsContainer = () => {
                   >
                     {content.name}
                   </S.ContentButton>
-                  <button onClick={()=>router.push('/chat')}>asd</button>
+                  <button onClick={() => router.push("/chat")}>asd</button>
                 </S.Content>
-                
               );
             })}
           </S.ContentsInner>

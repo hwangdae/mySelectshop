@@ -4,11 +4,11 @@ import styled from "styled-components";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import SelectshopInfoContainer from "./SelectshopInfoContainer";
 import SelectshopDetailInfoContainer from "./SelectshopDetailInfoContainer";
-import { searchTermStore } from "@/globalState/zustand";
 import useDebounce from "@/hook/useDebounce";
 import NoSearchResultContainer from "@/components/common/NoSearchResultContainer";
 import PaginationContainer from "@/components/common/PaginationContainer";
 import { TPlace } from "@/types";
+import { searchTermStore } from "@/globalState";
 
 const NearbySelectshop = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);

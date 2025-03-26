@@ -10,12 +10,12 @@ import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import { getPaginatedItems } from "@/utils/pagenate";
 import CustomPaginationContainer from "../../common/CustomPaginationContainer";
-import { currentPageStore, searchTermStore } from "@/globalState/zustand";
 import { useSession } from "next-auth/react";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
 import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
+import { currentPageStore, searchTermStore } from "@/globalState";
 
 const NotVisiteSelectshop = () => {
   const [activeShopId, setActiveShopId] = useState<string | null>(null);

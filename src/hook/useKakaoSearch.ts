@@ -3,7 +3,7 @@ import {
   markersStore,
   myLocationStore,
   selectshopsStore,
-} from "@/globalState/zustand";
+} from "@/globalState";
 import { TMarker, TPagination, TPlace } from "@/types";
 import React, { useState } from "react";
 
