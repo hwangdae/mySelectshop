@@ -1,61 +1,51 @@
 import React, { RefObject, useEffect } from "react";
-import styled from "styled-components";
 import Chevron from "@/assets/Chevron.svg";
 import Chevrons from "@/assets/Chevrons.svg";
+import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
+import { TPlace } from "@/types";
 
 interface PropsType {
-  pagination: any;
+  selectshops: TPlace[];
   currentPage: number;
   setCurrentPage: (page: number) => void;
   scrollRef: RefObject<HTMLDivElement | null>;
 }
 
-const PaginationContainer = ({
-  pagination,
+const CustomPagination = ({
+  selectshops,
   currentPage,
   setCurrentPage,
   scrollRef,
 }: PropsType) => {
+
+  const totalPages = Math.ceil(selectshops.length / 15);
+  
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: 0 });
     }
-  }, [pagination, scrollRef]);
-
-  const nextPageButtonHandler = () => {
-    if (pagination && pagination.hasNextPage) {
-      setCurrentPage(currentPage + 1);
-      pagination.nextPage;
-    }
-  };
-
-  const prevPageButtonHandler = () => {
-    if (pagination && pagination.hasPrevPage) {
-      setCurrentPage(currentPage - 1);
-      pagination.prevPage;
-    }
-  };
+  }, [currentPage]);
 
   return (
     <S.PaginationContainer>
       <S.PageButtonWrap>
-        <button onClick={() => setCurrentPage(pagination.first)}>
+       <button onClick={()=>setCurrentPage(1)}>
           <Chevrons
             transform={"rotate(180)"}
             fill={`${styleColor.GRAY[400]}`}
           />
         </button>
-        <button onClick={prevPageButtonHandler}>
+        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
           <Chevron transform={"rotate(180)"} fill={`${styleColor.GRAY[400]}`} />
         </button>
       </S.PageButtonWrap>
       <S.PageNumberButtons>
-        {Array.from({ length: pagination?.last }).map((_, index) => {
+        {Array.from({ length: totalPages }).map((_, index) => {
           return (
             <S.PageNumberButton
-              key={index}
-              $index={index + 1}
+              key={index+1}
+              $index={index+1}
               $currentPage={currentPage}
               onClick={() => setCurrentPage(index + 1)}
             >
@@ -65,10 +55,10 @@ const PaginationContainer = ({
         })}
       </S.PageNumberButtons>
       <S.PageButtonWrap>
-        <button onClick={nextPageButtonHandler}>
+        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
           <Chevron fill={`${styleColor.GRAY[400]}`} />
         </button>
-        <button onClick={() => setCurrentPage(pagination.last)}>
+        <button onClick={()=>setCurrentPage(totalPages)}>
           <Chevrons fill={`${styleColor.GRAY[400]}`} />
         </button>
       </S.PageButtonWrap>
@@ -76,7 +66,7 @@ const PaginationContainer = ({
   );
 };
 
-export default PaginationContainer;
+export default CustomPagination;
 
 const S = {
   PaginationContainer: styled.div`

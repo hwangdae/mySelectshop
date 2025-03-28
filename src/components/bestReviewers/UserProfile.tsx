@@ -2,16 +2,17 @@ import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import FollowContainer from "../common/FollowContainer";
+import Follow from "../common/Follow";
 import { getFollowerCount } from "@/lib/follow";
 import { TBestReviewer, TReview, TUser } from "@/types";
+import ProfileImage from "../ui/ProfileImage";
 
 interface PropsType {
   user: TBestReviewer;
   index: number;
 }
 
-const UserProfileContainer = ({ user, index }: PropsType) => {
+const UserProfile = ({ user, index }: PropsType) => {
   const { id, image, name, reviews } = user;
 
   const { data: followerCount } = useQuery({
@@ -24,7 +25,7 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
       <S.ProfileInfoInner>
         <S.Rank>{index + 1}</S.Rank>
         <S.ProfileImageWrap>
-          <S.ProfileImage src={image} />
+          <ProfileImage src={image} width={"55px"} height={"55px"}/>
         </S.ProfileImageWrap>
         <S.UserInfoWrap>
           <S.UserEmail>{name}</S.UserEmail>
@@ -41,13 +42,13 @@ const UserProfileContainer = ({ user, index }: PropsType) => {
             </S.Activity>
           </S.UserActivity>
         </S.UserInfoWrap>
-        <FollowContainer id={id} />
+        <Follow id={id} />
       </S.ProfileInfoInner>
     </S.ProfileInfoContainer>
   );
 };
 
-export default UserProfileContainer;
+export default UserProfile;
 
 const S = {
   ProfileInfoContainer: styled.div`
@@ -80,13 +81,6 @@ const S = {
   `,
   ProfileImageWrap: styled.div`
     width: 20%;
-  `,
-  ProfileImage: styled.img`
-    width: 55px;
-    height: 55px;
-    border: solid 1px ${styleColor.GRAY[200]};
-    border-radius: 70%;
-    object-fit: cover;
   `,
   UserInfoWrap: styled.div`
     width: 45%;

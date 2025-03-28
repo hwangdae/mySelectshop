@@ -1,21 +1,22 @@
-"use client";
-import Chat from "@/components/chat/Chat";
-import Contacts from "@/components/chat/Contacts";
-import { styleColor } from "@/styles/styleColor";
+'use client'
+import React, { useState } from "react";
 import { TUserWithChat } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import Contacts from "@/components/chat/Contacts";
+import Chat from "@/components/chat/Chat";
 import styled from "styled-components";
+import { styleColor } from "@/styles/styleColor";
+import { useSession } from "next-auth/react";
 
 const ChatPage = () => {
-  const { data: userData } = useSession();
   const [receiver, setReceiver] = useState({
     receiverId: "",
     receiverName: "",
     receiverImage: "",
   });
+  const {data : userData} = useSession()
+
   const { data: users } = useQuery({
     queryKey: ["chat"],
     queryFn: async () => {
@@ -25,9 +26,8 @@ const ChatPage = () => {
     refetchInterval: 1000,
   });
   const currentUserWithMessage = users?.find(
-    (user: TUserWithChat) => user.email === userData?.user?.email
+    (user: TUserWithChat) => user.id === userData?.user?.id
   );
-
   return (
     <S.ChatContainer>
       <S.chatInner>
@@ -39,7 +39,7 @@ const ChatPage = () => {
           />
         </S.MessageListContainer>
         <S.conversationContainer>
-          <Chat currentUser={userData?.user} receiver={receiver} />
+          <Chat currentUser={currentUserWithMessage} receiver={receiver} />
         </S.conversationContainer>
       </S.chatInner>
     </S.ChatContainer>
@@ -50,7 +50,7 @@ export default ChatPage;
 
 const S = {
   ChatContainer: styled.main`
-    width: 1000px;
+    width: 900px;
     height: 500px;
   `,
   chatInner: styled.div`
@@ -63,5 +63,7 @@ const S = {
     height: 100%;
     background-color: ${styleColor.GRAY[100]};
   `,
-  conversationContainer: styled.section``,
+  conversationContainer: styled.section`
+    width: 65%;
+  `,
 };

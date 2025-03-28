@@ -14,7 +14,7 @@ import useToggle from "@/hook/useToggle";
 import { registerSignUpSchema } from "@/validators/auth";
 import CommonSpinner from "@/components/ui/CommonSpinner";
 
-const RegisterContainer = () => {
+const Register = () => {
   const [showPassword, handlePasswordToggle] = useToggle(false);
   const [showCheckPassword, handleCheckPasswordToggle] = useToggle(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -165,11 +165,15 @@ const RegisterContainer = () => {
   );
 };
 
-export default RegisterContainer;
+export default Register;
 
 const S = {
-  SignUpContainer: styled.div``,
-  SignUpInner: styled.div``,
+  SignUpContainer: styled.div`
+    width: 430px;
+  `,
+  SignUpInner: styled.div`
+  padding: 30px;
+  `,
   SignUpTitle: styled.h1`
     font-size: 30px;
     line-height: 50px;

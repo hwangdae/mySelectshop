@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
-import ImageUploadContainer from "./ImageUploadContainer";
+import ImageUpload from "./ImageUpload";
 import { signOut, useSession } from "next-auth/react";
 import { uploadImage } from "@/utils/uploadImage";
 import axios from "axios";
@@ -15,7 +15,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import Input from "../ui/Input";
 import CommonSpinner from "../ui/CommonSpinner";
 
-const ProfileUpdateContainer = () => {
+const ProfileUpdate = () => {
   const [previewProfileImage, setPreviewProfileImage] = useState<
     string | ArrayBuffer | null
   >("");
@@ -74,7 +74,7 @@ const ProfileUpdateContainer = () => {
           onSubmit={handleSubmit(profileUpdateHandleSubmit)}
         >
           <S.ProfileContents>
-            <ImageUploadContainer
+            <ImageUpload
               previewProfileImage={previewProfileImage}
               setPreviewProfileImage={setPreviewProfileImage}
               setValue={setValue}
@@ -105,7 +105,7 @@ const ProfileUpdateContainer = () => {
   );
 };
 
-export default ProfileUpdateContainer;
+export default ProfileUpdate;
 
 const S = {
   ProfileUpdateContainer: styled.div`

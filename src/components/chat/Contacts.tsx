@@ -1,6 +1,5 @@
 import { TUserWithChat } from "@/types";
 import React from "react";
-import UserContainer from "../common/UserContainer";
 import User from "./User";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
@@ -17,6 +16,7 @@ interface PropsType {
 }
 
 const Contacts = ({ users, currentUser, setReceiver }: PropsType) => {
+  
   const filterMessages = (id: string, name: string, image: string | null) => {
     setReceiver({
       receiverId: id,
@@ -51,11 +51,12 @@ export default Contacts;
 
 const S = {
   ContactsContainer: styled.div`
-    padding: 16px 16px;
+    padding: 16px 0px;
     h1 {
       ${styleFont.title.tit_lg};
       color: ${styleColor.GRAY[600]};
       letter-spacing: 0.8px;
+      padding: 0px 16px;
       margin-bottom: 20px;
     }
   `,
@@ -66,10 +67,10 @@ const S = {
     }
     li {
       cursor: pointer;
-      padding: 10px 5px;
+      padding: 16px 16px;
     }
     li:hover {
-      /* background-color: #fff; */
+      background-color: #fff;
     }
   `,
 };

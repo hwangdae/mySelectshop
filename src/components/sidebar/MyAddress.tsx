@@ -5,7 +5,7 @@ import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import { myAddressStore, myLocationStore } from "@/globalState";
 
-const MyAddressContainer = () => {
+const MyAddress = () => {
   const { center } = myLocationStore();
   const { myAddress, setMyAddress } = myAddressStore();
 
@@ -46,7 +46,7 @@ const MyAddressContainer = () => {
   );
 };
 
-export default MyAddressContainer;
+export default MyAddress;
 
 const S = {
   MyAddress: styled.div`

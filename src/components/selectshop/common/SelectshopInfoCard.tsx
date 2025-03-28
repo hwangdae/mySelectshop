@@ -14,7 +14,7 @@ interface PropsType {
   type?: string;
 }
 
-const SelectshopInfoContainer = ({ selectshop, type }: PropsType) => {
+const SelectshopInfoCard = ({ selectshop, type }: PropsType) => {
   const { id, place_name, address_name, phone, distance, x, y } = selectshop;
   const { searchTerm } = searchTermStore();
   const { data: userData } = useSession();
@@ -101,7 +101,7 @@ const SelectshopInfoContainer = ({ selectshop, type }: PropsType) => {
   );
 };
 
-export default SelectshopInfoContainer;
+export default SelectshopInfoCard;
 
 const S = {
   SelectshopContainer: styled.div`

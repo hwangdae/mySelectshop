@@ -14,7 +14,7 @@ interface PropsType {
   isMutualFollow?: () => void;
 }
 
-const FollowContainer = ({ id, isMutualFollow }: PropsType) => {
+const Follow = ({ id, isMutualFollow }: PropsType) => {
   const { data: userData } = useSession();
   const { openModal } = useModal();
   const { followMutate } = useFollowMutate(id, userData?.user?.id);
@@ -66,7 +66,7 @@ const FollowContainer = ({ id, isMutualFollow }: PropsType) => {
   );
 };
 
-export default FollowContainer;
+export default Follow;
 
 const S = {
   FollowContainer: styled.div`

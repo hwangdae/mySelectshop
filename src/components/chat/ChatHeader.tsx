@@ -3,37 +3,45 @@ import { styleFont } from "@/styles/styleFont";
 import { fromNow } from "@/utils/fromNow";
 import React from "react";
 import styled from "styled-components";
+import ProfileImage from "../ui/ProfileImage";
 
-const ChatHeader = () => {
+interface PropsType {
+  receiverName: string;
+  receiverImage: string;
+  lastMessageTime: Date | undefined;
+}
+
+const ChatHeader = ({
+  receiverName,
+  receiverImage,
+  lastMessageTime,
+}: PropsType) => {
   return (
-    <div>
+    <S.ChatHeader>
       <S.UserInfoWrapper>
-        <S.ProfileImage src={""} />
+        <ProfileImage src={receiverImage} width={"44px"} height={"44px"}/>
         <div>
-          <S.UserName>aaaa</S.UserName>
+          <S.UserName>{receiverName}</S.UserName>
         </div>
         <div>
           <S.LastMessageTime>1시간 전</S.LastMessageTime>
-          {/* {latestMessage && <p>{fromNow(latestMessage.createAt)}</p>} */}
+          {lastMessageTime && <p>{fromNow(lastMessageTime)}</p>}
         </div>
       </S.UserInfoWrapper>
-    </div>
+    </S.ChatHeader>
   );
 };
 
 export default ChatHeader;
 
 const S = {
+  ChatHeader: styled.div`
+    background-color: ${styleColor.INDIGO.main};
+  `,
   UserInfoWrapper: styled.div`
+    padding: 10px;
     display: flex;
     gap: 8px;
-  `,
-  ProfileImage: styled.img`
-    width: 44px;
-    height: 44px;
-    border: solid 1px ${styleColor.GRAY[200]};
-    border-radius: 70%;
-    object-fit: cover;
   `,
   UserName: styled.p`
     ${styleFont.text.txt_sm}

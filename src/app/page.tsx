@@ -1,9 +1,9 @@
 "use client";
-import ContentsContainer from "@/components/sidebar/ContentsContainer";
+import Contents from "@/components/sidebar/Contents";
 import styled from "styled-components";
 
 export default function Home() {
-  return <ContentsContainer />;
+  return <Contents />;
 }
 
 const S = {

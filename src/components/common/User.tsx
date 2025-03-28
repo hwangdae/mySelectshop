@@ -1,31 +1,33 @@
 import React from "react";
-import FollowContainer from "./FollowContainer";
+import Follow from "./Follow";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { TUser } from "@/types/user";
+import ProfileImage from "../ui/ProfileImage";
 
 interface PropsType {
   user: TUser;
   type: string;
   isMutualFollow?: () => void;
 }
-const UserContainer = ({ user, type, isMutualFollow }: PropsType) => {
+const User = ({ user, type, isMutualFollow }: PropsType) => {
   return (
     <S.UserContainer $type={type}>
       <S.UserInfo>
-        <S.ProfileImage
+        <ProfileImage
           src={user?.image || "/images/basicUserImage.png"}
-          alt="유저 이미지"
+          width={"32px"}
+          height={"32px"}
         />
         <S.UserName $type={type}>{user?.name}</S.UserName>
       </S.UserInfo>
-      <FollowContainer id={user?.id} isMutualFollow={isMutualFollow} />
+      <Follow id={user?.id} isMutualFollow={isMutualFollow} />
     </S.UserContainer>
   );
 };
 
-export default UserContainer;
+export default User;
 
 const S = {
   UserContainer: styled.div<{ $type: string }>`
@@ -39,13 +41,6 @@ const S = {
     display: flex;
     align-items: center;
     gap: 5px;
-  `,
-  ProfileImage: styled.img`
-    width: 32px;
-    height: 32px;
-    border: solid 1px ${styleColor.GRAY[200]};
-    border-radius: 70%;
-    object-fit: cover;
   `,
   UserName: styled.p<{ $type: string }>`
     ${styleFont.text.txt_sm}

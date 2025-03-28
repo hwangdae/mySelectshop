@@ -9,7 +9,7 @@ import Search from "@/assets/Search.svg";
 import { useModal } from "@/context/ModalContext";
 import { searchTermStore, showFollowListStore } from "@/globalState";
 
-const HeaderContainer = () => {
+const Header = () => {
   const { searchTerm, setSearchTerm } = searchTermStore();
   const { setShowFollowListToggle } = showFollowListStore();
   const router = useRouter();
@@ -61,7 +61,7 @@ const HeaderContainer = () => {
   );
 };
 
-export default HeaderContainer;
+export default Header;
 
 const S = {
   HeaderContainer: styled.div`

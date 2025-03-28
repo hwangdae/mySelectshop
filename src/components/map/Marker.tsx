@@ -12,7 +12,7 @@ interface PropsType {
   index: number;
 }
 
-const MarkerContainer = ({ selectshop, index }: PropsType) => {
+const Marker = ({ selectshop, index }: PropsType) => {
   const { id, place_name, x, y } = selectshop;
   const position = { lat: y, lng: x };
 
@@ -36,7 +36,7 @@ const MarkerContainer = ({ selectshop, index }: PropsType) => {
   );
 };
 
-export default MarkerContainer;
+export default Marker;
 
 const S = {
   MarkerContainer: styled.div`

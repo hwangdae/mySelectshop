@@ -1,14 +1,14 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import MyAddressContainer from "./MyAddressContainer";
-import ProfileContainer from "../profile/ProfileContainer";
+import MyAddress from "./MyAddress";
+import Profile from "../profile/Profile";
 import { useSession } from "next-auth/react";
-import ShowFollowContainer from "./ShowFollowContainer";
+import ShowFollow from "./ShowFollow";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import { myLocationStore, showFollowListStore } from "@/globalState";
 import { useModal } from "@/context/ModalContext";
+import { useRouter } from "next/navigation";
 
 const CONTENTSTABNAV = [
   { id: "nearbySelectshop", name: "편집샵 보기" },
@@ -17,30 +17,32 @@ const CONTENTSTABNAV = [
   { id: "bestReviewer", name: "베스트 리뷰어" },
 ];
 
-const ContentsContainer = () => {
+const Contents = () => {
+  const router = useRouter();
   const { showFollowListToggle } = showFollowListStore();
   const { data: session } = useSession();
-  const router = useRouter();
   const { center } = myLocationStore();
   const { lat, lng } = center;
   useInitializeMapState(lat, lng);
-  const {openModal} = useModal()
+  const { openModal } = useModal();
 
   const viewSelectshopHandle = (id: string) => {
-    if (id !== "nearbySelectshop" && id !== "bestReviewer" && !session) {
+    if (!session && id !== "nearbySelectshop" && id !== "bestReviewer") {
       alert("로그인이 필요한 서비스입니다.");
+      openModal("login");
+    } else {
+      router.push(`${id}`);
     }
-    router.push(`/${id}`);
   };
 
   return (
     <S.ContentsContainer>
-      <ProfileContainer />
+      <Profile />
       {showFollowListToggle ? (
-        <ShowFollowContainer />
+        <ShowFollow />
       ) : (
         <>
-          <MyAddressContainer />
+          <MyAddress />
           <S.ContentsInner>
             {CONTENTSTABNAV.map((content) => {
               return (
@@ -51,7 +53,7 @@ const ContentsContainer = () => {
                   >
                     {content.name}
                   </S.ContentButton>
-                  <button onClick={() => openModal('chat')}>asd</button>
+                  <button onClick={() => openModal("chat")}>asd</button>
                 </S.Content>
               );
             })}
@@ -62,7 +64,7 @@ const ContentsContainer = () => {
   );
 };
 
-export default ContentsContainer;
+export default Contents;
 
 const S = {
   ContentsContainer: styled.div`

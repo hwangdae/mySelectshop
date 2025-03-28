@@ -4,7 +4,7 @@ import { styleFont } from "@/styles/styleFont";
 import React from "react";
 import styled from "styled-components";
 
-const NoSearchResultContainer = () => {
+const NoSearchResult = () => {
   const { searchTerm } = searchTermStore();
 
   return (
@@ -15,7 +15,7 @@ const NoSearchResultContainer = () => {
   );
 };
 
-export default NoSearchResultContainer;
+export default NoSearchResult;
 
 const S = {
   NoSearchResult: styled.div`

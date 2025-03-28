@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import SelectshopReviewContainer from "./SelectshopReviewContainer";
+import SelectshopReview from "./SelectshopReview";
 import { useQuery } from "@tanstack/react-query";
 import { styleFont } from "@/styles/styleFont";
 import AllReview from "./AllReview";
@@ -10,15 +10,15 @@ import useInitializeMapState from "@/hook/useInitializeMapState";
 import { useSession } from "next-auth/react";
 import { getReviewsBySelectshop } from "@/lib/review";
 import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
-import WriteReviewContainer from "@/components/reviewEditor/ReviewEditorContainer";
-import MyReviewContainer from "@/components/common/MyReviewContainer";
+import WriteReviewContainer from "@/components/reviewEditor/ReviewEditor";
+import MyReview from "@/components/common/MyReview";
 import { TPlace, TReview } from "@/types";
 
 interface PropsType {
   selectshop: TPlace;
 }
 
-const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
+const SelectshopDetail = ({ selectshop }: PropsType) => {
   const { id, place_name, x, y } = selectshop;
   const { data: userData } = useSession();
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
@@ -77,13 +77,13 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
           setIsWriteReviewOpen={setIsWriteReviewOpen}
         />
       ) : myReview ? (
-        <MyReviewContainer
+        <MyReview
           review={myReview}
           isEditReview={isEditReview}
           setIsEditReview={setIsEditReview}
         />
       ) : (
-        <SelectshopReviewContainer
+        <SelectshopReview
           onWriteReviewClick={() => setIsWriteReviewOpen(true)}
         />
       )}
@@ -98,7 +98,7 @@ const SelectshopDetailInfoContainer = ({ selectshop }: PropsType) => {
   );
 };
 
-export default SelectshopDetailInfoContainer;
+export default SelectshopDetail;
 
 const S = {
   DetailContainer: styled.div`

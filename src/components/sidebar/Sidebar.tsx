@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import HeaderContainer from "./HeaderContainer";
-import ContentsContainer from "./ContentsContainer";
+import Header from "./Header";
+import Contents from "./Contents";
 import { usePathname, useRouter } from "next/navigation";
 import VisitedSelectshopPage from "@/app/visitedSelectshop/page";
 import NearbySelectshopPage from "@/app/nearbySelectshop/page";
@@ -22,14 +22,14 @@ const Sidebar = () => {
       case "/bestReviewer":
         return <BestReviewerPage />;
       default:
-        return <ContentsContainer />;
+        return <Contents />;
     }
   };
 
   return (
     <S.SideContainer>
       <S.StyleHeader>
-        <HeaderContainer />
+        <Header />
       </S.StyleHeader>
       <S.StyleContent>{renderContent()}</S.StyleContent>
     </S.SideContainer>

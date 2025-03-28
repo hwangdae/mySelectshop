@@ -4,8 +4,8 @@ import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import UserProfileContainer from "./UserProfileContainer";
-import ReviewListContainer from "./ReviewListContainer";
+import UserProfile from "./UserProfile";
+import ReviewList from "./ReviewList";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import { getBestReviewers } from "@/lib/bestReviewers";
 import { TBestReviewer } from "@/types";
@@ -20,7 +20,7 @@ const BestReviewer = () => {
     queryKey: ["bestReviewers"],
     queryFn: getBestReviewers,
   });
-  console.log(bestReviewers, "aa");
+
   useEffect(() => {
     searchAllPlaces();
   }, []);
@@ -58,12 +58,12 @@ const BestReviewer = () => {
                         key={bestReviewer.id}
                         onClick={() => setActiveuserId(bestReviewer.id)}
                       >
-                        <UserProfileContainer
+                        <UserProfile
                           user={bestReviewer}
                           index={index}
                         />
                         {activeUserId === bestReviewer.id && (
-                          <ReviewListContainer
+                          <ReviewList
                             user={bestReviewer}
                             selectshops={selectshops}
                           />

@@ -5,8 +5,8 @@ import styled from "styled-components";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
 import CommonSwiper from "../ui/CommonSwiper";
-import WriteReviewContainer from "../reviewEditor/ReviewEditorContainer";
 import { TReview } from "@/types";
+import ReviewEditor from "../reviewEditor/ReviewEditor";
 
 interface PropsType {
   review: TReview | undefined;
@@ -16,14 +16,13 @@ interface PropsType {
   setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MyReviewContainer = ({
+const MyReview = ({
   review,
   nickName,
   type,
   isEditReview,
   setIsEditReview,
 }: PropsType) => {
-
   if (!review) return;
 
   const {
@@ -38,7 +37,7 @@ const MyReviewContainer = ({
   useInitializeMapState(shopInfo!.y, shopInfo!.x);
 
   return isEditReview ? (
-    <WriteReviewContainer
+    <ReviewEditor
       type={"edit"}
       prevReview={review}
       setIsEditReview={setIsEditReview}
@@ -84,7 +83,7 @@ const MyReviewContainer = ({
   );
 };
 
-export default MyReviewContainer;
+export default MyReview;
 
 const S = {
   MyReviewContainer: styled.div`

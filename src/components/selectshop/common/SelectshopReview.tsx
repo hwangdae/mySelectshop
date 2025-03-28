@@ -2,7 +2,6 @@ import { useModal } from "@/context/ModalContext";
 import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 
@@ -10,9 +9,8 @@ interface PropsType {
   onWriteReviewClick: () => void;
 }
 
-const SelectshopReviewContainer = ({ onWriteReviewClick }: PropsType) => {
+const SelectshopReview = ({ onWriteReviewClick }: PropsType) => {
   const { data: userData } = useSession();
-  const router = useRouter();
   const { openModal } = useModal();
 
   return (
@@ -38,7 +36,7 @@ const SelectshopReviewContainer = ({ onWriteReviewClick }: PropsType) => {
   );
 };
 
-export default SelectshopReviewContainer;
+export default SelectshopReview;
 
 const S = {
   SelectshopReviewContainer: styled.div`

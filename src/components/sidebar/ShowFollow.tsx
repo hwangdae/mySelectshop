@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import UserContainer from "../common/UserContainer";
+import User from "../common/User";
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
@@ -17,7 +17,7 @@ interface TTab {
   count: number | undefined;
 }
 
-const ShowFollowContainer = () => {
+const ShowFollow = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const followTab = searchParams?.get("follow");
@@ -91,7 +91,7 @@ const ShowFollowContainer = () => {
             {followerList?.map((user: TUser) => {
               return (
                 <li key={user.id}>
-                  <UserContainer
+                  <User
                     user={user}
                     type={"follow"}
                     isMutualFollow={() => isMutualFollow()}
@@ -111,7 +111,7 @@ const ShowFollowContainer = () => {
           {followingList?.map((user: TUser) => {
             return (
               <li key={user.id}>
-                <UserContainer user={user} type={"follow"} />
+                <User user={user} type={"follow"} />
               </li>
             );
           })}
@@ -126,7 +126,7 @@ const ShowFollowContainer = () => {
   );
 };
 
-export default ShowFollowContainer;
+export default ShowFollow;
 
 const S = {
   ShowFollowContainer: styled.div`

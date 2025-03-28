@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { getUserDetails } from "@/lib/register";
-import UserContainer from "@/components/common/UserContainer";
+import User from "@/components/common/User";
 import Tags from "@/components/common/Tags";
 import { TReview } from "@/types";
 
@@ -25,7 +25,7 @@ const AllReview = ({ review, id }: PropsType) => {
     <>
       {selectshopId === id ? (
         <S.ReviewWrap>
-          <UserContainer user={user} type={"allReview"} />
+          <User user={user} type={"allReview"} />
           <S.ReviewDescription>{description}</S.ReviewDescription>
           <Tags tags={tags} type={"allReview"} />
         </S.ReviewWrap>

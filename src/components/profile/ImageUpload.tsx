@@ -14,7 +14,7 @@ interface PropsType {
   setValue: UseFormSetValue<FieldValues>;
 }
 
-const ImageUploadContainer = ({
+const ImageUpload = ({
   previewProfileImage,
   setPreviewProfileImage,
   setValue,
@@ -68,7 +68,7 @@ const ImageUploadContainer = ({
   );
 };
 
-export default ImageUploadContainer;
+export default ImageUpload;
 
 const S = {
   ProfileImageContainer: styled.div`

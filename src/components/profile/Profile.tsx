@@ -7,8 +7,9 @@ import ProfileUpdate from "@/assets/ProfileUpdate.svg";
 import UserActivity from "./UserActivity";
 import { useSession } from "next-auth/react";
 import { useModal } from "@/context/ModalContext";
+import ProfileImage from "../ui/ProfileImage";
 
-const ProfileContainer = () => {
+const Profile = () => {
   const { data: userData } = useSession();
   const { openModal } = useModal();
 
@@ -19,12 +20,14 @@ const ProfileContainer = () => {
           <S.UserNickName>안녕하세요 {userData.user?.name}님 👋</S.UserNickName>
           <S.ProfileInfoContainer>
             <S.ProfileImageContainer>
-              <S.ProfileImage
+              <ProfileImage
                 src={
                   userData.user?.image
                     ? `${userData.user?.image}`
                     : "/images/basicUserImage.png"
                 }
+                width={"60px"}
+                height={"60px"}
               />
               <S.ProfileUpdateButton onClick={() => openModal("profile")}>
                 <ProfileUpdate
@@ -45,7 +48,7 @@ const ProfileContainer = () => {
   );
 };
 
-export default ProfileContainer;
+export default Profile;
 
 const S = {
   ProfileContainer: styled.div`
@@ -64,13 +67,6 @@ const S = {
     position: relative;
     left: 0;
     top: 0;
-  `,
-  ProfileImage: styled.img`
-    width: 60px;
-    height: 60px;
-    border: solid 1px ${styleColor.GRAY[200]};
-    border-radius: 70%;
-    object-fit: cover;
   `,
   ProfileUpdateButton: styled.button`
     cursor: pointer;

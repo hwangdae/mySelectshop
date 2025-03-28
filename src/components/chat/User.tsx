@@ -4,13 +4,13 @@ import { TConversation, TUserWithChat } from "@/types";
 import { fromNow } from "@/utils/fromNow";
 import React from "react";
 import styled from "styled-components";
+import ProfileImage from "../ui/ProfileImage";
 
 interface PropsType {
   user: TUserWithChat;
   currentUserId: string;
 }
 const User = ({ user, currentUserId }: PropsType) => {
-  console.log(user);
 
   const messagesWithCurentUser = user.conversations.find(
     (conversation: TConversation) =>
@@ -22,7 +22,7 @@ const User = ({ user, currentUserId }: PropsType) => {
   return (
     <S.UserContainer>
       <S.UserInfoWrapper>
-        <S.ProfileImage src={user.image || ""} />
+        <ProfileImage src={user.image || ""} width={"44px"} height={"44px"}/>
         <div>
           <S.UserName>{user.name}</S.UserName>
           <S.LatestMessage>
@@ -51,13 +51,6 @@ const S = {
   UserInfoWrapper: styled.div`
     display: flex;
     gap: 8px;
-  `,
-  ProfileImage: styled.img`
-    width: 44px;
-    height: 44px;
-    border: solid 1px ${styleColor.GRAY[200]};
-    border-radius: 70%;
-    object-fit: cover;
   `,
   UserName: styled.p`
     ${styleFont.text.txt_sm}

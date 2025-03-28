@@ -11,7 +11,7 @@ interface PropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   prevReview: string | null | undefined;
 }
 
-const WriteReviewInputImage = ({
+const EditorReviewInputImage = ({
   files,
   setFiles,
   prevReview,
@@ -79,7 +79,7 @@ const WriteReviewInputImage = ({
   );
 };
 
-export default WriteReviewInputImage;
+export default EditorReviewInputImage;
 
 const S = {
   Label: styled.label`

@@ -1,10 +1,10 @@
 import { styleFont } from "@/styles/styleFont";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ReviewContainer from "./ReviewContainer";
+import Review from "./Review";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
 import { styleColor } from "@/styles/styleColor";
-import MyReviewContainer from "../common/MyReviewContainer";
+import MyReview from "../common/MyReview";
 import { TBestReviewer, TPlace, TReview } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
 
@@ -13,7 +13,7 @@ interface PropsType {
   selectshops: TPlace[];
 }
 
-const ReviewListContainer = ({ user, selectshops }: PropsType) => {
+const ReviewList = ({ user, selectshops }: PropsType) => {
   const { name, reviews } = user;
   const [detailReview, setDetailReview] = useState<TReview>();
   const [isReviewOpen, setIsReviewOpen] = useState(false);
@@ -25,7 +25,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
       (selectshop: TPlace) => selectshop.id === review.selectshopId
     );
   });
-  console.log(filteredReviews);
+
   const reviewsWithShopInfo = filteredReviews?.map((review: TReview) => {
     const shopInfo = selectshops.find(
       (shop) => shop.id === review.selectshopId
@@ -76,7 +76,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
         </S.TitleWrap>
       )}
       {isReviewOpen ? (
-        <MyReviewContainer review={detailReview} nickName={name} />
+        <MyReview review={detailReview} nickName={name} />
       ) : (
         <S.ReviewListWrap>
           {reviewsWithShopInfo?.map((review: TReview) => {
@@ -88,7 +88,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
                   setIsReviewOpen(true);
                 }}
               >
-                <ReviewContainer key={review.selectshopId} review={review} />
+                <Review key={review.selectshopId} review={review} />
               </li>
             );
           })}
@@ -98,7 +98,7 @@ const ReviewListContainer = ({ user, selectshops }: PropsType) => {
   );
 };
 
-export default ReviewListContainer;
+export default ReviewList;
 
 const S = {
   ReviewListContainer: styled.div`

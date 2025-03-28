@@ -1,15 +1,15 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import SelectshopInfoContainer from "../nearbySelectshop/SelectshopInfoContainer";
-import SelectshopDetailInfoContainer from "../nearbySelectshop/SelectshopDetailInfoContainer";
+import SelectshopInfoCard from "../common/SelectshopInfoCard";
+import SelectshopDetail from "../common/SelectshopDetail";
 import useKakaoSearch from "@/hook/useKakaoSearch";
 import { useQuery } from "@tanstack/react-query";
-import NoSearchResultContainer from "../../common/NoSearchResultContainer";
+import NoSearchResult from "../../common/NoSearchResult";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import { getPaginatedItems } from "@/utils/pagenate";
-import CustomPaginationContainer from "../../common/CustomPaginationContainer";
+import CustomPagination from "../../common/CustomPagination";
 import { useSession } from "next-auth/react";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
@@ -68,21 +68,21 @@ const NotVisiteSelectshop = () => {
               key={selectshop.id}
               onClick={() => setActiveShopId(selectshop.id)}
             >
-              <SelectshopInfoContainer selectshop={selectshop} />
+              <SelectshopInfoCard selectshop={selectshop} />
               {activeShopId === selectshop.id && (
-                <SelectshopDetailInfoContainer selectshop={selectshop} />
+                <SelectshopDetail selectshop={selectshop} />
               )}
             </li>
           ))}
         </S.SearchResultsInner>
       ) : (
-        <NoSearchResultContainer />
+        <NoSearchResult />
       )}
 
       {currentItems.length < 15 ? (
         ""
       ) : (
-        <CustomPaginationContainer
+        <CustomPagination
           selectshops={notVisitedSelectshops}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

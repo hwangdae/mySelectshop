@@ -8,7 +8,7 @@ interface PropsType {
   review: TReview;
 }
 
-const ReviewContainer = ({ review }: PropsType) => {
+const Review = ({ review }: PropsType) => {
   const { reviewImages, description, shopInfo } = review;
 
   return (
@@ -37,7 +37,7 @@ const ReviewContainer = ({ review }: PropsType) => {
   );
 };
 
-export default ReviewContainer;
+export default Review;
 
 const S = {
   ReviewContainer: styled.div`

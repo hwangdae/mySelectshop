@@ -2,11 +2,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import useKakaoSearch from "@/hook/useKakaoSearch";
-import SelectshopInfoContainer from "./SelectshopInfoContainer";
-import SelectshopDetailInfoContainer from "./SelectshopDetailInfoContainer";
+import SelectshopInfoCard from "../common/SelectshopInfoCard";
+import SelectshopDetail from "../common/SelectshopDetail";
 import useDebounce from "@/hook/useDebounce";
-import NoSearchResultContainer from "@/components/common/NoSearchResultContainer";
-import PaginationContainer from "@/components/common/PaginationContainer";
+import NoSearchResult from "@/components/common/NoSearchResult";
+import Pagination from "@/components/common/Pagination";
 import { TPlace } from "@/types";
 import { searchTermStore } from "@/globalState";
 
@@ -47,19 +47,19 @@ const NearbySelectshop = () => {
                 setActiveShopId(selectshop.id);
               }}
             >
-              <SelectshopInfoContainer selectshop={selectshop} />
+              <SelectshopInfoCard selectshop={selectshop} />
               {activeShopId === selectshop.id && (
-                <SelectshopDetailInfoContainer selectshop={selectshop} />
+                <SelectshopDetail selectshop={selectshop} />
               )}
             </li>
           ))}
         </S.SearchResultsInner>
       ) : (
-        <NoSearchResultContainer />
+        <NoSearchResult />
       )}
 
       {filteredShops.length < 15 && (
-        <PaginationContainer
+        <Pagination
           pagination={pagination}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}

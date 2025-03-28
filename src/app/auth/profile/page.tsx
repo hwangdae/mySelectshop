@@ -1,9 +1,9 @@
-import ProfileUpdateContainer from '@/components/profile/ProfileUpdateContainer'
+import ProfileUpdate from '@/components/profile/ProfileUpdater'
 import React from 'react'
 
 const UpdateProfilePage = () => {
   return (
-    <ProfileUpdateContainer/>
+    <ProfileUpdate/>
   )
 }
 

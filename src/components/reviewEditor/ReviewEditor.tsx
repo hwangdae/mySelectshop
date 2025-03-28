@@ -17,8 +17,8 @@ import { useSession } from "next-auth/react";
 import { uploadImagesFn } from "@/utils/uploadImages";
 import CommonSpinner from "../ui/CommonSpinner";
 import useReview from "@/hook/mutate/review/useReview";
-import WriteReviewInputImage from "./InputImage";
 import { TReviewFormData, TNewReview, TReview } from "@/types";
+import EditorReviewInputImage from "./InputImage";
 
 interface PropsType {
   selectshopId?: string;
@@ -28,7 +28,7 @@ interface PropsType {
   setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ReviewEditorContainer = ({
+const ReviewEditor = ({
   selectshopId,
   setIsWriteReviewOpen,
   type,
@@ -133,7 +133,7 @@ const ReviewEditorContainer = ({
         </S.ReviewEditorTitle>
         <S.ReviewEditorUl>
           <S.InputLiRow>
-            <WriteReviewInputImage
+            <EditorReviewInputImage
               files={files}
               setFiles={setFiles}
               prevReview={prevReview?.reviewImages}
@@ -259,7 +259,7 @@ const ReviewEditorContainer = ({
   );
 };
 
-export default ReviewEditorContainer;
+export default ReviewEditor;
 
 const S = {
   ReviewEditorContainer: styled.div``,

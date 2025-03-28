@@ -13,7 +13,7 @@ import Input from "@/components/ui/Input";
 import CommonSpinner from "@/components/ui/CommonSpinner";
 import { useModal } from "@/context/ModalContext";
 
-const LoginContainer = () => {
+const Login = () => {
   const [isLoading, setIsloading] = useState(false);
   const { openModal, closeModal } = useModal();
 
@@ -36,7 +36,7 @@ const LoginContainer = () => {
         ...body,
         redirect: false,
       });
-      console.log(res)
+
       if (res?.error) {
         alert(
           "아이디 또는 비밀번호가 잘못 되었습니다.\n아이디와 비밀번호를 정확히 입력해 주세요."
@@ -115,7 +115,7 @@ const LoginContainer = () => {
   );
 };
 
-export default LoginContainer;
+export default Login;
 
 const S = {
   LoginContainer: styled.div`

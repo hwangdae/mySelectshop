@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { useSession } from "next-auth/react";
-import MarkerContainer from "./MarkerContainer";
+import Marker from "./Marker";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import { getReview } from "@/lib/review";
@@ -47,7 +47,7 @@ const RenderMarkers = () => {
   return (
     <>
       {renderContent().map((selectshop: TPlace, index: number) => (
-        <MarkerContainer
+        <Marker
           key={selectshop.id}
           selectshop={selectshop}
           index={index}

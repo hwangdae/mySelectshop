@@ -1,5 +1,5 @@
 "use client";
-import HeaderContainer from "@/components/sidebar/HeaderContainer";
+import Header from "@/components/sidebar/Header";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import styled from "styled-components";
@@ -26,7 +26,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
             <S.Container>
               <S.SideContainer>
                 <S.StyleHeader>
-                  <HeaderContainer />
+                  <Header />
                 </S.StyleHeader>
                 <S.StyleContent>{children}</S.StyleContent>
                 <GlobalModal />
