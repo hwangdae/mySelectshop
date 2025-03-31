@@ -4,6 +4,8 @@ import ImageUpload from "@/assets/ImageUpload.svg";
 import axios from "axios";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
+import { postChat } from "@/lib/chat";
+import useChatMutate from "@/hook/mutate/chat/useChat";
 
 interface PropsType {
   receiverId: string;
@@ -12,19 +14,22 @@ interface PropsType {
 
 const Input = ({ receiverId, currentUserId }: PropsType) => {
   const [message, setMessage] = useState<string>("");
+  const { chatMutate } = useChatMutate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const imageUrl = "";
+    const newChat = {
+      text: message,
+      image: imageUrl,
+      receiverId: receiverId,
+      senderId: currentUserId,
+    };
     if (message || imageUrl) {
       try {
-        await axios.post("/api/chat", {
-          text: message,
-          image: imageUrl,
-          receiverId: receiverId,
-          senderId: currentUserId,
-        });
+        chatMutate.mutate(newChat);
+        setMessage("")
       } catch (error) {
         console.log(error);
       }
@@ -72,6 +77,7 @@ const S = {
     border: solid 1px ${styleColor.GRAY[200]};
     border-radius: 4px;
     outline: none;
+    background-color: ${styleColor.WHITE};
   `,
   ChatInput: styled.input`
     width: 100%;

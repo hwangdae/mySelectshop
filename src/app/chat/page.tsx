@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { TUserWithChat } from "@/types";
 import { useQuery } from "@tanstack/react-query";
@@ -8,26 +8,24 @@ import Chat from "@/components/chat/Chat";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { useSession } from "next-auth/react";
+import { receiverStore } from "@/globalState";
+import { getChat } from "@/lib/chat";
 
 const ChatPage = () => {
-  const [receiver, setReceiver] = useState({
-    receiverId: "",
-    receiverName: "",
-    receiverImage: "",
-  });
-  const {data : userData} = useSession()
+  const { receiver, setReceiver } = receiverStore();
+  console.log(receiver, "asdasdaasdasdasd");
+  const { data: userData } = useSession();
 
   const { data: users } = useQuery({
     queryKey: ["chat"],
-    queryFn: async () => {
-      const res = await axios.get(`/api/chat`);
-      return res.data;
-    },
+    queryFn: getChat,
     refetchInterval: 1000,
   });
+
   const currentUserWithMessage = users?.find(
     (user: TUserWithChat) => user.id === userData?.user?.id
   );
+  
   return (
     <S.ChatContainer>
       <S.chatInner>
@@ -35,6 +33,7 @@ const ChatPage = () => {
           <Contacts
             users={users}
             currentUser={currentUserWithMessage}
+            receiverId={receiver.receiverId}
             setReceiver={setReceiver}
           />
         </S.MessageListContainer>
@@ -61,7 +60,8 @@ const S = {
   MessageListContainer: styled.section`
     width: 35%;
     height: 100%;
-    background-color: ${styleColor.GRAY[100]};
+    background-color: ${styleColor.WHITE};
+    border-right: solid 1px ${styleColor.GRAY[100]};
   `,
   conversationContainer: styled.section`
     width: 65%;

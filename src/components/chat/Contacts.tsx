@@ -8,6 +8,7 @@ import { styleFont } from "@/styles/styleFont";
 interface PropsType {
   users: TUserWithChat[];
   currentUser: TUserWithChat;
+  receiverId: string;
   setReceiver: (receiver: {
     receiverId: string;
     receiverName: string;
@@ -15,8 +16,12 @@ interface PropsType {
   }) => void;
 }
 
-const Contacts = ({ users, currentUser, setReceiver }: PropsType) => {
-  
+const Contacts = ({
+  users,
+  currentUser,
+  receiverId,
+  setReceiver,
+}: PropsType) => {
   const filterMessages = (id: string, name: string, image: string | null) => {
     setReceiver({
       receiverId: id,
@@ -34,12 +39,14 @@ const Contacts = ({ users, currentUser, setReceiver }: PropsType) => {
             .filter((user) => user.id !== currentUser?.id)
             .map((user) => {
               return (
-                <li
+                <S.MessageItem
                   key={user.id}
                   onClick={() => filterMessages(user.id, user.name, user.image)}
+                  $receiverId={receiverId}
+                  $userId={user.id}
                 >
                   <User user={user} currentUserId={currentUser?.id} />
-                </li>
+                </S.MessageItem>
               );
             })}
       </S.MessageList>
@@ -65,12 +72,12 @@ const S = {
     &::-webkit-scrollbar {
       display: none;
     }
-    li {
-      cursor: pointer;
-      padding: 16px 16px;
-    }
-    li:hover {
-      background-color: #fff;
-    }
+  `,
+  MessageItem: styled.li<{ $userId: String; $receiverId: String }>`
+    cursor: pointer;
+    padding: 16px 16px;
+    background-color: ${(props) =>
+      props.$userId === props.$receiverId ? "#f5f5f5" : ""};
+    border-radius: 1px;
   `,
 };

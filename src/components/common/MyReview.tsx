@@ -34,7 +34,7 @@ const MyReview = ({
     shopInfo,
   } = review;
 
-  useInitializeMapState(shopInfo!.y, shopInfo!.x);
+  useInitializeMapState(shopInfo?.y, shopInfo?.x);
 
   return isEditReview ? (
     <ReviewEditor

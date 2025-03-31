@@ -4,7 +4,7 @@ type ModalType = "login" | "signup" | "profile" | "chat" | null;
 
 interface ModalContextProps {
   modalType: ModalType;
-  openModal: (type: ModalType) => void;
+  openModal: (type: ModalType,id?:string) => void;
   closeModal: () => void;
 }
 
@@ -19,7 +19,7 @@ const ModalContext = createContext<ModalContextProps>(defaultContextValue);
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modalType, setModalType] = useState<ModalType>(null);
 
-  const openModal = (type: ModalType) => setModalType(type);
+  const openModal = (type: ModalType,id?:string) => setModalType(type);
   const closeModal = () => setModalType(null);
 
   return (

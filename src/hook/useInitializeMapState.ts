@@ -1,7 +1,7 @@
 import { boundsStore } from "@/globalState";
 import React, { useEffect } from "react";
 
-const useInitializeMapState = (y: number, x: number) => {
+const useInitializeMapState = (y?: number, x?: number) => {
   const { setBounds } = boundsStore();
   useEffect(() => {
     if (

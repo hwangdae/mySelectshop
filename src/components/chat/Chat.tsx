@@ -1,5 +1,5 @@
 import { TUserWithChat } from "@/types";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Input from "./Input";
 import ChatHeader from "./ChatHeader";
 import Message from "./Message";
@@ -15,10 +15,19 @@ interface PropsType {
 }
 
 const Chat = ({ currentUser, receiver }: PropsType) => {
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
-  console.log(conversation, "컨버세이션");
+  const scrollToBottom = () => {
+    messagesEndRef?.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  });
   return (
     <S.ChatContainer>
       <div>
@@ -32,7 +41,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
           }
         />
       </div>
-      <div>
+      <S.Conversation>
         {conversation?.messages.map((message) => {
           return (
             <Message
@@ -45,7 +54,8 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
             />
           );
         })}
-      </div>
+        <div ref={messagesEndRef}></div>
+      </S.Conversation>
       <S.ChatInputContainer>
         <Input
           currentUserId={currentUser?.id}
@@ -71,5 +81,13 @@ const S = {
     position: absolute;
     left: 0;
     bottom: 0;
+  `,
+  Conversation: styled.div`
+    height: calc(100% - 66px - 63px);
+    padding: 10px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 };

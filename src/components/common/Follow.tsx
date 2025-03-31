@@ -43,25 +43,27 @@ const Follow = ({ id, isMutualFollow }: PropsType) => {
 
   return (
     <S.FollowContainer>
-      {userData?.user?.id !== id && (
-        <S.FollowButton
-          $followState={isFollowing}
-          onClick={followButtonHandler}
-        >
-          {isFollowing ? (
-            <S.Following>
-              <Check
-                width={"12px"}
-                height={"12px"}
-                fill={`${styleColor.GREEN.main}`}
-              />
-              팔로잉
-            </S.Following>
-          ) : (
-            <>{isMutualFollow ? <p>맞팔로우</p> : <p>팔로우</p>}</>
-          )}
-        </S.FollowButton>
-      )}
+      <div>
+        {userData?.user?.id !== id && (
+          <S.FollowButton
+            $followState={isFollowing}
+            onClick={followButtonHandler}
+          >
+            {isFollowing ? (
+              <S.Following>
+                <Check
+                  width={"12px"}
+                  height={"12px"}
+                  fill={`${styleColor.GREEN.main}`}
+                />
+                팔로잉
+              </S.Following>
+            ) : (
+              <>{isMutualFollow ? <p>맞팔로우</p> : <p>팔로우</p>}</>
+            )}
+          </S.FollowButton>
+        )}
+      </div>
     </S.FollowContainer>
   );
 };
@@ -70,7 +72,7 @@ export default Follow;
 
 const S = {
   FollowContainer: styled.div`
-    width: 30%;
+    width: 50%;
     height: 100%;
   `,
   FollowButton: styled.button<{ $followState: boolean | null | undefined }>`
@@ -80,7 +82,7 @@ const S = {
     font-weight: 500;
     letter-spacing: -1px;
     color: ${styleColor.WHITE};
-    padding: 7px 0px;
+    padding: 7px 14px;
     border-radius: 4px;
     box-shadow: 0px 0px 5px 1px rgba(124, 124, 124, 0.1);
     background-color: ${(props) =>

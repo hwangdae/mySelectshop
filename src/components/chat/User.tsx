@@ -11,7 +11,6 @@ interface PropsType {
   currentUserId: string;
 }
 const User = ({ user, currentUserId }: PropsType) => {
-
   const messagesWithCurentUser = user.conversations.find(
     (conversation: TConversation) =>
       conversation.users.find((user) => user.id === currentUserId)
@@ -22,19 +21,21 @@ const User = ({ user, currentUserId }: PropsType) => {
   return (
     <S.UserContainer>
       <S.UserInfoWrapper>
-        <ProfileImage src={user.image || ""} width={"44px"} height={"44px"}/>
+        <ProfileImage src={user.image || ""} width={"44px"} height={"44px"} />
         <div>
           <S.UserName>{user.name}</S.UserName>
-          <S.LatestMessage>
-            마지막으로 온 메세지aaaaaaaaaaaaaaaaa
-          </S.LatestMessage>
-          {latestMessage && <p>{latestMessage.text}</p>}
+          {latestMessage && (
+            <S.LatestMessage>{latestMessage.text}</S.LatestMessage>
+          )}
           {latestMessage && latestMessage.image && <p>이미지</p>}
         </div>
       </S.UserInfoWrapper>
       <div>
-        <S.LastMessageTime>1시간 전</S.LastMessageTime>
-        {latestMessage && <p>{fromNow(latestMessage.createAt)}</p>}
+        {latestMessage && (
+          <S.LastMessageTime>
+            {fromNow(latestMessage.createAt)}
+          </S.LastMessageTime>
+        )}
       </div>
     </S.UserContainer>
   );

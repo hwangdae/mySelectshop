@@ -36,7 +36,7 @@ const useKakaoSearch = () => {
       );
     }
   };
-
+ 
   const searchAllPlaces = (
     currentPage: number = 1,
     accumulatedShops: TPlace[] = []
