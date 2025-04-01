@@ -16,15 +16,16 @@ interface PropsType {
 
 const Chat = ({ currentUser, receiver }: PropsType) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
+
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",
     });
   };
-
   useEffect(() => {
     scrollToBottom();
   });

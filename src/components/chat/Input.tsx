@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { postChat } from "@/lib/chat";
 import useChatMutate from "@/hook/mutate/chat/useChat";
+import { useSession } from "next-auth/react";
 
 interface PropsType {
   receiverId: string;
@@ -15,7 +16,9 @@ interface PropsType {
 const Input = ({ receiverId, currentUserId }: PropsType) => {
   const [message, setMessage] = useState<string>("");
   const { chatMutate } = useChatMutate();
-
+    const { data: userData } = useSession();
+  console.log(userData?.user?.id,"현재아이디 11111111111111111")
+  console.log(currentUserId,"현재 아이디")
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

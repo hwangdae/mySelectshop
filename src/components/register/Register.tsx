@@ -13,11 +13,13 @@ import Input from "@/components/ui/Input";
 import useToggle from "@/hook/useToggle";
 import { registerSignUpSchema } from "@/validators/auth";
 import CommonSpinner from "@/components/ui/CommonSpinner";
+import { useModal } from "@/context/ModalContext";
 
 const Register = () => {
   const [showPassword, handlePasswordToggle] = useToggle(false);
   const [showCheckPassword, handleCheckPasswordToggle] = useToggle(false);
   const [isLoading, setIsLoading] = useState(false);
+  const {closeModal} = useModal()
   const router = useRouter();
   const {
     register,
@@ -38,7 +40,7 @@ const Register = () => {
     try {
       await axios.post("/api/register", body);
       alert("회원가입이 완료 되었습니다.");
-      router.push("/");
+      closeModal()
     } catch (err: any) {
       if (err.response?.status === 400) {
         alert(err.response.data.message);

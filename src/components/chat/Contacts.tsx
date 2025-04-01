@@ -30,11 +30,18 @@ const Contacts = ({
     });
   };
 
+  const conversation = currentUser?.conversations?.filter((conversation: any) =>
+    conversation.users.find((user: any) => user.id === receiverId)
+  );
+  console.log(currentUser, "");
+  console.log(users, "유ㅜ저스");
+  console.log(conversation, "대화");
   return (
     <S.ContactsContainer>
       <h1>MESSAGES</h1>
       <S.MessageList>
         {users?.length > 0 &&
+          conversation !== undefined &&
           users
             .filter((user) => user.id !== currentUser?.id)
             .map((user) => {

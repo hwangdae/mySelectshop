@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { TUserWithChat } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Contacts from "@/components/chat/Contacts";
 import Chat from "@/components/chat/Chat";
 import styled from "styled-components";
@@ -13,7 +12,6 @@ import { getChat } from "@/lib/chat";
 
 const ChatPage = () => {
   const { receiver, setReceiver } = receiverStore();
-  console.log(receiver, "asdasdaasdasdasd");
   const { data: userData } = useSession();
 
   const { data: users } = useQuery({
@@ -21,11 +19,11 @@ const ChatPage = () => {
     queryFn: getChat,
     refetchInterval: 1000,
   });
-
+  
   const currentUserWithMessage = users?.find(
     (user: TUserWithChat) => user.id === userData?.user?.id
   );
-  
+  console.log(currentUserWithMessage,"여길 보자")
   return (
     <S.ChatContainer>
       <S.chatInner>

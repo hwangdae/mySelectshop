@@ -53,7 +53,6 @@ const Contents = () => {
                   >
                     {content.name}
                   </S.ContentButton>
-                  <button onClick={() => openModal("chat")}>asd</button>
                 </S.Content>
               );
             })}

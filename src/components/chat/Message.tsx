@@ -23,15 +23,17 @@ const Message = ({
 }: PropsType) => {
   return (
     <div>
-      <S.ReceiverUser $position={senderId === currentUser.id}>
-        <div style={{ display: `${senderId !== currentUser.id && "none"}` }}>
+      <S.ReceiverUser $position={senderId !== currentUser.id}>
+        <div style={{ display: `${senderId === currentUser.id && "none"}` }}>
           <ProfileImage src={receiverImage} width={"44px"} height={"44px"} />
         </div>
         <div>
-          <S.ReceiverName $position={senderId !== currentUser.id}>
+          <S.ReceiverName $position={senderId === currentUser.id}>
             {receiverName}
           </S.ReceiverName>
-          <S.Message>{messageText}</S.Message>
+          <S.Message $position={senderId === currentUser.id}>
+            {messageText}
+          </S.Message>
         </div>
       </S.ReceiverUser>
     </div>
@@ -42,23 +44,26 @@ export default Message;
 
 const S = {
   ReceiverUser: styled.div<{ $position: boolean }>`
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 12px; /* gap-3는 12px */
-  margin: 0 auto;
-    direction: ${(props) => (props.$position ? "ltr" : "rtl")};
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0 auto;
+    justify-content: ${(props) =>
+      props.$position ? "flex-start" : "flex-end"};
     margin-bottom: 10px;
   `,
   ReceiverName: styled.h3<{ $position: boolean }>`
     display: ${(props) => props.$position && "none"};
     margin-bottom: 4px;
   `,
-  Message: styled.p`
+  Message: styled.p<{ $position: boolean }>`
+    display: inline-block;
     ${styleFont.text.txt_md}
     color: ${styleColor.WHITE};
     padding: 10px;
     background-color: ${styleColor.YELLOW.main};
     border-radius: 4px;
     word-break: break-all;
+    text-align: ${(props) => (props.$position ? "right" : "left")};
   `,
 };

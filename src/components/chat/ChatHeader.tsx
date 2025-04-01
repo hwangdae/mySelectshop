@@ -19,14 +19,15 @@ const ChatHeader = ({
   return (
     <S.ChatHeader>
       <S.UserInfoWrapper>
-        <ProfileImage src={receiverImage} width={"44px"} height={"44px"}/>
+        <ProfileImage src={receiverImage} width={"36px"} height={"36px"} />
         <div>
           <S.UserName>{receiverName}</S.UserName>
         </div>
-        <div>
-          <S.LastMessageTime>1시간 전</S.LastMessageTime>
-          {lastMessageTime && <p>{fromNow(lastMessageTime)}</p>}
-        </div>
+        {/* <div>
+          {lastMessageTime && (
+            <S.LastMessageTime>{fromNow(lastMessageTime)}</S.LastMessageTime>
+          )}
+        </div> */}
       </S.UserInfoWrapper>
     </S.ChatHeader>
   );
@@ -41,17 +42,17 @@ const S = {
   UserInfoWrapper: styled.div`
     padding: 10px;
     display: flex;
+    align-items: center;
     gap: 8px;
   `,
   UserName: styled.p`
     ${styleFont.text.txt_sm}
     font-weight: 400;
     color: ${styleColor.BLACK[100]};
-    margin-bottom: 8px;
   `,
 
   LastMessageTime: styled.p`
     ${styleFont.text.txt_xs}
-    color: ${styleColor.GRAY[500]};
+    color: ${styleColor.GRAY[700]};
   `,
 };
