@@ -8,7 +8,7 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
+const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -18,7 +18,9 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       </S.ModalContent>
     </S.ModalOverlay>
   );
-}
+};
+
+export default Modal;
 
 const S = {
   ModalOverlay: styled.div`
@@ -28,13 +30,13 @@ const S = {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
   `,
   ModalContent: styled.div`
     position: relative;
     left: 0;
     top: 0;
-    /* width: 360px; */
+    width: auto;
     height: auto;
     position: absolute;
     top: 50%;

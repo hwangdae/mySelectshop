@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import { ErrorMessage } from "@hookform/error-message";
 import Eye from "@/assets/Eye.svg";
 import EyeInvisible from "@/assets/EyeInvisible.svg";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import Input from "@/components/ui/Input";
 import useToggle from "@/hook/useToggle";
@@ -19,8 +18,8 @@ const Register = () => {
   const [showPassword, handlePasswordToggle] = useToggle(false);
   const [showCheckPassword, handleCheckPasswordToggle] = useToggle(false);
   const [isLoading, setIsLoading] = useState(false);
-  const {closeModal} = useModal()
-  const router = useRouter();
+  const { closeModal } = useModal();
+  
   const {
     register,
     handleSubmit,
@@ -40,7 +39,7 @@ const Register = () => {
     try {
       await axios.post("/api/register", body);
       alert("회원가입이 완료 되었습니다.");
-      closeModal()
+      closeModal();
     } catch (err: any) {
       if (err.response?.status === 400) {
         alert(err.response.data.message);
@@ -174,7 +173,7 @@ const S = {
     width: 430px;
   `,
   SignUpInner: styled.div`
-  padding: 30px;
+    padding: 30px;
   `,
   SignUpTitle: styled.h1`
     font-size: 30px;

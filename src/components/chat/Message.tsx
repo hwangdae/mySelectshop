@@ -7,33 +7,30 @@ import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 
 interface PropsType {
-  currentUser: TUserWithChat;
   receiverName: string;
   receiverImage: string;
+  messageImage:string | null;
   messageText: string | null;
-  senderId: string;
+  isSender: boolean;
 }
 
 const Message = ({
-  currentUser,
   receiverName,
   receiverImage,
+  messageImage,
   messageText,
-  senderId,
+  isSender,
 }: PropsType) => {
   return (
     <div>
-      <S.ReceiverUser $position={senderId !== currentUser.id}>
-        <div style={{ display: `${senderId === currentUser.id && "none"}` }}>
+      <S.ReceiverUser $isSender={isSender}>
+        <div style={{ display: `${isSender && "none"}` }}>
           <ProfileImage src={receiverImage} width={"44px"} height={"44px"} />
         </div>
         <div>
-          <S.ReceiverName $position={senderId === currentUser.id}>
-            {receiverName}
-          </S.ReceiverName>
-          <S.Message $position={senderId === currentUser.id}>
-            {messageText}
-          </S.Message>
+          <S.ReceiverName $isSender={isSender}>{receiverName}</S.ReceiverName>
+          <img src={`${messageImage}`}/>
+          <S.Message $isSender={isSender}>{messageText}</S.Message>
         </div>
       </S.ReceiverUser>
     </div>
@@ -43,20 +40,20 @@ const Message = ({
 export default Message;
 
 const S = {
-  ReceiverUser: styled.div<{ $position: boolean }>`
+  ReceiverUser: styled.div<{ $isSender: boolean }>`
     display: flex;
     align-items: flex-start;
     gap: 12px;
     margin: 0 auto;
     justify-content: ${(props) =>
-      props.$position ? "flex-start" : "flex-end"};
+      props.$isSender ? "flex-end" : "flex-start"};
     margin-bottom: 10px;
   `,
-  ReceiverName: styled.h3<{ $position: boolean }>`
-    display: ${(props) => props.$position && "none"};
+  ReceiverName: styled.h3<{ $isSender: boolean }>`
+    display: ${(props) => props.$isSender && "none"};
     margin-bottom: 4px;
   `,
-  Message: styled.p<{ $position: boolean }>`
+  Message: styled.p<{ $isSender: boolean }>`
     display: inline-block;
     ${styleFont.text.txt_md}
     color: ${styleColor.WHITE};
@@ -64,6 +61,6 @@ const S = {
     background-color: ${styleColor.YELLOW.main};
     border-radius: 4px;
     word-break: break-all;
-    text-align: ${(props) => (props.$position ? "right" : "left")};
+    text-align: ${(props) => (props.$isSender ? "right" : "left")};
   `,
 };

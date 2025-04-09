@@ -49,9 +49,9 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
               key={message.id}
               receiverName={receiver.receiverName}
               receiverImage={receiver.receiverImage}
+              messageImage={message.image}
               messageText={message.text}
-              senderId={message.senderId}
-              currentUser={currentUser}
+              isSender={message.senderId === currentUser.id}
             />
           );
         })}

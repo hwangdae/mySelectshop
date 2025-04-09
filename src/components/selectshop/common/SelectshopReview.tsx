@@ -23,7 +23,7 @@ const SelectshopReview = ({ onWriteReviewClick }: PropsType) => {
           onClick={() => {
             if (!userData) {
               alert("로그인이 필요한 서비스 입니다.");
-              openModal("login")
+              openModal({ type: "login" });
               return;
             }
             onWriteReviewClick();

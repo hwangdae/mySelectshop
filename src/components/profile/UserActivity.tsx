@@ -1,9 +1,11 @@
+import { useModal } from "@/context/ModalContext";
 import { showFollowListStore } from "@/globalState";
 import { getFollowerCount, getFollowingCount } from "@/lib/follow";
 import { getReviewCount } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
@@ -15,6 +17,7 @@ interface PropsType {
 const UserActivity = ({ userId }: PropsType) => {
   const { showFollowListToggle, setShowFollowListToggle } =
     showFollowListStore();
+  const { openModal } = useModal();
   const router = useRouter();
 
   const { data: followerCount } = useQuery({
@@ -41,9 +44,8 @@ const UserActivity = ({ userId }: PropsType) => {
       </S.Activity>
       <S.Activity>
         <button
-          onClick={async () => {
-            setShowFollowListToggle(!showFollowListToggle);
-            router.push(`/?follow=follower`);
+          onClick={() => {
+            openModal({ type: "follow", params: { followType: "follower" } });
           }}
         >
           <h3>팔로워</h3>
@@ -53,8 +55,7 @@ const UserActivity = ({ userId }: PropsType) => {
       <S.Activity>
         <button
           onClick={() => {
-            setShowFollowListToggle(!showFollowListToggle);
-            router.push(`/?follow=following`);
+            openModal({ type: "follow", params: { followType: "following" } });
           }}
         >
           <h3>팔로잉</h3>

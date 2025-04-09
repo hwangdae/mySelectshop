@@ -29,7 +29,7 @@ const Profile = () => {
                 width={"60px"}
                 height={"60px"}
               />
-              <S.ProfileUpdateButton onClick={() => openModal("profile")}>
+              <S.ProfileUpdateButton onClick={() => openModal({type :"profile"})}>
                 <ProfileUpdate
                   width={"15px"}
                   height={"15px"}

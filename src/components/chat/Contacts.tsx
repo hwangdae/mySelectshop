@@ -30,32 +30,32 @@ const Contacts = ({
     });
   };
 
-  const conversation = currentUser?.conversations?.filter((conversation: any) =>
-    conversation.users.find((user: any) => user.id === receiverId)
-  );
-  console.log(currentUser, "");
+  const filteredUsers = users?.filter((user) => {
+    const isNotCurrentUser = user.id !== currentUser?.id;
+    const hasMutualConversation = user.conversations.some((conversation) =>
+      conversation.users.some((user) => user.id === currentUser.id)
+    );
+    return isNotCurrentUser && hasMutualConversation;
+  });
+  console.log(filteredUsers, "aaaaaaaaaaaaaaaaa");
   console.log(users, "유ㅜ저스");
-  console.log(conversation, "대화");
   return (
     <S.ContactsContainer>
       <h1>MESSAGES</h1>
       <S.MessageList>
         {users?.length > 0 &&
-          conversation !== undefined &&
-          users
-            .filter((user) => user.id !== currentUser?.id)
-            .map((user) => {
-              return (
-                <S.MessageItem
-                  key={user.id}
-                  onClick={() => filterMessages(user.id, user.name, user.image)}
-                  $receiverId={receiverId}
-                  $userId={user.id}
-                >
-                  <User user={user} currentUserId={currentUser?.id} />
-                </S.MessageItem>
-              );
-            })}
+          filteredUsers.map((user) => {
+            return (
+              <S.MessageItem
+                key={user.id}
+                onClick={() => filterMessages(user.id, user.name, user.image)}
+                $receiverId={receiverId}
+                $userId={user.id}
+              >
+                <User user={user} currentUserId={currentUser?.id} />
+              </S.MessageItem>
+            );
+          })}
       </S.MessageList>
     </S.ContactsContainer>
   );

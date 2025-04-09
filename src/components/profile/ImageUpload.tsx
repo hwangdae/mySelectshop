@@ -19,6 +19,7 @@ const ImageUpload = ({
   setPreviewProfileImage,
   setValue,
 }: PropsType) => {
+  
   const onchangeImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -61,7 +62,6 @@ const ImageUpload = ({
         type="file"
         accept="image/*, .jpg, .jpeg, .png"
         id="profileImg"
-        // {...register("uploadImage")}
         onChange={onchangeImageUpload}
       ></S.ImageInput>
     </S.ProfileImageContainer>

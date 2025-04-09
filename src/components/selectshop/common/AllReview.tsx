@@ -23,14 +23,12 @@ const AllReview = ({ review, id }: PropsType) => {
 
   return (
     <>
-      {selectshopId === id ? (
+      {selectshopId === id && (
         <S.ReviewWrap>
           <User user={user} type={"allReview"} />
           <S.ReviewDescription>{description}</S.ReviewDescription>
           <Tags tags={tags} type={"allReview"} />
         </S.ReviewWrap>
-      ) : (
-        ""
       )}
     </>
   );

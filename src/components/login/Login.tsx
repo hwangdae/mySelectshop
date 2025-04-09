@@ -108,7 +108,9 @@ const Login = () => {
         </S.LoginForm>
         <S.SignUpLinkContainer>
           회원이 아니신가요?
-          <button onClick={() => openModal("signup")}>회원가입</button>
+          <button onClick={() => openModal({ type: "signup" })}>
+            회원가입
+          </button>
         </S.SignUpLinkContainer>
       </S.LoginInner>
     </S.LoginContainer>
@@ -118,30 +120,11 @@ const Login = () => {
 export default Login;
 
 const S = {
-  LoginContainer: styled.div`
-    position: absolute;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-  `,
+  LoginContainer: styled.div``,
   LoginInner: styled.div`
-    position: relative;
-    left: 0;
-    top: 0;
     width: 360px;
     height: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: solid 1px #000;
-    border-radius: 4px;
     padding: 30px;
-    z-index: 99999;
   `,
   LoginTitle: styled.h1`
     font-size: 30px;

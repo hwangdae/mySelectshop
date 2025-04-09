@@ -7,6 +7,8 @@ import { TUser } from "@/types/user";
 import ProfileImage from "../ui/ProfileImage";
 import { useModal } from "@/context/ModalContext";
 import { receiverStore } from "@/globalState";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 interface PropsType {
   user: TUser;
@@ -16,29 +18,33 @@ interface PropsType {
 const User = ({ user, type, isMutualFollow }: PropsType) => {
   const { setReceiver } = receiverStore();
   const { openModal } = useModal();
+  const { data: userData } = useSession();
   return (
     <S.UserContainer $type={type}>
       <S.UserInfo>
         <ProfileImage
           src={user?.image || "/images/basicUserImage.png"}
-          width={"32px"}
-          height={"32px"}
+          width={type === "follow" ? "38px " : "32px"}
+          height={type === "follow" ? "38px " : "32px"}
         />
         <S.UserName $type={type}>{user?.name}</S.UserName>
       </S.UserInfo>
       <S.ActionButtons>
-        <S.Messagebutton
-          onClick={() => {
-            setReceiver({
-              receiverId: user?.id,
-              receiverName: user?.name,
-              receiverImage: user?.image || "",
-            });
-            openModal("chat");
-          }}
-        >
-          메세지
-        </S.Messagebutton>
+        {userData?.user?.id !== user?.id && (
+          <S.Messagebutton
+            $type={type}
+            onClick={() => {
+              setReceiver({
+                receiverId: user?.id,
+                receiverName: user?.name,
+                receiverImage: user?.image || "",
+              });
+              openModal({ type: "chat" });
+            }}
+          >
+            메세지
+          </S.Messagebutton>
+        )}
         <Follow id={user?.id} isMutualFollow={isMutualFollow} />
       </S.ActionButtons>
     </S.UserContainer>
@@ -56,6 +62,7 @@ const S = {
     padding: ${(props) => (props.$type === "follow" ? "0px 12px" : "")};
   `,
   UserInfo: styled.div`
+    /* width: 100%; */
     display: flex;
     align-items: center;
     gap: 5px;
@@ -68,18 +75,22 @@ const S = {
   ActionButtons: styled.div`
     width: 60%;
     display: flex;
-    justify-content: center;
+    justify-content: end;
     gap: 7px;
   `,
-  Messagebutton: styled.button`
+  Messagebutton: styled.button<{ $type: string }>`
     cursor: pointer;
-    width: 50%;
+    width: 35%;
     ${styleFont.text.txt_sm}
     font-weight: 500;
     letter-spacing: -1px;
-    color: ${styleColor.WHITE};
-    padding: 7px 14px;
-    box-shadow: 0 0 0 1px ${styleColor.WHITE} inset;
+    color: ${(props) =>
+      props.$type === "allReview" || "follow" ? "#111" : "#fff"};
+    padding: 7px 8px;
+    box-shadow: ${(props) =>
+      props.$type === "allReview" || "follow"
+        ? `0 0 0 1px ${styleColor.BLACK[0]} inset`
+        : `0 0 0 1px ${styleColor.WHITE} inset`};
     border-radius: 4px;
   `,
 };

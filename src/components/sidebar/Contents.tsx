@@ -29,7 +29,7 @@ const Contents = () => {
   const viewSelectshopHandle = (id: string) => {
     if (!session && id !== "nearbySelectshop" && id !== "bestReviewer") {
       alert("로그인이 필요한 서비스입니다.");
-      openModal("login");
+      openModal({ type: "login" });
     } else {
       router.push(`${id}`);
     }
@@ -66,7 +66,7 @@ const Contents = () => {
 export default Contents;
 
 const S = {
-  ContentsContainer: styled.div`
+  ContentsContainer: styled.main`
     width: 100%;
   `,
 

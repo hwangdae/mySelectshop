@@ -19,3 +19,9 @@ export interface TConversation {
   messages: Message[];
   users: User[];
 }
+
+export interface TProfile {
+  id:string | undefined;
+  name:string;
+  image:string
+}

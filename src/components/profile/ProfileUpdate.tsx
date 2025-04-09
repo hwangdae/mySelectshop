@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import ImageUpload from "./ImageUpload";
 import { signOut, useSession } from "next-auth/react";
 import { uploadImage } from "@/utils/uploadImage";
-import axios from "axios";
 import { useModal } from "@/context/ModalContext";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +13,7 @@ import { profileUpdateSchema } from "@/validators/auth";
 import { ErrorMessage } from "@hookform/error-message";
 import Input from "../ui/Input";
 import CommonSpinner from "../ui/CommonSpinner";
+import { profileUpdate } from "@/lib/user";
 
 const ProfileUpdate = () => {
   const [previewProfileImage, setPreviewProfileImage] = useState<
@@ -55,7 +55,7 @@ const ProfileUpdate = () => {
       name: body.name || (userData?.user?.name as string),
     };
     try {
-      await axios.patch("/api/register/profileUpdate", updateProfileData);
+      profileUpdate(updateProfileData)
       await update(updateProfileData);
       alert("프로필 수정이 완료 되었습니다.");
       closeModal();
@@ -109,9 +109,30 @@ export default ProfileUpdate;
 
 const S = {
   ProfileUpdateContainer: styled.div`
-    width: 360px;
+    position: absolute;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
   `,
-  ProfileUpdateInner: styled.div``,
+  ProfileUpdateInner: styled.div`
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 360px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: solid 1px #000;
+    border-radius: 4px;
+    padding: 30px;
+    z-index: 99999;
+  `,
   ProfileTitle: styled.h1`
     ${styleFont.title.tit_md}
     font-weight: 600;

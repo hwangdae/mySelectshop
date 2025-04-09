@@ -40,7 +40,7 @@ const Header = () => {
             </button>
           </S.Logo>
           {!userData?.user ? (
-            <Button onClick={() => openModal("login")}>로그인</Button>
+            <Button onClick={() => openModal({ type: "login" })}>로그인</Button>
           ) : (
             <Button onClick={() => signOut()}>로그아웃</Button>
           )}
@@ -64,7 +64,7 @@ const Header = () => {
 export default Header;
 
 const S = {
-  HeaderContainer: styled.div`
+  HeaderContainer: styled.header`
     width: 100%;
     left: 0;
     top: 0;

@@ -31,7 +31,7 @@ const Follow = ({ id, isMutualFollow }: PropsType) => {
     event.stopPropagation();
     if (!userData) {
       alert("로그인이 필요한 서비스 입니다.");
-      openModal("login");
+      openModal({ type: "login" });
       return;
     }
     try {
@@ -72,7 +72,7 @@ export default Follow;
 
 const S = {
   FollowContainer: styled.div`
-    width: 50%;
+    width: 35%;
     height: 100%;
   `,
   FollowButton: styled.button<{ $followState: boolean | null | undefined }>`
@@ -82,7 +82,7 @@ const S = {
     font-weight: 500;
     letter-spacing: -1px;
     color: ${styleColor.WHITE};
-    padding: 7px 14px;
+    padding: 7px 8px;
     border-radius: 4px;
     box-shadow: 0px 0px 5px 1px rgba(124, 124, 124, 0.1);
     background-color: ${(props) =>
