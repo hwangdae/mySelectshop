@@ -5,6 +5,7 @@ import ProfileImage from "../ui/ProfileImage";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
+import CommonSwiper from "../ui/CommonSwiper";
 
 interface PropsType {
   receiverName: string;
@@ -29,7 +30,8 @@ const Message = ({
         </div>
         <div>
           <S.ReceiverName $isSender={isSender}>{receiverName}</S.ReceiverName>
-          <img src={`${messageImage}`}/>
+          {/* <img src={`${messageImage}`}/> */}
+          {/* <CommonSwiper slideImages={messageImage} /> */}
           <S.Message $isSender={isSender}>{messageText}</S.Message>
         </div>
       </S.ReceiverUser>

@@ -19,16 +19,13 @@ interface TTab {
 }
 
 interface PropsType {
-  followType: "follower" | "following";
+  followTypeParams: "follower" | "following";
 }
 
-const FollowPage = ({ followType }: PropsType) => {
-  const router = useRouter();
-  const [followType1, setFollowType1] = useState<"follower" | "following">(
-    "follower"
+const FollowPage = ({ followTypeParams }: PropsType) => {
+  const [followType, setFollowType] = useState<"follower" | "following">(
+    followTypeParams
   );
-  const searchParams = useSearchParams();
-  const followTab = searchParams?.get("follow");
   const { data: userData } = useSession();
 
   const { data: followerData } = useQuery({
@@ -83,9 +80,9 @@ const FollowPage = ({ followType }: PropsType) => {
               <S.Content key={tab.id}>
                 <S.TabButton
                   onClick={() =>
-                    setFollowType1(tab.id as "follower" | "following")
+                    setFollowType(tab.id as "follower" | "following")
                   }
-                  $isActive={followType1 === tab.id}
+                  $isActive={followType === tab.id}
                 >
                   <h1>
                     <span>{formatFollowCount(tab.count)}</span>
@@ -96,7 +93,7 @@ const FollowPage = ({ followType }: PropsType) => {
             );
           })}
         </S.FollowNavWrap>
-        {followType === "follower" && followType1 === "follower" ? (
+        {followType === "follower" ? (
           followerList && followerList?.length > 0 ? (
             <S.FollowList>
               {followerList?.map((user: TUser) => {

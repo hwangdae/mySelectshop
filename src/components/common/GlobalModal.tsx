@@ -17,7 +17,7 @@ export default function GlobalModal() {
       {modal.type === "profile" && <UpdateProfilePage />}
       {modal.type === "chat" && <ChatPage />}
       {modal.type === "follow" && modal.params && (
-        <FollowPage followType={modal.params.followType} />
+        <FollowPage followTypeParams={modal.params.followType} />
       )}
     </Modal>
   );

@@ -11,13 +11,14 @@ interface PropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   prevReview: string | null | undefined;
 }
 
-const EditorReviewInputImage = ({
+const ImageUploader = ({
   files,
   setFiles,
   prevReview,
   type = "file",
   accept = "image/*",
   id = "file-upload",
+  children,
   ...props
 }: PropsType) => {
   const [previewImages] = useState<string[]>(
@@ -39,7 +40,7 @@ const EditorReviewInputImage = ({
   return (
     <>
       <S.Label htmlFor={id}>
-        {files.length === 0 && previewImages.length > 0 ? (
+        {files?.length === 0 && previewImages.length > 0 ? (
           <S.ImageSwiper slidesPerView={1}>
             {previewImages.map((file: string, index: number) => (
               <S.SwiperSlide key={index}>
@@ -79,7 +80,7 @@ const EditorReviewInputImage = ({
   );
 };
 
-export default EditorReviewInputImage;
+export default ImageUploader;
 
 const S = {
   Label: styled.label`

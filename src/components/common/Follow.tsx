@@ -78,7 +78,7 @@ const S = {
   FollowButton: styled.button<{ $followState: boolean | null | undefined }>`
     cursor: pointer;
     width: 100%;
-    ${styleFont.text.txt_sm}
+    ${styleFont.text.txt_xs}
     font-weight: 500;
     letter-spacing: -1px;
     color: ${styleColor.WHITE};

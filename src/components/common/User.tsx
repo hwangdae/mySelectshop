@@ -81,7 +81,7 @@ const S = {
   Messagebutton: styled.button<{ $type: string }>`
     cursor: pointer;
     width: 35%;
-    ${styleFont.text.txt_sm}
+    ${styleFont.text.txt_xs}
     font-weight: 500;
     letter-spacing: -1px;
     color: ${(props) =>

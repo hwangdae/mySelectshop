@@ -18,7 +18,7 @@ import { uploadImagesFn } from "@/utils/uploadImages";
 import CommonSpinner from "../ui/CommonSpinner";
 import useReview from "@/hook/mutate/review/useReview";
 import { TReviewFormData, TNewReview, TReview } from "@/types";
-import EditorReviewInputImage from "./InputImage";
+import ImageUploader from "./ImageUploader";
 
 interface PropsType {
   selectshopId?: string;
@@ -133,11 +133,11 @@ const ReviewEditor = ({
         </S.ReviewEditorTitle>
         <S.ReviewEditorUl>
           <S.InputLiRow>
-            <EditorReviewInputImage
+            <ImageUploader
               files={files}
               setFiles={setFiles}
               prevReview={prevReview?.reviewImages}
-            />
+            ></ImageUploader>
           </S.InputLiRow>
           <S.InputLiRow>
             <S.Label htmlFor="description">후기</S.Label>
