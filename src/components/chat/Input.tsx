@@ -7,9 +7,9 @@ import { uploadImagesFn } from "@/utils/uploadImages";
 import { TNewChat } from "@/types/chat";
 import ImageUploader from "./ImageUploader";
 import { styleFont } from "@/styles/styleFont";
-import { formatFileSize } from "@/utils/formatFileSize";
-import Trash from "@/assets/Trash.svg";
-import X from "@/assets/X.svg";
+import UploadPreview from "./UploadPreview";
+import CommonSpinner from "../ui/CommonSpinner";
+import { Button } from "@mui/material";
 
 interface PropsType {
   receiverId: string;
@@ -19,10 +19,12 @@ interface PropsType {
 const Input = ({ receiverId, currentUserId }: PropsType) => {
   const [message, setMessage] = useState<string>("");
   const [image, setImage] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [previewImages, setPreviewImages] = useState<File[]>([]);
   const { chatMutate } = useChatMutate();
-  console.log(previewImages, "이미지프리뷰");
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
 
     const imageUrl = image ? await uploadImagesFn(image) : null;
@@ -41,41 +43,18 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
         setPreviewImages([]);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
 
   return (
     <>
-      {previewImages.length > 0 && (
-        <S.PreviewContainer>
-          <S.PreviewHeader>
-            <S.UploadImageTitle>파일 전송</S.UploadImageTitle>
-            <S.UploadCancelButton onClick={() => setPreviewImages([])}>
-              <X fill={`${styleColor.GRAY[400]}`} />
-            </S.UploadCancelButton>
-          </S.PreviewHeader>
-          <S.PreviewList>
-            {previewImages?.map((image, index) => (
-              <S.PreviewItem key={index}>
-                <S.PreviewInfo>
-                  <S.PreviewImage
-                    src={URL.createObjectURL(image)}
-                    alt={`preview-${index}`}
-                  />
-                  <div>
-                    <S.PreviewImageName>{image.name}</S.PreviewImageName>
-                    <p>{formatFileSize(image.size)}</p>
-                  </div>
-                </S.PreviewInfo>
-                <S.PreviewImageDeleteButton>
-                  <Trash fill={`${styleColor.GRAY[200]}`} />
-                </S.PreviewImageDeleteButton>
-              </S.PreviewItem>
-            ))}
-          </S.PreviewList>
-        </S.PreviewContainer>
-      )}
+      <UploadPreview
+        previewImages={previewImages}
+        setPreviewImages={setPreviewImages}
+      />
       <S.ChatForm onSubmit={handleSubmit}>
         {previewImages.length <= 0 ? (
           <S.InputContainer>
@@ -102,7 +81,15 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
             </S.ActionButtons>
           </S.InputContainer>
         ) : (
-          <S.ImageSendButtonContainer>보내기</S.ImageSendButtonContainer>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            disableFocusRipple={true}
+            fullWidth
+          >
+            보내기{isLoading && <CommonSpinner />}
+          </Button>
         )}
       </S.ChatForm>
     </>
@@ -112,39 +99,6 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
 export default Input;
 
 const S = {
-  PreviewContainer: styled.div`
-    background-color: ${styleColor.WHITE};
-    padding: 20px;
-  `,
-  PreviewHeader: styled.header`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  `,
-  UploadImageTitle: styled.h1`
-    ${styleFont.title.tit_md}
-  `,
-  UploadCancelButton: styled.button``,
-  PreviewList: styled.ul``,
-  PreviewItem: styled.li`
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
-  `,
-  PreviewInfo: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  `,
-  PreviewImage: styled.img`
-    width: 50px;
-    height: 50px;
-  `,
-  PreviewImageName: styled.h1``,
-  PreviewImageDeleteButton: styled.button``,
   ChatForm: styled.form``,
   InputContainer: styled.div`
     position: relative;
@@ -191,12 +145,13 @@ const S = {
     padding: 4px;
     border-radius: 4px;
   `,
-  ImageSendButtonContainer : styled.button`
+  ImageSendButtonContainer: styled.button`
+    cursor: pointer;
     width: 100%;
     padding: 10px 0px;
     background-color: ${styleColor.YELLOW.main};
     ${styleFont.text.txt_sm}
     color: ${styleColor.WHITE};
     font-weight: 500;
-  `
+  `,
 };

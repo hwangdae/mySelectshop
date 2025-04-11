@@ -17,17 +17,26 @@ const User = ({ user, currentUserId }: PropsType) => {
   );
 
   const latestMessage = messagesWithCurentUser?.messages.slice(-1)[0];
-
+  console.log(latestMessage, "마지막 메세지");
   return (
     <S.UserContainer>
       <S.UserInfoWrapper>
-        <ProfileImage src={user.image || ""} width={"44px"} height={"44px"} />
+        <ProfileImage
+          src={user.image || "/images/basicUserImage.png"}
+          width={"44px"}
+          height={"44px"}
+        />
         <div>
           <S.UserName>{user.name}</S.UserName>
           {latestMessage && (
             <S.LatestMessage>{latestMessage.text}</S.LatestMessage>
           )}
-          {latestMessage && latestMessage.image && <p>이미지</p>}
+          {latestMessage && latestMessage.image && (
+            <S.LatestImage>
+              사진 {latestMessage.image?.split(",").length}장을 보냈습니다.
+            </S.LatestImage>
+          )}
+          {/* {latestMessage && latestMessage.image && <p>이미지</p>} */}
         </div>
       </S.UserInfoWrapper>
       <div>
@@ -66,6 +75,10 @@ const S = {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  `,
+  LatestImage: styled.p`
+    ${styleFont.text.txt_sm}
+    color: ${styleColor.GRAY[500]};
   `,
   LastMessageTime: styled.p`
     ${styleFont.text.txt_xs}

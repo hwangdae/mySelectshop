@@ -4,6 +4,9 @@ import Input from "./Input";
 import ChatHeader from "./ChatHeader";
 import Message from "./Message";
 import styled from "styled-components";
+import Conversation from "@/assets/Conversation.svg";
+import { styleColor } from "@/styles/styleColor";
+import { styleFont } from "@/styles/styleFont";
 
 interface PropsType {
   currentUser: TUserWithChat;
@@ -20,7 +23,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
-
+  console.log(conversation, "컨버세이션");
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",
@@ -43,18 +46,27 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
         />
       </div>
       <S.Conversation>
-        {conversation?.messages.map((message) => {
-          return (
-            <Message
-              key={message.id}
-              receiverName={receiver.receiverName}
-              receiverImage={receiver.receiverImage}
-              messageImage={message.image}
-              messageText={message.text}
-              isSender={message.senderId === currentUser.id}
-            />
-          );
-        })}
+        {conversation !== undefined ? (
+          conversation?.messages.map((message) => {
+            return (
+              <Message
+                key={message.id}
+                receiverName={receiver.receiverName}
+                receiverImage={receiver.receiverImage}
+                messageImage={message.image}
+                messageText={message.text}
+                isSender={message.senderId === currentUser.id}
+              />
+            );
+          })
+        ) : (
+          <S.FirstConversationContainer>
+            <S.ConversationSvg>
+              <Conversation width={"50px"} height={"50px"} fill={`${styleColor.YELLOW.main}`}/>
+            </S.ConversationSvg>
+            <S.ConversationTitle>첫 대화를 시작해 보세요.</S.ConversationTitle>
+          </S.FirstConversationContainer>
+        )}
         <div ref={messagesEndRef}></div>
       </S.Conversation>
       <S.ChatInputContainer>
@@ -91,4 +103,23 @@ const S = {
       display: none;
     }
   `,
+
+  FirstConversationContainer: styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    /* border: solid 1px ${styleColor.GRAY[600]}; */
+    border-radius: 4px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0px 0px 8px 1px rgba(136, 136, 136, 0.1);
+  `,
+  ConversationSvg : styled.p`
+  margin-bottom: 15px;
+  `,
+  ConversationTitle : styled.h1`
+    ${styleFont.title.tit_sm}
+    color: ${styleColor.GRAY[500]};
+  `
 };

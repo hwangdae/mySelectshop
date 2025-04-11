@@ -48,7 +48,7 @@ const ImageUpload = ({
   return (
     <S.ProfileImageContainer>
       <S.ProfileImage
-        src={previewProfileImage ? `${previewProfileImage}` : undefined}
+        src={previewProfileImage ? `${previewProfileImage}` : "/images/basicUserImage.png"}
         alt="프로필 이미지"
       />
       <S.ImageLabel htmlFor="profileImg">

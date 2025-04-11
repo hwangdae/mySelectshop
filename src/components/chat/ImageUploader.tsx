@@ -1,7 +1,5 @@
-import React, { forwardRef, useState } from "react";
-import NoImage from "@/assets/NoImage.svg";
+import React from "react";
 import styled from "styled-components";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import ImageUpload from "@/assets/ImageUpload.svg";
 import { imageCompressionFn } from "@/utils/imageCompression";
@@ -11,9 +9,7 @@ interface PropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
   previewImages: File[];
-  setPreviewImages: React.Dispatch<
-    React.SetStateAction<File[]>
-  >;
+  setPreviewImages: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 const ImageUploader = ({
@@ -27,22 +23,16 @@ const ImageUploader = ({
   children,
   ...props
 }: PropsType) => {
-  // const [previewImages] = useState<string[]>(
-  //   prevReview ? prevReview.split(",") : []
-  // );
-
   const onChangeImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      const selectedFiles: string[] = newFiles.map((file) => {
-        return URL.createObjectURL(file);
-      });
+
       const compressedFiles = await Promise.all(
         newFiles.map((file) => imageCompressionFn(file, "small"))
       );
-      console.log(compressedFiles, "콤프레스드파일");
+
       setFiles(compressedFiles);
       setPreviewImages(compressedFiles);
     }
