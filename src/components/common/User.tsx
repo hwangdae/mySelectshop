@@ -9,6 +9,7 @@ import { useModal } from "@/context/ModalContext";
 import { receiverStore } from "@/globalState";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import ChatButton from "./ChatButton";
 
 interface PropsType {
   user: TUser;
@@ -31,19 +32,7 @@ const User = ({ user, type, isMutualFollow }: PropsType) => {
       </S.UserInfo>
       <S.ActionButtons>
         {userData?.user?.id !== user?.id && (
-          <S.Messagebutton
-            $type={type}
-            onClick={() => {
-              setReceiver({
-                receiverId: user?.id,
-                receiverName: user?.name,
-                receiverImage: user?.image || "",
-              });
-              openModal({ type: "chat" });
-            }}
-          >
-            메세지
-          </S.Messagebutton>
+          <ChatButton user={user} type={type} />
         )}
         <Follow id={user?.id} isMutualFollow={isMutualFollow} />
       </S.ActionButtons>
@@ -62,7 +51,7 @@ const S = {
     padding: ${(props) => (props.$type === "follow" ? "0px 12px" : "")};
   `,
   UserInfo: styled.div`
-    /* width: 100%; */
+    width: 45%;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -73,24 +62,9 @@ const S = {
     color: ${styleColor.BLACK[100]};
   `,
   ActionButtons: styled.div`
-    width: 60%;
+    width: 55%;
     display: flex;
     justify-content: end;
     gap: 7px;
-  `,
-  Messagebutton: styled.button<{ $type: string }>`
-    cursor: pointer;
-    width: 35%;
-    ${styleFont.text.txt_xs}
-    font-weight: 500;
-    letter-spacing: -1px;
-    color: ${(props) =>
-      props.$type === "allReview" || "follow" ? "#111" : "#fff"};
-    padding: 7px 8px;
-    box-shadow: ${(props) =>
-      props.$type === "allReview" || "follow"
-        ? `0 0 0 1px ${styleColor.BLACK[0]} inset`
-        : `0 0 0 1px ${styleColor.WHITE} inset`};
-    border-radius: 4px;
   `,
 };

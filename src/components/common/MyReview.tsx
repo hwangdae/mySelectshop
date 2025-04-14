@@ -46,7 +46,7 @@ const MyReview = ({
     <S.MyReviewContainer>
       <S.ImageWrap>
         {reviewImages === null || reviewImages === "" ? (
-          <NoImage />
+          <NoImage width={"330px"} height={"180px"} />
         ) : (
           <CommonSwiper slideImages={reviewImages} />
         )}
@@ -87,12 +87,13 @@ export default MyReview;
 
 const S = {
   MyReviewContainer: styled.div`
+    width: 100%;
     position: relative;
     left: 0;
     top: 0;
   `,
   ImageWrap: styled.div`
-    width: 300px;
+    width: 330px;
   `,
   ReviewTextWrap: styled.ul`
     padding: 0px 12px;

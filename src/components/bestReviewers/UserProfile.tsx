@@ -4,8 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import Follow from "../common/Follow";
 import { getFollowerCount } from "@/lib/follow";
-import { TBestReviewer, TReview, TUser } from "@/types";
+import { TBestReviewer } from "@/types";
 import ProfileImage from "../ui/ProfileImage";
+import ChatButton from "../common/ChatButton";
 
 interface PropsType {
   user: TBestReviewer;
@@ -25,7 +26,7 @@ const UserProfile = ({ user, index }: PropsType) => {
       <S.ProfileInfoInner>
         <S.Rank>{index + 1}</S.Rank>
         <S.ProfileImageWrap>
-          <ProfileImage src={image} width={"55px"} height={"55px"}/>
+          <ProfileImage src={image} width={"55px"} height={"55px"} />
         </S.ProfileImageWrap>
         <S.UserInfoWrap>
           <S.UserEmail>{name}</S.UserEmail>
@@ -42,7 +43,9 @@ const UserProfile = ({ user, index }: PropsType) => {
             </S.Activity>
           </S.UserActivity>
         </S.UserInfoWrap>
-        <Follow id={id} />
+        <S.ActionButtons>
+          <Follow id={id} />
+        </S.ActionButtons>
       </S.ProfileInfoInner>
     </S.ProfileInfoContainer>
   );
@@ -111,5 +114,11 @@ const S = {
       border-right: none;
       padding-right: 0px;
     }
+  `,
+  ActionButtons: styled.div`
+    width: 35%;
+    display: flex;
+    justify-content: end;
+    gap: 7px;
   `,
 };

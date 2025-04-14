@@ -106,7 +106,7 @@ const S = {
     left: 360px;
     top: 0px;
     background-color: #fff;
-    width: 300px;
+    width: 330px;
     height: 100vh;
     z-index: 999;
     overflow-y: scroll;

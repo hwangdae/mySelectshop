@@ -1,6 +1,5 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { fromNow } from "@/utils/fromNow";
 import React from "react";
 import styled from "styled-components";
 import ProfileImage from "../ui/ProfileImage";
@@ -23,11 +22,6 @@ const ChatHeader = ({
         <div>
           <S.UserName>{receiverName}</S.UserName>
         </div>
-        {/* <div>
-          {lastMessageTime && (
-            <S.LastMessageTime>{fromNow(lastMessageTime)}</S.LastMessageTime>
-          )}
-        </div> */}
       </S.UserInfoWrapper>
     </S.ChatHeader>
   );

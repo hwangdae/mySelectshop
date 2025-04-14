@@ -23,7 +23,7 @@ const ChatPage = () => {
   const currentUserWithMessage = users?.find(
     (user: TUserWithChat) => user.id === userData?.user?.id
   );
-  console.log(currentUserWithMessage,"여길 보자")
+  
   return (
     <S.ChatContainer>
       <S.chatInner>

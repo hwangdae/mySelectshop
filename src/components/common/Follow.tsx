@@ -72,7 +72,7 @@ export default Follow;
 
 const S = {
   FollowContainer: styled.div`
-    width: 35%;
+    width: 60%;
     height: 100%;
   `,
   FollowButton: styled.button<{ $followState: boolean | null | undefined }>`

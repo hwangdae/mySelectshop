@@ -23,7 +23,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
-  console.log(conversation, "컨버세이션");
+  
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",
@@ -109,7 +109,6 @@ const S = {
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-    /* border: solid 1px ${styleColor.GRAY[600]}; */
     border-radius: 4px;
     padding: 50px;
     text-align: center;

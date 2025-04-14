@@ -17,7 +17,7 @@ const User = ({ user, currentUserId }: PropsType) => {
   );
 
   const latestMessage = messagesWithCurentUser?.messages.slice(-1)[0];
-  console.log(latestMessage, "마지막 메세지");
+  
   return (
     <S.UserContainer>
       <S.UserInfoWrapper>
@@ -36,7 +36,6 @@ const User = ({ user, currentUserId }: PropsType) => {
               사진 {latestMessage.image?.split(",").length}장을 보냈습니다.
             </S.LatestImage>
           )}
-          {/* {latestMessage && latestMessage.image && <p>이미지</p>} */}
         </div>
       </S.UserInfoWrapper>
       <div>
