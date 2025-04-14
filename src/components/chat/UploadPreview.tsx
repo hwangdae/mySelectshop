@@ -9,9 +9,14 @@ import { styleFont } from "@/styles/styleFont";
 interface PropsType {
   previewImages: File[];
   setPreviewImages: React.Dispatch<React.SetStateAction<File[]>>;
+  setImage: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
-const UploadPreview = ({ previewImages, setPreviewImages }: PropsType) => {
+const UploadPreview = ({
+  previewImages,
+  setPreviewImages,
+  setImage,
+}: PropsType) => {
   return (
     <>
       {previewImages.length > 0 && (
@@ -43,6 +48,7 @@ const UploadPreview = ({ previewImages, setPreviewImages }: PropsType) => {
                       }
                     );
                     setPreviewImages(filteredPreviewImages);
+                    setImage(filteredPreviewImages);
                   }}
                 >
                   <Trash fill={`${styleColor.GRAY[200]}`} />

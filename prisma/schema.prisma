@@ -40,7 +40,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions") //실제 데이터베이스 컬럼 이르뫄 Prisma 모델 필드 이름을 매핑함 이름이 달라도 데이터베이스 입출력이 가능하게 함
+  @@map("sessions") //실제 데이터베이스 컬럼 이름과 Prisma 모델 필드 이름을 매핑함 이름이 달라도 데이터베이스 입출력이 가능하게 함
 }
 
 enum UserType {

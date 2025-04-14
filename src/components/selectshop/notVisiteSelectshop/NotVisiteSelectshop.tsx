@@ -79,16 +79,14 @@ const NotVisiteSelectshop = () => {
         <NoSearchResult />
       )}
 
-      {currentItems.length < 15 ? (
-        ""
-      ) : (
+      {currentItems.length >= 15 &&
         <CustomPagination
           selectshops={notVisitedSelectshops}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           scrollRef={scrollRef}
         />
-      )}
+      }
     </S.SearchResultsContainer>
   );
 };

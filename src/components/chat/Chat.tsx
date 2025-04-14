@@ -23,7 +23,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
-  
+  console.log(conversation,"컴버세이션")
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",

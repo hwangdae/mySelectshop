@@ -1,6 +1,5 @@
-import { MyLocationType } from "@/types/map";
-import React, { useEffect, useState } from "react";
-import { MapMarker, MarkerClusterer } from "react-kakao-maps-sdk";
+import React from "react";
+import { MapMarker } from "react-kakao-maps-sdk";
 
 interface PropsType {
   center: { lat: number; lng: number };

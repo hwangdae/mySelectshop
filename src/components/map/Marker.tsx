@@ -26,11 +26,11 @@ const Marker = ({ selectshop, index }: PropsType) => {
     <CustomOverlayMap key={`marker-${y},${x}-${index}`} position={position}>
       <S.MarkerContainer>
         <S.SelectshopPlaceName>{place_name}</S.SelectshopPlaceName>
-        {reviewData?.length !== 0 ? (
+        {reviewData?.length !== 0 && (
           <S.SelectshopReviewCount>
             +{reviewData?.length}
           </S.SelectshopReviewCount>
-        ) : null}
+        )}
       </S.MarkerContainer>
     </CustomOverlayMap>
   );

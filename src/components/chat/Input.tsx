@@ -29,12 +29,22 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
 
     const imageUrl = image ? await uploadImagesFn(image) : null;
 
+    if (
+      (message.trim() === "" && (!imageUrl || imageUrl.length === 0)) ||
+      (message.trim() && (!imageUrl || imageUrl.length === 0))
+    ) {
+      setMessage("");
+      setIsLoading(false);
+      return;
+    }
+
     const newChat: TNewChat = {
       text: message,
       image: imageUrl?.join(","),
       receiverId: receiverId,
       senderId: currentUserId,
     };
+
     if (message || imageUrl) {
       try {
         chatMutate.mutate(newChat);
@@ -54,6 +64,7 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
       <UploadPreview
         previewImages={previewImages}
         setPreviewImages={setPreviewImages}
+        setImage={setImage}
       />
       <S.ChatForm onSubmit={handleSubmit}>
         {previewImages.length <= 0 ? (

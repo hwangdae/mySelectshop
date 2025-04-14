@@ -66,14 +66,14 @@ const S = {
   ImageList: styled.ul<{ $isSender: boolean }>`
     width: 100%;
     max-width: 260px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     justify-content: ${(props) =>
       props.$isSender ? "flex-end" : "flex-start"};
   `,
   ImageItem: styled.li<{ $imageCount: number }>`
     width: 130px;
-    height: 130px;
+    height: 170px;
   `,
   Image: styled.img`
     width: 100%;
