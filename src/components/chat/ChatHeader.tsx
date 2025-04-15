@@ -7,13 +7,11 @@ import ProfileImage from "../ui/ProfileImage";
 interface PropsType {
   receiverName: string;
   receiverImage: string;
-  lastMessageTime: Date | undefined;
 }
 
 const ChatHeader = ({
   receiverName,
   receiverImage,
-  lastMessageTime,
 }: PropsType) => {
   return (
     <S.ChatHeader>
