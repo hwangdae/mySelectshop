@@ -26,8 +26,7 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
   const [followType, setFollowType] = useState<"follower" | "following">(
     followTypeParams
   );
-  console.log(followTypeParams,"111")
-  console.log(followType,"22")
+
   const { data: userData } = useSession();
 
   const { data: followerData } = useQuery({

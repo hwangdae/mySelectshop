@@ -15,10 +15,7 @@ interface PropsType {
 }
 
 const UserActivity = ({ userId }: PropsType) => {
-  const { showFollowListToggle, setShowFollowListToggle } =
-    showFollowListStore();
   const { openModal } = useModal();
-  const router = useRouter();
 
   const { data: followerCount } = useQuery({
     queryKey: ["followerCount", userId],

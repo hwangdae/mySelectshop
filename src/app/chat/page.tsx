@@ -19,11 +19,11 @@ const ChatPage = () => {
     queryFn: getChat,
     refetchInterval: 1000,
   });
-  
+
   const currentUserWithMessage = users?.find(
     (user: TUserWithChat) => user.id === userData?.user?.id
   );
-  
+
   return (
     <S.ChatContainer>
       <S.chatInner>

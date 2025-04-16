@@ -12,7 +12,7 @@ const MapComponent = () => {
 
   useEffect(() => {
     if (map && bounds) {
-      map.setMaxLevel(5);
+      map.setMaxLevel(6);
       map.setBounds(bounds);
     }
   }, [map, bounds]);

@@ -35,7 +35,7 @@ const NearbySelectshop = () => {
   const filteredShops = selectshops.filter((selectshop) =>
     selectshop.place_name.includes(debouncedSearchTerm)
   );
-  console.log(filteredShops,"aaaa")
+  
   return (
     <S.SearchResultsContainer ref={scrollRef}>
       {filteredShops.length > 0 ? (

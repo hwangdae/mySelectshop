@@ -29,10 +29,7 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
 
     const imageUrl = image ? await uploadImagesFn(image) : null;
 
-    if (
-      (message.trim() === "" && (!imageUrl || imageUrl.length === 0)) ||
-      (message.trim() && (!imageUrl || imageUrl.length === 0))
-    ) {
+    if (!message.trim() && (!imageUrl || imageUrl.length === 0)) {
       setMessage("");
       setIsLoading(false);
       return;

@@ -50,7 +50,6 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
             ([date, messages]: [string, TMessage[]]) => (
               <div key={date}>
                 <S.DateLineWrap key={date}>
-                  {/* <S.DateLine>{date}</S.DateLine> */}
                   <S.DateDivider>{date}</S.DateDivider>
                 </S.DateLineWrap>
                 {messages?.map((message: TMessage) => {
@@ -118,14 +117,6 @@ const S = {
   `,
   DateLineWrap: styled.div`
     text-align: center;
-  `,
-  DateLine: styled.p`
-    display: inline-block;
-    margin: 20px 0;
-    padding: 3px 60px;
-    border-radius: 12px;
-    background-color: ${styleColor.GRAY[100]};
-    color: ${styleColor.WHITE};
   `,
   DateDivider: styled.div`
     display: flex;
