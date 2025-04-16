@@ -57,7 +57,7 @@ const S = {
     margin: 0 auto;
     justify-content: ${(props) =>
       props.$isSender ? "flex-end" : "flex-start"};
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   `,
   ReceiverName: styled.h3<{ $isSender: boolean }>`
     display: ${(props) => props.$isSender && "none"};

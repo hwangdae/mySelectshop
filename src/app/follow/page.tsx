@@ -26,6 +26,8 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
   const [followType, setFollowType] = useState<"follower" | "following">(
     followTypeParams
   );
+  console.log(followTypeParams,"111")
+  console.log(followType,"22")
   const { data: userData } = useSession();
 
   const { data: followerData } = useQuery({
@@ -110,7 +112,7 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
             </S.FollowList>
           ) : (
             <S.EmptyMessage>
-              <People fill={`${styleColor.WHITE}`} />
+              <People fill={`${styleColor.GRAY[600]}`} />
               아직 팔로워가 없습니다.
             </S.EmptyMessage>
           )
@@ -126,7 +128,7 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
           </S.FollowList>
         ) : (
           <S.EmptyMessage>
-            <People fill={`${styleColor.WHITE}`} />
+            <People fill={`${styleColor.GRAY[600]}`} />
             아직 팔로잉이 없습니다.
           </S.EmptyMessage>
         )}
@@ -191,6 +193,6 @@ const S = {
     justify-content: center;
     gap: 5px;
     ${styleFont.title.tit_md};
-    color: ${styleColor.WHITE};
+    color: ${styleColor.GRAY[600]};
   `,
 };

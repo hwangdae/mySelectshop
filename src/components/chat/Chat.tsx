@@ -48,9 +48,10 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
         {conversation !== undefined ? (
           Object.entries(groupMessagesByDate(conversation.messages)).map(
             ([date, messages]: [string, TMessage[]]) => (
-              <>
+              <div key={date}>
                 <S.DateLineWrap key={date}>
-                  <S.DateLine>{date}</S.DateLine>
+                  {/* <S.DateLine>{date}</S.DateLine> */}
+                  <S.DateDivider>{date}</S.DateDivider>
                 </S.DateLineWrap>
                 {messages?.map((message: TMessage) => {
                   return (
@@ -64,7 +65,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
                     />
                   );
                 })}
-              </>
+              </div>
             )
           )
         ) : (
@@ -125,6 +126,23 @@ const S = {
     border-radius: 12px;
     background-color: ${styleColor.GRAY[100]};
     color: ${styleColor.WHITE};
+  `,
+  DateDivider: styled.div`
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    text-align: center;
+    border-radius: 12px;
+    ${styleFont.text.txt_sm}
+    font-weight: 300;
+    color: ${styleColor.GRAY[300]};
+    &::before,
+    &::after {
+      flex: 1;
+      content: "";
+      border-top: 1px solid ${styleColor.GRAY[300]};
+      margin: 0px 10px;
+    }
   `,
   FirstConversationContainer: styled.div`
     position: absolute;

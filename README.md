@@ -42,8 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다. 위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.
 
 <br>
-<br>
-<br>
+
 
 # ✨ 기술 스택
 
@@ -64,8 +63,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 | **Kakao Maps API** | 사용자의 현재 위치 기반 주변 쇼핑몰 표시에 활용 |
 
 <br>
-<br>
-<br>
+
 
 # 📸 주요 기능 스크린샷
 
@@ -74,9 +72,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 리뷰 작성 페이지
 
 팔로우/팔로워 기능
+
+채팅 기능
 <br>
-<br>
-<br>
+
 
 # 🚀 주요 기능
 
@@ -111,8 +110,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # 🧭 프로젝트 구조
 
 src/  
-├── app/                    # Next.js App Router 디렉토리  
-│   ├── actions/            # 서버에서 실행되는 유틸리티 (ex. 현재 유저 가져오기)  
+├── app/          # Next.js App Router 디렉토리  
+│   ├── actions/    # 서버에서 실행되는 유틸리티 (ex. 현재 유저 가져오기)  
 │   ├── api/                # API 라우트 (ex. follow, review, chat 등)  
 │   ├── auth/               # 로그인, 회원가입, 프로필 페이지  
 │   ├── bestReviewer/       # 베스트 리뷰어 페이지  
@@ -138,7 +137,7 @@ src/
 │   ├── selectshop/         # 셀렉트샵 관련  
 │   └── sidebar/            # 사이드바 관련 컴포넌트  
 │  
-├── context/                # React Context (모달 컨텍스트 등)  
+├── context/                # React Context (모달 컨텍스트)  
 ├── globalState/            # Zustand 전역 상태  
 ├── hook/                   # 커스텀 훅  
 ├── lib/                    # API, prisma 클라이언트 등 유틸  
