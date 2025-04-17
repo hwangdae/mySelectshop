@@ -45,6 +45,8 @@ const ProfileUpdate = () => {
   const profileUpdateHandleSubmit: SubmitHandler<FieldValues> = async (
     body
   ) => {
+    console.log("너 눌렸어?");
+    console.log(body)
     setIsLoading(true);
     const imageUrl = body.uploadImage
       ? await uploadImage(body.uploadImage as File)
@@ -55,7 +57,7 @@ const ProfileUpdate = () => {
       name: body.name || (userData?.user?.name as string),
     };
     try {
-      profileUpdate(updateProfileData)
+      profileUpdate(updateProfileData);
       await update(updateProfileData);
       alert("프로필 수정이 완료 되었습니다.");
       closeModal();
@@ -97,7 +99,18 @@ const ProfileUpdate = () => {
           </S.ProfileContents>
           <S.ProfileFn>
             <Button type="submit">수정{isLoading && <CommonSpinner />}</Button>
-            <Button onClick={() => signOut()}>로그아웃</Button>
+            <Button
+              type="button"
+              onClick={() => {
+                if (window.confirm("로그아웃 하시겠어요?")) {
+                  signOut();
+                } else {
+                  return;
+                }
+              }}
+            >
+              로그아웃
+            </Button>
           </S.ProfileFn>
         </S.ProfileFormContainer>
       </S.ProfileUpdateInner>

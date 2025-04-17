@@ -66,9 +66,24 @@ export default UploadPreview;
 
 const S = {
   PreviewContainer: styled.div`
+    height: 177px;
+    overflow-y: auto;
     background-color: ${styleColor.WHITE};
     padding: 20px;
     box-shadow: 2px 0px 8px 2px rgba(155, 155, 155, 0.1);
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: ${styleColor.INDIGO.main};
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(206, 206, 206, 0.1);
+    }
   `,
   PreviewHeader: styled.header`
     display: flex;

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import MyAddress from "./MyAddress";
 import Profile from "../profile/Profile";
 import { useSession } from "next-auth/react";
-import ShowFollow from "./ShowFollow";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import { myLocationStore, showFollowListStore } from "@/globalState";
 import { useModal } from "@/context/ModalContext";
@@ -38,27 +37,21 @@ const Contents = () => {
   return (
     <S.ContentsContainer>
       <Profile />
-      {showFollowListToggle ? (
-        <ShowFollow />
-      ) : (
-        <>
-          <MyAddress />
-          <S.ContentsInner>
-            {CONTENTSTABNAV.map((content) => {
-              return (
-                <S.Content key={content.id}>
-                  <S.ContentButton
-                    type="button"
-                    onClick={() => viewSelectshopHandle(content.id)}
-                  >
-                    {content.name}
-                  </S.ContentButton>
-                </S.Content>
-              );
-            })}
-          </S.ContentsInner>
-        </>
-      )}
+      <MyAddress />
+      <S.ContentsInner>
+        {CONTENTSTABNAV.map((content) => {
+          return (
+            <S.Content key={content.id}>
+              <S.ContentButton
+                type="button"
+                onClick={() => viewSelectshopHandle(content.id)}
+              >
+                {content.name}
+              </S.ContentButton>
+            </S.Content>
+          );
+        })}
+      </S.ContentsInner>
     </S.ContentsContainer>
   );
 };

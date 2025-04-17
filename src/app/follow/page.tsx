@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
@@ -111,7 +110,7 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
             </S.FollowList>
           ) : (
             <S.EmptyMessage>
-              <People fill={`${styleColor.GRAY[600]}`} />
+              <People width={"25px"} height={"25px"} fill={`${styleColor.GRAY[500]}`} />
               아직 팔로워가 없습니다.
             </S.EmptyMessage>
           )
@@ -127,7 +126,7 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
           </S.FollowList>
         ) : (
           <S.EmptyMessage>
-            <People fill={`${styleColor.GRAY[600]}`} />
+            <People width={"25px"} height={"25px"} fill={`${styleColor.GRAY[500]}`} />
             아직 팔로잉이 없습니다.
           </S.EmptyMessage>
         )}
@@ -192,6 +191,6 @@ const S = {
     justify-content: center;
     gap: 5px;
     ${styleFont.title.tit_md};
-    color: ${styleColor.GRAY[600]};
+    color: ${styleColor.GRAY[500]};
   `,
 };

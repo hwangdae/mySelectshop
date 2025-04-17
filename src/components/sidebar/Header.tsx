@@ -42,7 +42,17 @@ const Header = () => {
           {!userData?.user ? (
             <Button onClick={() => openModal({ type: "login" })}>로그인</Button>
           ) : (
-            <Button onClick={() => signOut()}>로그아웃</Button>
+            <Button
+              onClick={() => {
+                if (window.confirm("로그아웃 하시겠어요?")) {
+                  signOut();
+                }else{
+                  return ;
+                }
+              }}
+            >
+              로그아웃
+            </Button>
           )}
         </S.HeaderTop>
         <S.SearchForm onSubmit={searchSelectshopSubmit}>
