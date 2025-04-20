@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Contents from "./Contents";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import VisitedSelectshopPage from "@/app/visitedSelectshop/page";
 import NearbySelectshopPage from "@/app/nearbySelectshop/page";
 import NotVisiteSelectshopPage from "@/app/notVisiteSelectshop/page";

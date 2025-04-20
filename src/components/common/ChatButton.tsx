@@ -2,7 +2,6 @@ import { useModal } from "@/context/ModalContext";
 import { receiverStore } from "@/globalState";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { TUser } from "@/types";
 import React from "react";
 import styled from "styled-components";
 

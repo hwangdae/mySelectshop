@@ -12,7 +12,7 @@ import { TBestReviewer } from "@/types";
 import { myAddressStore } from "@/globalState";
 
 const BestReviewer = () => {
-  const [activeUserId, setActiveuserId] = useState<String>();
+  const [activeUserId, setActiveuserId] = useState<string>("");
   const { searchAllPlaces, selectshops } = useKakaoSearch();
   const { myAddress } = myAddressStore();
 

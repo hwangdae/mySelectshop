@@ -74,9 +74,7 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
             />
             <S.ActionButtons>
               <ImageUploader
-                files={image}
                 setFiles={setImage}
-                previewImages={previewImages}
                 setPreviewImages={setPreviewImages}
               />
               <S.SendButton>

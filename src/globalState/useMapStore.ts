@@ -8,8 +8,8 @@ interface MyLocationType {
 }
 
 interface BoundsType {
-  bounds: null;
-  setBounds: (bounds: any) => void;
+  bounds: kakao.maps.LatLngBounds | null;
+  setBounds: (bounds: kakao.maps.LatLngBounds) => void;
 }
 
 export const myLocationStore = create<MyLocationType>((set) => ({

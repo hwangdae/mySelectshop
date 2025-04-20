@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { useState } from "react";
 import NoImage from "@/assets/NoImage.svg";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -18,7 +18,6 @@ const ImageUploader = ({
   type = "file",
   accept = "image/*",
   id = "file-upload",
-  children,
   ...props
 }: PropsType) => {
   const [previewImages] = useState<string[]>(

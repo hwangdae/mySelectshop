@@ -5,11 +5,11 @@ import styled from "styled-components";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import Tags from "./Tags";
 import CommonSwiper from "../ui/CommonSwiper";
-import { TReview } from "@/types";
+import { TReviewWithShopInfo } from "@/types";
 import ReviewEditor from "../reviewEditor/ReviewEditor";
 
 interface PropsType {
-  review: TReview | undefined;
+  review: TReviewWithShopInfo;
   nickName?: string;
   type?: string;
   isEditReview?: boolean;
@@ -23,7 +23,6 @@ const MyReview = ({
   isEditReview,
   setIsEditReview,
 }: PropsType) => {
-  if (!review) return;
 
   const {
     reviewImages,
@@ -34,7 +33,7 @@ const MyReview = ({
     shopInfo,
   } = review;
 
-  useInitializeMapState(shopInfo?.y, shopInfo?.x);
+  useInitializeMapState(shopInfo?.y || 0, shopInfo?.x || 0);
 
   return isEditReview ? (
     <ReviewEditor

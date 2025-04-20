@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "@/styles/defaultTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import dynamic from "next/dynamic";
 import GlobalModal from "@/components/common/GlobalModal";
 import { ModalProvider } from "../context/ModalContext";
 import MapComponent from "@/components/map/Map";

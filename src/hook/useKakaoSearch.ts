@@ -5,7 +5,7 @@ import {
   selectshopsStore,
 } from "@/globalState";
 import { TMarker, TPagination, TPlace } from "@/types";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useKakaoSearch = () => {
   const { center } = myLocationStore();
@@ -85,9 +85,9 @@ const useKakaoSearch = () => {
     }
   };
 
-  const displayPlaces = (data: any[]) => {
+  const displayPlaces = (data:any[]) => {
     const bounds = new window.kakao.maps.LatLngBounds();
-    let newMarkers: TMarker[] = [];
+    const newMarkers: TMarker[] = [];
     data.forEach((place) => {
       const position = { lat: place.y, lng: place.x };
       newMarkers.push({ position });

@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { ErrorMessage } from "@hookform/error-message";
 import Eye from "@/assets/Eye.svg";
 import EyeInvisible from "@/assets/EyeInvisible.svg";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Input from "@/components/ui/Input";
 import useToggle from "@/hook/useToggle";
 import { registerSignUpSchema } from "@/validators/auth";
@@ -19,7 +19,7 @@ const Register = () => {
   const [showCheckPassword, handleCheckPasswordToggle] = useToggle(false);
   const [isLoading, setIsLoading] = useState(false);
   const { closeModal } = useModal();
-  
+
   const {
     register,
     handleSubmit,
@@ -40,9 +40,10 @@ const Register = () => {
       await axios.post("/api/register", body);
       alert("회원가입이 완료 되었습니다.");
       closeModal();
-    } catch (err: any) {
-      if (err.response?.status === 400) {
-        alert(err.response.data.message);
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message: string }>;
+      if (error.response?.status === 400) {
+        alert(error.response.data.message);
       } else {
         console.error(err);
         alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");

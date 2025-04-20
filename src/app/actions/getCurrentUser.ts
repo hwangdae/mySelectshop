@@ -24,10 +24,8 @@ export const getCurrentUser = async () => {
       return null;
     }
 
-    return currentUser
-
-  } catch (error) {
+    return currentUser;
+  } catch (error: unknown) {
     return null;
   }
-
 };

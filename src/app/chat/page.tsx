@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { TUserWithChat } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Contacts from "@/components/chat/Contacts";

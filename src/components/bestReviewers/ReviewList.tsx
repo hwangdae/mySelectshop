@@ -5,7 +5,7 @@ import Review from "./Review";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
 import { styleColor } from "@/styles/styleColor";
 import MyReview from "../common/MyReview";
-import { TBestReviewer, TPlace, TReview } from "@/types";
+import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
 
 interface PropsType {
@@ -15,7 +15,7 @@ interface PropsType {
 
 const ReviewList = ({ user, selectshops }: PropsType) => {
   const { name, reviews } = user;
-  const [detailReview, setDetailReview] = useState<TReview>();
+  const [detailReview, setDetailReview] = useState<TReviewWithShopInfo>();
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
@@ -75,11 +75,11 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
           <S.Title>{name}님의 리뷰 리스트</S.Title>
         </S.TitleWrap>
       )}
-      {isReviewOpen ? (
+      {isReviewOpen && detailReview ? (
         <MyReview review={detailReview} nickName={name} />
       ) : (
         <S.ReviewListWrap>
-          {reviewsWithShopInfo?.map((review: TReview) => {
+          {reviewsWithShopInfo?.map((review: TReviewWithShopInfo) => {
             return (
               <li
                 key={review.id}

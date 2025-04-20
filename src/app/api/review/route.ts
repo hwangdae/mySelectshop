@@ -12,7 +12,7 @@ export const GET = async (request: Request) => {
         })
       : await prisma.review.findMany();
     return NextResponse.json(reviews);
-  } catch (error) {
+  } catch (error:unknown) {
     console.log(error);
   }
 };
@@ -74,7 +74,9 @@ export const PATCH = async (request: Request) => {
       },
     });
     return NextResponse.json(updateReview);
-  } catch (error) {}
+  } catch (error:unknown) {
+    console.log(error)
+  }
 };
 
 export const DELETE = async (request: Request) => {

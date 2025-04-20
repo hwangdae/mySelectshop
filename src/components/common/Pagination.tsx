@@ -104,7 +104,7 @@ const S = {
     align-items: center;
     gap: 20px;
   `,
-  PageNumberButton: styled.button<{ $index: Number; $currentPage: Number }>`
+  PageNumberButton: styled.button<{ $index: number; $currentPage: number }>`
     cursor: pointer;
     font-size: 14px;
     color: ${(props) =>

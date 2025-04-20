@@ -94,7 +94,7 @@ const S = {
       display: none;
     }
   `,
-  MessageItem: styled.li<{ $userId: String; $receiverId: String }>`
+  MessageItem: styled.li<{ $userId: string; $receiverId: string }>`
     cursor: pointer;
     padding: 16px 16px;
     background-color: ${(props) =>

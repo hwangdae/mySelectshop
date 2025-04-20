@@ -1,7 +1,5 @@
 import { createContext, useContext, useState } from "react";
 
-type ModalType = "login" | "signup" | "profile" | "chat" | "follow" | null;
-
 type ModalPayload =
   | { type: "login" }
   | { type: "signup" }

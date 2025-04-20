@@ -1,7 +1,8 @@
 import { boundsStore } from "@/globalState";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-const useInitializeMapState = (y?: number, x?: number) => {
+const useInitializeMapState = (y: number, x: number) => {
+  if (!y || !x) return;
   const { setBounds } = boundsStore();
   useEffect(() => {
     if (
@@ -12,8 +13,8 @@ const useInitializeMapState = (y?: number, x?: number) => {
       y &&
       x
     ) {
-      let bounds = new kakao.maps.LatLngBounds();
-      let position = new kakao.maps.LatLng(y, x);
+      const bounds = new kakao.maps.LatLngBounds();
+      const position = new kakao.maps.LatLng(y, x);
       bounds.extend(position);
       setBounds(bounds);
     }

@@ -1,12 +1,9 @@
 import { useModal } from "@/context/ModalContext";
-import { showFollowListStore } from "@/globalState";
 import { getFollowerCount, getFollowingCount } from "@/lib/follow";
 import { getReviewCount } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 

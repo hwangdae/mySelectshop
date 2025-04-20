@@ -9,7 +9,10 @@ export interface TReview {
   tags: string | null;
   userId: string;
   selectshopId: string;
-  shopInfo?: TPlace | null;
+}
+
+export interface TReviewWithShopInfo extends TReview {
+  shopInfo?: TPlace;
 }
 
 export interface TReviewFormData {

@@ -18,7 +18,6 @@ const CONTENTSTABNAV = [
 
 const Contents = () => {
   const router = useRouter();
-  const { showFollowListToggle } = showFollowListStore();
   const { data: session } = useSession();
   const { center } = myLocationStore();
   const { lat, lng } = center;

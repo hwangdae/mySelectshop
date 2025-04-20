@@ -5,9 +5,6 @@ import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { TUser } from "@/types/user";
 import ProfileImage from "../ui/ProfileImage";
-import { useModal } from "@/context/ModalContext";
-import { receiverStore } from "@/globalState";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import ChatButton from "./ChatButton";
 
@@ -17,8 +14,6 @@ interface PropsType {
   isMutualFollow?: () => void;
 }
 const User = ({ user, type, isMutualFollow }: PropsType) => {
-  const { setReceiver } = receiverStore();
-  const { openModal } = useModal();
   const { data: userData } = useSession();
   return (
     <S.UserContainer $type={type}>

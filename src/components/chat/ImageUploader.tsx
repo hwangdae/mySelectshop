@@ -6,21 +6,16 @@ import { imageCompressionFn } from "@/utils/imageCompression";
 import { styleColor } from "@/styles/styleColor";
 
 interface PropsType extends React.InputHTMLAttributes<HTMLInputElement> {
-  files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  previewImages: File[];
   setPreviewImages: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 const ImageUploader = ({
-  files,
   setFiles,
-  previewImages,
   setPreviewImages,
   type = "file",
   accept = "image/*",
   id = "file-upload",
-  children,
   ...props
 }: PropsType) => {
   const onChangeImageUpload = async (

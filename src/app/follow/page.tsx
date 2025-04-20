@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { styleFont } from "@/styles/styleFont";
@@ -111,7 +111,11 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
             </S.FollowList>
           ) : (
             <S.EmptyMessage>
-              <People width={"25px"} height={"25px"} fill={`${styleColor.GRAY[500]}`} />
+              <People
+                width={"25px"}
+                height={"25px"}
+                fill={`${styleColor.GRAY[500]}`}
+              />
               아직 팔로워가 없습니다.
             </S.EmptyMessage>
           )
@@ -127,7 +131,11 @@ const FollowPage = ({ followTypeParams }: PropsType) => {
           </S.FollowList>
         ) : (
           <S.EmptyMessage>
-            <People width={"25px"} height={"25px"} fill={`${styleColor.GRAY[500]}`} />
+            <People
+              width={"25px"}
+              height={"25px"}
+              fill={`${styleColor.GRAY[500]}`}
+            />
             아직 팔로잉이 없습니다.
           </S.EmptyMessage>
         )}

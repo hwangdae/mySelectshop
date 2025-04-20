@@ -6,7 +6,7 @@ import MyLocationMaker from "./MyLocationMaker";
 import { boundsStore, myLocationStore } from "@/globalState";
 
 const MapComponent = () => {
-  const [map, setMap] = useState<any>();
+  const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const { center, setCenter, isLoading, setIsLoading } = myLocationStore();
   const { bounds } = boundsStore();
 

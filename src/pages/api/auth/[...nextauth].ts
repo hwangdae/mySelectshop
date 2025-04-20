@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
         email: {},
         password: {},
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }

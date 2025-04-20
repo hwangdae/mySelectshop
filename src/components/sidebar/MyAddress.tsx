@@ -1,9 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import LocationDot from "@/assets/LocationDot.svg";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
 import { myAddressStore, myLocationStore } from "@/globalState";
+
+type RegionCodeResult = {
+  region_type: string;
+  address_name: string;
+  region_1depth_name: string;
+  region_2depth_name: string;
+  region_3depth_name: string;
+  code: string;
+};
 
 const MyAddress = () => {
   const { center } = myLocationStore();
@@ -16,9 +25,12 @@ const MyAddress = () => {
       window.kakao.maps &&
       window.kakao.maps.services
     ) {
-      let geocoder = new kakao.maps.services.Geocoder();
+      const geocoder = new kakao.maps.services.Geocoder();
 
-      let updateAddressFromGeocode = function (data: any, status: string) {
+      const updateAddressFromGeocode = function (
+        data: RegionCodeResult[],
+        status: string
+      ) {
         if (status === kakao.maps.services.Status.OK) {
           setMyAddress(data[0].address_name);
         }

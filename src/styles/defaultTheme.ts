@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 import { styleColor } from "./styleColor";
 
-export let theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: `${styleColor.BLUE.main}`,

@@ -1,7 +1,7 @@
 import { uploadImage } from "./uploadImage";
 
 export const uploadImagesFn = async (files: File[]) => {
-  let imagesString: string[] = [];
+  const imagesString: string[] = [];
 
   if (files && files.length > 0) {
     for (const file of files) {

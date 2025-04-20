@@ -11,11 +11,10 @@ import { searchTermStore } from "@/globalState";
 
 interface PropsType {
   selectshop: TPlace;
-  type?: string;
 }
 
-const SelectshopInfoCard = ({ selectshop, type }: PropsType) => {
-  const { id, place_name, address_name, phone, distance, x, y } = selectshop;
+const SelectshopInfoCard = ({ selectshop }: PropsType) => {
+  const { id, place_name, address_name, phone, distance } = selectshop;
   const { searchTerm } = searchTermStore();
   const { data: userData } = useSession();
 

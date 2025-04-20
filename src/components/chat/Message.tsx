@@ -28,7 +28,7 @@ const Message = ({
         <S.ReceiverName $isSender={isSender}>{receiverName}</S.ReceiverName>
         <S.ImageList $isSender={isSender}>
           {messageImage !== "" &&
-            messageImage?.split(",").map((image, index) => {
+            messageImage?.split(",").map((image) => {
               return (
                 <S.ImageItem
                   $imageCount={messageImage?.split(",").length}

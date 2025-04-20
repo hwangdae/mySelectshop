@@ -6,7 +6,6 @@ import Follow from "../common/Follow";
 import { getFollowerCount } from "@/lib/follow";
 import { TBestReviewer } from "@/types";
 import ProfileImage from "../ui/ProfileImage";
-import ChatButton from "../common/ChatButton";
 
 interface PropsType {
   user: TBestReviewer;

@@ -1,4 +1,4 @@
-import { getChat, postChat } from "@/lib/chat";
+import { postChat } from "@/lib/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useChatMutate = () => {

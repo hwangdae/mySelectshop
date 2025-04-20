@@ -18,9 +18,8 @@ const CustomPagination = ({
   setCurrentPage,
   scrollRef,
 }: PropsType) => {
-
   const totalPages = Math.ceil(selectshops.length / 15);
-  
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: 0 });
@@ -30,13 +29,16 @@ const CustomPagination = ({
   return (
     <S.PaginationContainer>
       <S.PageButtonWrap>
-       <button onClick={()=>setCurrentPage(1)}>
+        <button onClick={() => setCurrentPage(1)}>
           <Chevrons
             transform={"rotate(180)"}
             fill={`${styleColor.GRAY[400]}`}
           />
         </button>
-        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           <Chevron transform={"rotate(180)"} fill={`${styleColor.GRAY[400]}`} />
         </button>
       </S.PageButtonWrap>
@@ -44,8 +46,8 @@ const CustomPagination = ({
         {Array.from({ length: totalPages }).map((_, index) => {
           return (
             <S.PageNumberButton
-              key={index+1}
-              $index={index+1}
+              key={index + 1}
+              $index={index + 1}
               $currentPage={currentPage}
               onClick={() => setCurrentPage(index + 1)}
             >
@@ -55,10 +57,13 @@ const CustomPagination = ({
         })}
       </S.PageNumberButtons>
       <S.PageButtonWrap>
-        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           <Chevron fill={`${styleColor.GRAY[400]}`} />
         </button>
-        <button onClick={()=>setCurrentPage(totalPages)}>
+        <button onClick={() => setCurrentPage(totalPages)}>
           <Chevrons fill={`${styleColor.GRAY[400]}`} />
         </button>
       </S.PageButtonWrap>
@@ -94,7 +99,7 @@ const S = {
     align-items: center;
     gap: 20px;
   `,
-  PageNumberButton: styled.button<{ $index: Number; $currentPage: Number }>`
+  PageNumberButton: styled.button<{ $index: number; $currentPage: number }>`
     cursor: pointer;
     font-size: 14px;
     color: ${(props) =>
