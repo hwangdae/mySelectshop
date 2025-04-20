@@ -3,9 +3,10 @@ import styled from "styled-components";
 import Chevron from "@/assets/Chevron.svg";
 import Chevrons from "@/assets/Chevrons.svg";
 import { styleColor } from "@/styles/styleColor";
+import { TPagination } from "@/types";
 
 interface PropsType {
-  pagination: any;
+  pagination: TPagination;
   currentPage: number;
   setCurrentPage: (page: number) => void;
   scrollRef: RefObject<HTMLDivElement | null>;

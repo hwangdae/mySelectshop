@@ -2,7 +2,6 @@ import { boundsStore } from "@/globalState";
 import { useEffect } from "react";
 
 const useInitializeMapState = (y: number, x: number) => {
-  if (!y || !x) return;
   const { setBounds } = boundsStore();
   useEffect(() => {
     if (

@@ -36,7 +36,7 @@ const useKakaoSearch = () => {
       );
     }
   };
- 
+
   const searchAllPlaces = (
     currentPage: number = 1,
     accumulatedShops: TPlace[] = []
@@ -64,14 +64,22 @@ const useKakaoSearch = () => {
   };
 
   const placesSearchCB = (
-    data: any[],
+    data: kakao.maps.services.PlacesSearchResultItem[],
     status: string,
     pagination: TPagination,
     accumulatedShops: TPlace[] = [],
     isAllPages: boolean = false
   ) => {
     if (status === window.kakao.maps.services.Status.OK) {
-      const updatedShops = [...accumulatedShops, ...data];
+      const convertedData: TPlace[] = data.map((place) => ({
+        ...place,
+        category_group_code: Array.isArray(place.category_group_code)
+          ? place.category_group_code[0] ?? ""
+          : place.category_group_code,
+        x: place.x,
+        y: place.y,
+      }));
+      const updatedShops = [...accumulatedShops, ...convertedData];
 
       if (isAllPages && pagination.current < pagination.last) {
         searchAllPlaces(pagination.current + 1, updatedShops);
@@ -85,7 +93,7 @@ const useKakaoSearch = () => {
     }
   };
 
-  const displayPlaces = (data:any[]) => {
+  const displayPlaces = (data: any[]) => {
     const bounds = new window.kakao.maps.LatLngBounds();
     const newMarkers: TMarker[] = [];
     data.forEach((place) => {

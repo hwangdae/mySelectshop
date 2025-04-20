@@ -5,7 +5,7 @@ import MyAddress from "./MyAddress";
 import Profile from "../profile/Profile";
 import { useSession } from "next-auth/react";
 import useInitializeMapState from "@/hook/useInitializeMapState";
-import { myLocationStore, showFollowListStore } from "@/globalState";
+import { myLocationStore } from "@/globalState";
 import { useModal } from "@/context/ModalContext";
 import { useRouter } from "next/navigation";
 
