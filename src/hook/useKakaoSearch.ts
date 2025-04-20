@@ -76,8 +76,8 @@ const useKakaoSearch = () => {
         category_group_code: Array.isArray(place.category_group_code)
           ? place.category_group_code[0] ?? ""
           : place.category_group_code,
-        x: place.x,
-        y: place.y,
+        x: Number(place.x),
+        y: Number(place.y),
       }));
       const updatedShops = [...accumulatedShops, ...convertedData];
 
@@ -93,11 +93,11 @@ const useKakaoSearch = () => {
     }
   };
 
-  const displayPlaces = (data: any[]) => {
+  const displayPlaces = (data: TPlace[]) => {
     const bounds = new window.kakao.maps.LatLngBounds();
     const newMarkers: TMarker[] = [];
     data.forEach((place) => {
-      const position = { lat: place.y, lng: place.x };
+      const position = { lat: Number(place.y), lng: Number(place.x) };
       newMarkers.push({ position });
       bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
     });

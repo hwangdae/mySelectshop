@@ -27,14 +27,14 @@ const Pagination = ({
   const nextPageButtonHandler = () => {
     if (pagination && pagination.hasNextPage) {
       setCurrentPage(currentPage + 1);
-      pagination.nextPage;
+      pagination.nextPage(currentPage - 1);
     }
   };
 
   const prevPageButtonHandler = () => {
     if (pagination && pagination.hasPrevPage) {
       setCurrentPage(currentPage - 1);
-      pagination.prevPage;
+      pagination.prevPage(currentPage - 1);
     }
   };
 
