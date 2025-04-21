@@ -5,7 +5,6 @@ import RegisterPage from "@/app/auth/register/page";
 import LoginPage from "@/app/auth/login/page";
 import UpdateProfilePage from "@/app/auth/profile/page";
 import ChatPage from "@/app/chat/page";
-import FollowPage from "@/app/follow/page";
 import Follow from "../follow/Follow";
 
 export default function GlobalModal() {
