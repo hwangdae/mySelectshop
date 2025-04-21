@@ -35,7 +35,7 @@ const NearbySelectshop = () => {
   const filteredShops = selectshops.filter((selectshop) =>
     selectshop.place_name.includes(debouncedSearchTerm)
   );
-  
+
   return (
     <S.SearchResultsContainer ref={scrollRef}>
       {filteredShops.length > 0 ? (
@@ -58,7 +58,7 @@ const NearbySelectshop = () => {
         <NoSearchResult />
       )}
 
-      {filteredShops.length >= 15 && (
+      {filteredShops.length >= 15 && pagination && (
         <Pagination
           pagination={pagination}
           currentPage={currentPage}
