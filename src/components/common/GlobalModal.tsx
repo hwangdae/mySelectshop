@@ -6,6 +6,7 @@ import LoginPage from "@/app/auth/login/page";
 import UpdateProfilePage from "@/app/auth/profile/page";
 import ChatPage from "@/app/chat/page";
 import FollowPage from "@/app/follow/page";
+import Follow from "../follow/Follow";
 
 export default function GlobalModal() {
   const { modal, closeModal } = useModal();
@@ -17,7 +18,7 @@ export default function GlobalModal() {
       {modal.type === "profile" && <UpdateProfilePage />}
       {modal.type === "chat" && <ChatPage />}
       {modal.type === "follow" && modal.params && (
-        <FollowPage followTypeParams={modal.params.followType} />
+        <Follow followTypeParams={modal.params.followType} />
       )}
     </Modal>
   );
