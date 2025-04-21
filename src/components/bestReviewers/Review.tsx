@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { TReview } from "@/types";
+import { TReviewWithShopInfo } from "@/types";
 
 interface PropsType {
-  review: TReview;
+  review: TReviewWithShopInfo;
 }
 
 const Review = ({ review }: PropsType) => {
@@ -25,8 +25,8 @@ const Review = ({ review }: PropsType) => {
           <S.PlaceName>{shopInfo?.place_name}</S.PlaceName>
           {shopInfo?.distance && (
             <S.SelectshopDistance>
-              {shopInfo?.distance >= 1000
-                ? `${(shopInfo?.distance / 1000).toFixed(1)}km`
+              {Number(shopInfo?.distance) >= 1000
+                ? `${(Number(shopInfo?.distance) / 1000).toFixed(1)}km`
                 : `${shopInfo?.distance}m`}
             </S.SelectshopDistance>
           )}
