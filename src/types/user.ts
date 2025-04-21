@@ -10,7 +10,7 @@ export interface TUser {
   reviews?: Review[];
 }
 
-export interface TUserWithChat extends User {
+export interface TUserWithChat extends TUser {
   conversations: TConversation[];
 }
 

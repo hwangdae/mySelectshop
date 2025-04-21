@@ -21,7 +21,7 @@ const ChatPage = () => {
   });
 
   const currentUserWithMessage = users?.find(
-    (user: TUserWithChat) => String(user.id) === userData?.user?.id
+    (user: TUserWithChat) => user.id === userData?.user?.id
   );
 
   return (
