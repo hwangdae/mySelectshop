@@ -63,8 +63,8 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
             </S.SelectshopName>
             <S.SelectshopStats>
               <S.SelectshopDistance>
-                {distance >= 1000
-                  ? `${(distance / 1000).toFixed(1)}km`
+                {Number(distance) >= 1000
+                  ? `${(Number(distance)/1000).toFixed(1)}km`
                   : `${distance}m`}
               </S.SelectshopDistance>
               <span style={{ color: `${styleColor.GRAY[400]}` }}>·</span>
