@@ -1,42 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-
-
 # 🛍️ MySelectshop
 
 내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다. 위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.
@@ -63,7 +24,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 | **Kakao Maps API** | 사용자의 현재 위치 기반 주변 쇼핑몰 표시에 활용 |
 
 <br>
-
+<br>
 
 # 📸 주요 기능 스크린샷
 
@@ -75,7 +36,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 채팅 기능
 <br>
-
+<br>
 
 # 🚀 주요 기능
 
@@ -103,7 +64,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - **💬 실시간 채팅 기능**  
   유저 간 1:1 채팅이 가능하며, 모달을 통해 실시간으로 대화를 주고받을 수 있습니다.
 
-<br>
 <br>
 <br>
 
