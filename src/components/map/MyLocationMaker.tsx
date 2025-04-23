@@ -10,7 +10,7 @@ const MyLocationMaker = ({ center }: PropsType) => {
     <MapMarker
       position={center}
       image={{
-        src: "public/images/myLocation.png",
+        src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
         size: {
           width: 60,
           height: 60,
