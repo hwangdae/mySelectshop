@@ -23,12 +23,13 @@ const MyReview = ({
   isEditReview,
   setIsEditReview,
 }: PropsType) => {
-
+  
   const {
     reviewImages,
     description,
     advantages,
     disAdvantages,
+    selectshopId,
     tags,
     shopInfo,
   } = review;
@@ -37,8 +38,9 @@ const MyReview = ({
 
   return isEditReview ? (
     <ReviewEditor
-      type={"edit"}
+      type="edit"
       prevReview={review}
+      selectshopId={selectshopId}
       setIsEditReview={setIsEditReview}
     />
   ) : (

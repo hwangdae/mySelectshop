@@ -80,7 +80,7 @@ const ReviewEditor = ({
     name: "disAdvantages",
   });
 
-  const addReviewSubmit: SubmitHandler<TReviewFormData> = async ({
+  const ReviewEditSubmit: SubmitHandler<TReviewFormData> = async ({
     description,
     advantages,
     disAdvantages,
@@ -114,7 +114,7 @@ const ReviewEditor = ({
           ...newReview,
           id: prevReview?.id,
         };
-        reviewMutate.mutate(updateReview);
+        await reviewMutate.mutateAsync(updateReview);
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }
@@ -127,7 +127,7 @@ const ReviewEditor = ({
 
   return (
     <S.ReviewEditorContainer>
-      <S.ReviewEditorInner onSubmit={handleSubmit(addReviewSubmit)}>
+      <S.ReviewEditorInner onSubmit={handleSubmit(ReviewEditSubmit)}>
         <S.ReviewEditorTitle>
           ✍ 후기 {type === "edit" ? "수정" : "등록"}하기
         </S.ReviewEditorTitle>

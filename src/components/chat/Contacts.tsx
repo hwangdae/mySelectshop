@@ -38,7 +38,7 @@ const Contacts = ({
     );
     return isNotCurrentUser && hasMutualConversation;
   });
-  console.log(filteredUsers);
+  
   return (
     <S.ContactsContainer>
       <h1>MESSAGES</h1>

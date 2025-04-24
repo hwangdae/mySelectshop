@@ -10,7 +10,7 @@ const useReview = (type?: string, id?: string) => {
   };
 
   const reviewMutate = useMutation({
-    mutationFn: type === "write" ? writeReview : updateReview,
+    mutationFn: type === "edit" ? updateReview : writeReview,
     onSuccess: success,
   });
 

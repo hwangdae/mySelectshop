@@ -45,8 +45,7 @@ const ProfileUpdate = () => {
   const profileUpdateHandleSubmit: SubmitHandler<FieldValues> = async (
     body
   ) => {
-    console.log("너 눌렸어?");
-    console.log(body)
+
     setIsLoading(true);
     const imageUrl = body.uploadImage
       ? await uploadImage(body.uploadImage as File)
