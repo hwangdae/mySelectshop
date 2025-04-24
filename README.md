@@ -1,11 +1,44 @@
-# 🛍️ MySelectshop
+## 🛍️ MySelectshop
 
-내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다. 위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.
-
-<br>
+내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다.<br>위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.
 
 
-# ✨ 기술 스택
+## 🌍배포 주소
+
+<li>https://myselectshop.shop</li>
+
+## 🔧설치 및 실행
+```bash
+git clone https://github.com/hwangdae/mySelectshop.git
+
+cd mySelectshop
+
+npm install # or yarn install
+
+npm run dev # or yarn dev
+```
+
+## .env .example
+```env
+# 🔑 Kakao Maps API
+NEXT_PUBLIC_KAKAO_APP_JS_KEY=your-kakao-js-key
+
+# 🔐 NextAuth
+NEXTAUTH_SECRET=your-nextauth-secret
+NEXTAUTH_URL=http://localhost:3000
+
+# 🔐 JWT
+JWT_SECRET=your-jwt-secret
+
+# 🗄️ PostgreSQL (Prisma 사용)
+DATABASE_URL=postgresql://user:password@localhost:5432/your-db
+
+# ☁️ Cloudinary
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
+```
+
+## ✨ 기술 스택
 
 | 기술            | 설명 |
 |-----------------|------|
@@ -23,22 +56,36 @@
 | **Cloudinary** | 이미지 업로드 및 최적화를 위한 이미지 호스팅 서비스 |
 | **Kakao Maps API** | 사용자의 현재 위치 기반 주변 쇼핑몰 표시에 활용 |
 
+
+## 📸 주요 기능 스크린샷
+**로그인/회원가입**<br>
+<img src="https://github.com/user-attachments/assets/c814384f-80d3-43fc-a606-a15163241636"  width="480" height="237"/>
+<img src="https://github.com/user-attachments/assets/c00b4aec-0c45-44dc-afef-de54df7b41ba"  width="480" height="237"/>
 <br>
 <br>
-
-# 📸 주요 기능 스크린샷
-
-지도 기반 쇼핑몰 탐색 페이지
-
-리뷰 작성 페이지
-
-팔로우/팔로워 기능
-
-채팅 기능
+**현재 위치 기반 매장 탐색**<br>
+<img src="https://github.com/user-attachments/assets/906c9b5d-a043-4d3e-bf7f-dc3e5e49ed30"  width="480" height="237"/>
 <br>
 <br>
+**리뷰 작성 페이지**<br>
+<img src="https://github.com/user-attachments/assets/4102b157-8bdf-4f72-b496-5642677527cd"  width="480" height="237"/>
+<img src="https://github.com/user-attachments/assets/a86681d0-0c54-4d02-b7c5-fecbfa8cd3cb"  width="480" height="237"/>
+<br>
+<br>
+**팔로우/팔로워 기능**<br>
+<img src="https://github.com/user-attachments/assets/4e650d8c-1a6f-4894-a89d-0a4757a1b424"  width="480" height="237"/>
+<br>
+<br>
+**채팅 기능**<br>
+<img src="https://github.com/user-attachments/assets/d2b34321-59e2-4cae-bd8e-cbc53d7b036d"  width="480" height="237"/>
+<img src="https://github.com/user-attachments/assets/98c2e7ab-7a82-4b6b-9943-4fd4ae151574"  width="480" height="237"/>
+<br>
+<br>
+**베스트 리뷰어**<br>
+<img src="https://github.com/user-attachments/assets/cc531b4f-bfb3-47cf-9476-98134fa885f4"  width="480" height="237"/>
+<br>
 
-# 🚀 주요 기능
+## 🚀 주요 기능
 
 - **사용자 인증 (로그인 / 회원가입)**  
   이메일 기반으로 계정을 만들고 로그인할 수 있습니다.
@@ -65,9 +112,8 @@
   유저 간 1:1 채팅이 가능하며, 모달을 통해 실시간으로 대화를 주고받을 수 있습니다.
 
 <br>
-<br>
 
-# 🧭 프로젝트 구조
+## 🧭 프로젝트 구조
 
 src/  
 ├── app/          # Next.js App Router 디렉토리  
