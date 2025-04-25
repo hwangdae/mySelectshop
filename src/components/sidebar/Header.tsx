@@ -36,7 +36,7 @@ const Header = () => {
                 setSearchTerm("");
               }}
             >
-              MySelectshoptest
+              MySelectshoptest2
             </button>
           </S.Logo>
           {!userData?.user ? (
