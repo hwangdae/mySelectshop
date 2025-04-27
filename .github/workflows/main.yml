@@ -38,4 +38,4 @@ jobs:
             /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn install
             npx prisma generate
             /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn build
-            # pm2 start npm --name mySelectshop -- start
+            pm2 start /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn --name mySelectshop -- start
