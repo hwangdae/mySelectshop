@@ -35,6 +35,6 @@ jobs:
           script: | # 실행할 스크립트
             cd mySelectshop
             git pull origin main
-            # npm ci
+            yarn install
             # npm run build
             # pm2 start npm --name mySelectshop -- start
