@@ -34,8 +34,8 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
 
-            export NVM_DIR="$HOME/.nvm"
-            source "$NVM_DIR/nvm.sh"
+            # export NVM_DIR="$HOME/.nvm"
+            # source "$NVM_DIR/nvm.sh"
 
             cd mySelectshop
             git pull origin main
