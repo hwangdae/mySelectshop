@@ -40,6 +40,6 @@ jobs:
             cd mySelectshop
             git pull origin main
             yarn install
-            # npx prisma generate
-            # yarn build
-            # pm2 start /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn --name mySelectshop -- start
+            npx prisma generate
+            yarn build
+            pm2 start yarn --name mySelectshop -- start
