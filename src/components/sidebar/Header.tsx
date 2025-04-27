@@ -36,7 +36,7 @@ const Header = () => {
                 setSearchTerm("");
               }}
             >
-              MySelectshoptest666666
+              MySelectshoptest7번쨰
             </button>
           </S.Logo>
           {!userData?.user ? (
