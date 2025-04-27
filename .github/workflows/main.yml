@@ -35,6 +35,7 @@ jobs:
           script: | # 실행할 스크립트
             cd mySelectshop
             git pull origin main
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn install
+            npm install
+            # /home/ubuntu/.nvm/versions/node/v22.14.0/bin/yarn install
             # npm run build
             # pm2 start npm --name mySelectshop -- start
