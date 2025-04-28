@@ -40,4 +40,4 @@ jobs:
             yarn install
             npx prisma generate
             yarn build
-            pm2 restart
+            pm2 start npm --name mySelectshop -- start
