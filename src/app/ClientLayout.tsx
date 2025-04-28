@@ -12,10 +12,6 @@ import MapComponent from "@/components/map/Map";
 
 const queryClient = new QueryClient();
 
-// const KakaoMap = dynamic(() => import("../components/mapComponents/Map"), {
-//   ssr: false, // 서버 사이드 렌더링을 비활성화
-// });
-
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
@@ -31,8 +27,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
                 <GlobalModal />
               </S.SideContainer>
               <S.MapContainer>
-                {/* <KakaoMap /> */}
-                <MapComponent/>
+                <MapComponent />
               </S.MapContainer>
             </S.Container>
           </ModalProvider>

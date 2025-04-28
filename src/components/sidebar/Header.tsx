@@ -36,7 +36,7 @@ const Header = () => {
                 setSearchTerm("");
               }}
             >
-              MySelectshoptest7번쨰
+              MySelectshop
             </button>
           </S.Logo>
           {!userData?.user ? (
@@ -113,7 +113,7 @@ const S = {
     border-radius: 4px;
     &::placeholder {
       font-size: 15px;
-      font-weight: bold;
+      font-weight: 500;
       color: #919191;
       letter-spacing: -1px;
     }
