@@ -1,11 +1,13 @@
 import imageCompression from "browser-image-compression";
+import { convertImageToWebp } from "./convertImageToWebp";
 
 const options: Record<
   string,
   { maxSizeMB: number; maxWidthOrHeight: number; useWebWorker: boolean }
 > = {
   small: { maxSizeMB: 0.5, maxWidthOrHeight: 300, useWebWorker: true },
-  medium: { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true },
+  medium: { maxSizeMB: 0.8, maxWidthOrHeight: 720, useWebWorker: true },
+  large: { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true },
 };
 
 const getCompressionOptions = (size: string) => {
@@ -14,6 +16,7 @@ const getCompressionOptions = (size: string) => {
 
 export const imageCompressionFn = async (file: File, size: string) => {
   const options = getCompressionOptions(size);
-  const compressionFile = await imageCompression(file, options);
+  const convertedToWebp = await convertImageToWebp(file);
+  const compressionFile = await imageCompression(convertedToWebp, options);
   return compressionFile;
 };

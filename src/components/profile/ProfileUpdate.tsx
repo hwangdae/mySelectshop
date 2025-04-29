@@ -5,7 +5,7 @@ import { styleFont } from "@/styles/styleFont";
 import { Button } from "@mui/material";
 import ImageUpload from "./ImageUpload";
 import { signOut, useSession } from "next-auth/react";
-import { uploadImage } from "@/utils/uploadImage";
+import { uploadImageToCloudinary } from "@/utils/uploadImageToCloudinary";
 import { useModal } from "@/context/ModalContext";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,10 +45,9 @@ const ProfileUpdate = () => {
   const profileUpdateHandleSubmit: SubmitHandler<FieldValues> = async (
     body
   ) => {
-
     setIsLoading(true);
     const imageUrl = body.uploadImage
-      ? await uploadImage(body.uploadImage as File)
+      ? await uploadImageToCloudinary(body.uploadImage as File)
       : null;
     const updateProfileData = {
       id: userData?.user?.id,
