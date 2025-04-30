@@ -24,7 +24,10 @@ jobs:
 
       - name: Add Github Actions IP to Security group
         run: |
-          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
 
       - name: excuting remote ssh commands
@@ -41,3 +44,11 @@ jobs:
             npx prisma generate
             yarn build
             pm2 start npm --name mySelectshop -- start
+
+      - name: Remove Github Actions IP from Security group
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
