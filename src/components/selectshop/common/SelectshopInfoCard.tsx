@@ -163,7 +163,7 @@ const S = {
   `,
   PreviewReviewTitle: styled.h2`
     ${styleFont.text.txt_md}
-    color: ${styleColor.INDIGO.main};
+    color: ${styleColor.INDIGO.PRIMARY};
     font-weight: bold;
   `,
   PreviewReviewDescription: styled.p`
@@ -181,6 +181,6 @@ const S = {
   HighlightText: styled.mark`
     background-color: transparent;
     font-weight: 800;
-    color: ${styleColor.YELLOW.main};
+    color: ${styleColor.YELLOW.PRIMARY};
   `,
 };

@@ -18,7 +18,7 @@ export const styleColor = {
     200: "#125062",
     300: "#003849",
     400: "#002232",
-    main: "#528599",
+    PRIMARY: "#528599",
   },
   RED: {
     0: "#B76371",
@@ -26,27 +26,23 @@ export const styleColor = {
     200: "#7D2F3F",
     300: "#611429",
     400: "#450014",
-    main: "#a04b7e",
+    PRIMARY: "#a04b7e",
   },
   BLUE: {
     0: "#83B8CD",
     100: "#00374e",
-    main: "#004a6a",
-  },
-  BROWN: {
-    0: "#8F7159",
-    100: "#574144",
+    PRIMARY: "#004a6a",
   },
   YELLOW: {
     0: "#d18b21",
-    main: "#e89b26",
+    PRIMARY: "#e89b26",
   },
   PURPLE: {
     0: "#8E7391",
     100: "#5C435E",
   },
   GREEN: {
-    main: "#96df7c",
+    PRIMARY: "#96df7c",
   },
   GRAY: {
     0: "#f5f5f5",

@@ -87,7 +87,7 @@ const S = {
     color: ${styleColor.WHITE};
     padding: 10px;
     background-color: ${(props) =>
-      props.$isSender ? `${styleColor.RED.main}` : `${styleColor.BLACK[300]}`};
+      props.$isSender ? `${styleColor.RED.PRIMARY}` : `${styleColor.BLACK[300]}`};
     border-radius: 4px;
     word-break: break-all;
     text-align: ${(props) => (props.$isSender ? "right" : "left")};

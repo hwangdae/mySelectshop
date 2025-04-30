@@ -54,7 +54,7 @@ const Follow = ({ id, isMutualFollow }: PropsType) => {
                 <Check
                   width={"12px"}
                   height={"12px"}
-                  fill={`${styleColor.GREEN.main}`}
+                  fill={`${styleColor.GREEN.PRIMARY}`}
                 />
                 팔로잉
               </S.Following>
@@ -88,13 +88,13 @@ const S = {
     background-color: ${(props) =>
       props.$followState
         ? `${styleColor.BLACK[300]}`
-        : `${styleColor.RED.main}`};
+        : `${styleColor.RED.PRIMARY}`};
   `,
   Following: styled.p`
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 3px;
-    color: ${styleColor.GREEN.main};
+    color: ${styleColor.GREEN.PRIMARY};
   `,
 };

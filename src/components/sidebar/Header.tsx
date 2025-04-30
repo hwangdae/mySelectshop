@@ -81,7 +81,7 @@ const S = {
   `,
   HeaderInner: styled.div`
     padding: 20px 12px;
-    background-color: ${styleColor.INDIGO.main};
+    background-color: ${styleColor.INDIGO.PRIMARY};
   `,
   HeaderTop: styled.div`
     display: flex;

@@ -147,7 +147,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${styleColor.YELLOW.main};
+    background-color: ${styleColor.YELLOW.PRIMARY};
     padding: 4px;
     border-radius: 4px;
   `,
@@ -155,7 +155,7 @@ const S = {
     cursor: pointer;
     width: 100%;
     padding: 10px 0px;
-    background-color: ${styleColor.YELLOW.main};
+    background-color: ${styleColor.YELLOW.PRIMARY};
     ${styleFont.text.txt_sm}
     color: ${styleColor.WHITE};
     font-weight: 500;

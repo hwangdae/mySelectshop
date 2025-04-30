@@ -31,7 +31,7 @@ const S = {
     span {
       display: block;
       font-weight: 600;
-      color: ${styleColor.YELLOW.main};
+      color: ${styleColor.YELLOW.PRIMARY};
     }
   `,
 };

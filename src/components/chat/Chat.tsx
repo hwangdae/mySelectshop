@@ -73,7 +73,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
               <Conversation
                 width={"50px"}
                 height={"50px"}
-                fill={`${styleColor.YELLOW.main}`}
+                fill={`${styleColor.YELLOW.PRIMARY}`}
               />
             </S.ConversationSvg>
             <S.ConversationTitle>첫 대화를 시작해 보세요.</S.ConversationTitle>

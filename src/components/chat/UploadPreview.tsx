@@ -77,7 +77,7 @@ const S = {
 
     &::-webkit-scrollbar-thumb {
       height: 30%;
-      background: ${styleColor.INDIGO.main};
+      background: ${styleColor.INDIGO.PRIMARY};
       border-radius: 10px;
     }
 

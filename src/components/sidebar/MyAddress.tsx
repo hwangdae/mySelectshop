@@ -45,7 +45,7 @@ const MyAddress = () => {
 
   return (
     <S.MyAddress>
-      <LocationDot width={"16px"} fill={`${styleColor.YELLOW.main}`} />
+      <LocationDot width={"16px"} fill={`${styleColor.YELLOW.PRIMARY}`} />
       {myAddress?.length === 0 ? (
         <h1>위치를 찾지 못했어요</h1>
       ) : (

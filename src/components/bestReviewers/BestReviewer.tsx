@@ -122,7 +122,7 @@ const S = {
   `,
   BestReviewerText: styled.div`
     span {
-      color: ${styleColor.YELLOW.main};
+      color: ${styleColor.YELLOW.PRIMARY};
       font-weight: 600;
     }
   `,

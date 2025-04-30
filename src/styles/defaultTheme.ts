@@ -4,11 +4,11 @@ import { styleColor } from "./styleColor";
 export const theme = createTheme({
   palette: {
     primary: {
-      main: `${styleColor.BLUE.main}`,
+      main: `${styleColor.BLUE.PRIMARY}`,
       dark : `${styleColor.BLUE[100]}`
     },
     secondary: {
-      main: `${styleColor.YELLOW.main}`,
+      main: `${styleColor.YELLOW.PRIMARY}`,
       dark: `${styleColor.YELLOW[0]}`
     },
   },

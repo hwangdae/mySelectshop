@@ -66,7 +66,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       {isReviewOpen ? (
         <S.TitleWrap>
           <button onClick={() => setIsReviewOpen(false)}>
-            <ArrowLeft width={"16px"} fill={`${styleColor.YELLOW.main}`} />
+            <ArrowLeft width={"16px"} fill={`${styleColor.YELLOW.PRIMARY}`} />
           </button>
           <S.Title>{detailReview?.shopInfo?.place_name}</S.Title>
         </S.TitleWrap>

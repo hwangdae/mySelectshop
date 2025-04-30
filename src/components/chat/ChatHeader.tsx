@@ -29,7 +29,7 @@ export default ChatHeader;
 
 const S = {
   ChatHeader: styled.div`
-    background-color: ${styleColor.INDIGO.main};
+    background-color: ${styleColor.INDIGO.PRIMARY};
   `,
   UserInfoWrapper: styled.div`
     padding: 10px;

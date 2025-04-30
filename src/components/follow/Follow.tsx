@@ -163,7 +163,7 @@ const S = {
     padding: 0px 12px;
     display: flex;
     justify-content: start;
-    background-color: ${styleColor.INDIGO.main};
+    background-color: ${styleColor.INDIGO.PRIMARY};
     border-bottom: solid 1px ${styleColor.WHITE};
   `,
   Content: styled.li``,
