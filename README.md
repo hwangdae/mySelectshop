@@ -3,19 +3,19 @@
 내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다.<br>위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.
 
 
-## 🌍배포 주소
+## 🌍 배포 주소 (Deployment)
 
 <li>https://myselectshop.shop</li>
 
-## 🔧설치 및 실행
+## 🔧 설치 및 실행 (Installation & Run)
 ```bash
 git clone https://github.com/hwangdae/mySelectshop.git
 
 cd mySelectshop
 
-npm install # or yarn install
+npm install or yarn install
 
-npm run dev # or yarn dev
+npm run dev or yarn dev
 ```
 
 ## .env .example
@@ -37,8 +37,12 @@ DATABASE_URL=postgresql://user:password@localhost:5432/your-db
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
 ```
-
-## ✨ 기술 스택
+## 🧪 테스트 계정 (Test Account)
+```env
+아이디: admin1@dev.com
+비밀번호: admin1234!
+```
+## ✨ 기술 스택 (Tech Stack)
 
 | 기술            | 설명 |
 |-----------------|------|
@@ -57,7 +61,7 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
 | **Kakao Maps API** | 사용자의 현재 위치 기반 주변 쇼핑몰 표시에 활용 |
 
 
-## 📸 주요 기능 스크린샷
+## 📸 주요 기능 스크린샷 (Key Feature Screenshots)
 **로그인/회원가입**<br>
 <img src="https://github.com/user-attachments/assets/c814384f-80d3-43fc-a606-a15163241636"  width="480" height="237"/>
 <img src="https://github.com/user-attachments/assets/c00b4aec-0c45-44dc-afef-de54df7b41ba"  width="480" height="237"/>
@@ -85,7 +89,7 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
 <img src="https://github.com/user-attachments/assets/cc531b4f-bfb3-47cf-9476-98134fa885f4"  width="480" height="237"/>
 <br>
 
-## 🚀 주요 기능
+## 🚀 주요 기능 (Key Features)
 
 - **사용자 인증 (로그인 / 회원가입)**  
   이메일 기반으로 계정을 만들고 로그인할 수 있습니다.
@@ -113,7 +117,7 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
 
 <br>
 
-## 🧭 프로젝트 구조
+## 🧭 프로젝트 구조 (Project Structure)
 
 src/  
 ├── app/          # Next.js App Router 디렉토리  

@@ -46,8 +46,8 @@ const Header = () => {
               onClick={() => {
                 if (window.confirm("로그아웃 하시겠어요?")) {
                   signOut();
-                }else{
-                  return ;
+                } else {
+                  return;
                 }
               }}
             >
