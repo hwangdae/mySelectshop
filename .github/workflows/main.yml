@@ -40,6 +40,13 @@ jobs:
           yarn build
           tar -cvf build.tar.gz .next public node_modules package.json yarn.lock
 
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+            
       - name: Send build to EC2 via SCP
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -49,13 +56,6 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           source: build.tar.gz
           target: /home/ubuntu/mySelectshop/
-
-      - name: Add Github Actions IP to Security group
-        run: |
-          aws ec2 authorize-security-group-ingress \
-            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
-            --protocol tcp --port 22 \
-            --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
