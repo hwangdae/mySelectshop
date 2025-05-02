@@ -46,7 +46,8 @@ jobs:
             --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
             --protocol tcp --port 22 \
             --cidr ${{ steps.ip.outputs.ipv4 }}/32
-            
+          sleep 5
+
       - name: Send build to EC2 via SCP
         uses: appleboy/scp-action@v0.1.4
         with:
