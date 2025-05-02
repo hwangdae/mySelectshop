@@ -49,15 +49,15 @@ jobs:
             --cidr ${{ steps.ip.outputs.ipv4 }}/32
           sleep 5
 
-      - name: Send build to EC2 via SCP
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.REMOTE_IP }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          port: ${{ secrets.REMOTE_SSH_PORT }}
-          source: build.tar.gz
-          target: /home/ubuntu/mySelectshop/
+      # - name: Send build to EC2 via SCP
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.REMOTE_IP }}
+      #     username: ${{ secrets.REMOTE_USER }}
+      #     key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+      #     port: ${{ secrets.REMOTE_SSH_PORT }}
+      #     source: build.tar.gz
+      #     target: /home/ubuntu/mySelectshop/
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
