@@ -22,6 +22,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Add Github Actions IP to Security group
         run: |
           aws ec2 authorize-security-group-ingress \
@@ -42,7 +51,7 @@ jobs:
             yarn install
             npx prisma generate
             yarn build
-            pm2 restart mySelectshop || pm2 start npm --name mySelectshop -- start
+            pm2 restart mySelectshop || pm2 start yarn --name mySelectshop -- start
 
       - name: 6. Remove Github Actions IP from Security group
         run: |
