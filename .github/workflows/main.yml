@@ -34,7 +34,6 @@ jobs:
       - name: 3. Install dependencies & build
         run: |
           yarn install
-          npx prisma generate
           yarn build
           tar -cvf build.tar.gz .next public node_modules package.json yarn.lock
 
@@ -66,6 +65,7 @@ jobs:
             cd mySelectshop
             rm -rf .next public node_modules
             tar -xvf build.tar.gz
+            npx prisma generate
             # git pull origin main
             # yarn install
             # npx prisma generate
