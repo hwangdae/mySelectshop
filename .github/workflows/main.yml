@@ -35,10 +35,10 @@ jobs:
 
       - name: Install dependencies & build
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           npx prisma generate
           yarn build
-          tar -cvf build.tar.gz .next public node_modules package.json yarn.lock
+          tar -czvf build.tar.gz .next public package.json yarn.lock
 
       - name: Add Github Actions IP to Security group
         run: |
@@ -67,8 +67,9 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
             cd mySelectshop
-            rm -rf .next public node_modules
-            tar -xvf build.tar.gz
+            rm -rf .next public
+            tar -xzvf build.tar.gz
+            yarn install --production
             # npx prisma generate
             # git pull origin main
             # yarn install
