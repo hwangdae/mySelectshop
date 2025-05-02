@@ -22,41 +22,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      # - name: 3. Cache Yarn dependencies
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       ~/.yarn/cache
-      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-yarn-
-
-      # - name: Checkout code
-      #   uses: actions/checkout@v3
-
-      # - name: Install dependencies & build
-      #   run: |
-      #     yarn install --frozen-lockfile
-      #     npx prisma generate
-      #     yarn build
-      #     tar -czvf build.tar.gz .next public package.json yarn.lock
-
       - name: Add Github Actions IP to Security group
         run: |
           aws ec2 authorize-security-group-ingress \
             --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
             --protocol tcp --port 22 \
             --cidr ${{ steps.ip.outputs.ipv4 }}/32
-
-      # - name: Send build to EC2 via SCP
-      #   uses: appleboy/scp-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.REMOTE_IP }}
-      #     username: ${{ secrets.REMOTE_USER }}
-      #     key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-      #     port: ${{ secrets.REMOTE_SSH_PORT }}
-      #     source: build.tar.gz
-      #     target: /home/ubuntu/mySelectshop/
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
@@ -71,7 +42,7 @@ jobs:
             yarn install
             npx prisma generate
             yarn build
-            pm2 start npm --name mySelectshop -- start
+            pm2 restart mySelectshop || pm2 start npm --name mySelectshop -- start
 
       - name: 6. Remove Github Actions IP from Security group
         run: |
