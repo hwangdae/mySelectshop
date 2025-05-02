@@ -33,6 +33,7 @@ jobs:
 
       - name: 3. Install dependencies & build
         run: |
+          cd mySelectshop
           yarn install
           yarn build
           tar -cvf build.tar.gz .next public node_modules package.json yarn.lock
