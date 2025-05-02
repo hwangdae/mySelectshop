@@ -22,14 +22,31 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: 3. Cache Yarn dependencies
-        uses: actions/cache@v3
+      # - name: 3. Cache Yarn dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       ~/.yarn/cache
+      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-yarn-
+
+      - name: 3. Install dependencies & build
+        run: |
+          yarn install
+          npx prisma generate
+          yarn build
+          tar -cvf build.tar.gz .next public node_modules package.json yarn.lock
+
+      - name: 4. Send build to EC2 via SCP
+        uses: appleboy/scp-action@v0.1.4
         with:
-          path: |
-            ~/.yarn/cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          source: build.tar.gz
+          target: /home/ubuntu/mySelectshop/
 
       - name: 4. Add Github Actions IP to Security group
         run: |
@@ -47,10 +64,12 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: | # 실행할 스크립트
             cd mySelectshop
-            git pull origin main
-            yarn install
-            npx prisma generate
-            yarn build
+            rm -rf .next public node_modules
+            tar -xvf build.tar.gz
+            # git pull origin main
+            # yarn install
+            # npx prisma generate
+            # yarn build
             pm2 start npm --name mySelectshop -- start
 
       - name: 6. Remove Github Actions IP from Security group
