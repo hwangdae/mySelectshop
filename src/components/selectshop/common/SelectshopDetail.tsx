@@ -108,7 +108,7 @@ const S = {
     background-color: #fff;
     width: 330px;
     height: 100vh;
-    z-index: 999;
+    z-index: 1;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;

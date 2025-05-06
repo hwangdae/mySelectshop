@@ -26,7 +26,7 @@ const User = ({ user, type, isMutualFollow }: PropsType) => {
         <S.UserName $type={type}>{user?.name}</S.UserName>
       </S.UserInfo>
       <S.ActionButtons>
-        {userData?.user?.id !== user?.id && (
+        {!userData?.user?.id || userData?.user?.id !== user?.id && (
           <ChatButton user={user} type={type} />
         )}
         <Follow id={user?.id} isMutualFollow={isMutualFollow} />

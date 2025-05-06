@@ -6,7 +6,11 @@ import ArrowLeft from "@/assets/ArrowLeft.svg";
 import { styleColor } from "@/styles/styleColor";
 import MyReview from "../common/MyReview";
 import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
-import { boundsStore, shopCoordinatesStore } from "@/globalState";
+import {
+  boundsStore,
+  openDetailShopIdStore,
+  shopCoordinatesStore,
+} from "@/globalState";
 
 interface PropsType {
   user: TBestReviewer;
@@ -17,6 +21,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { name, reviews } = user;
   const [detailReview, setDetailReview] = useState<TReviewWithShopInfo>();
   const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
 
@@ -86,6 +91,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
                 onClick={() => {
                   setDetailReview(review);
                   setIsReviewOpen(true);
+                  setOpenDetailShopId(review.selectshopId)
                 }}
               >
                 <Review key={review.selectshopId} review={review} />
@@ -106,7 +112,7 @@ const S = {
     left: 360px;
     top: 0px;
     background-color: #fff;
-    width: 300px;
+    width: 330px;
     height: 100vh;
     z-index: 999;
     overflow-y: scroll;

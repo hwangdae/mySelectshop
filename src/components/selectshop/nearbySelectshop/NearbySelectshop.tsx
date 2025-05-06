@@ -8,11 +8,11 @@ import useDebounce from "@/hook/useDebounce";
 import NoSearchResult from "@/components/common/NoSearchResult";
 import Pagination from "@/components/common/Pagination";
 import { TPlace } from "@/types";
-import { searchTermStore } from "@/globalState";
+import { openDetailShopIdStore, searchTermStore } from "@/globalState";
 
 const NearbySelectshop = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [activeShopId, setActiveShopId] = useState<string | null>(null);
+  const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
   const { searchTerm } = searchTermStore();
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -44,11 +44,11 @@ const NearbySelectshop = () => {
             <li
               key={selectshop.id}
               onClick={() => {
-                setActiveShopId(selectshop.id);
+                setOpenDetailShopId(selectshop.id);
               }}
             >
               <SelectshopInfoCard selectshop={selectshop} />
-              {activeShopId === selectshop.id && (
+              {openDetailShopId === selectshop.id && (
                 <SelectshopDetail selectshop={selectshop} />
               )}
             </li>

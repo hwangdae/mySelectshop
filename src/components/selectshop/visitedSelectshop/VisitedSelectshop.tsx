@@ -15,10 +15,10 @@ import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
 import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
-import { searchTermStore } from "@/globalState";
+import { openDetailShopIdStore, searchTermStore } from "@/globalState";
 
 const VisitedSelectshop = () => {
-  const [activeShopId, setActiveShopId] = useState<string | null>(null);
+  const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { data: userData } = useSession();
   const { searchTerm } = searchTermStore();
@@ -67,11 +67,11 @@ const VisitedSelectshop = () => {
             <li
               key={selectshop.id}
               onClick={() => {
-                setActiveShopId(selectshop.id);
+                setOpenDetailShopId(selectshop.id);
               }}
             >
               <SelectshopInfoCard selectshop={selectshop} />
-              {activeShopId === selectshop.id && (
+              {openDetailShopId === selectshop.id && (
                 <SelectshopDetail selectshop={selectshop} />
               )}
             </li>
@@ -80,14 +80,14 @@ const VisitedSelectshop = () => {
       ) : (
         <NoSearchResult />
       )}
-      {currentItems.length >= 15 &&
+      {currentItems.length >= 15 && (
         <CustomPagination
           selectshops={visitedSelectshops}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           scrollRef={scrollRef}
         />
-      }
+      )}
     </S.SearchResultsContainer>
   );
 };

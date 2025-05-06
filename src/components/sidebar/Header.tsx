@@ -7,11 +7,16 @@ import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import Search from "@/assets/Search.svg";
 import { useModal } from "@/context/ModalContext";
-import { searchTermStore, showFollowListStore } from "@/globalState";
+import {
+  openDetailShopIdStore,
+  searchTermStore,
+  showFollowListStore,
+} from "@/globalState";
 
 const Header = () => {
   const { searchTerm, setSearchTerm } = searchTermStore();
   const { setShowFollowListToggle } = showFollowListStore();
+  const { setOpenDetailShopId } = openDetailShopIdStore();
   const router = useRouter();
   const pathname = usePathname();
   const { data: userData } = useSession();
@@ -34,6 +39,7 @@ const Header = () => {
                 router.push("/");
                 setShowFollowListToggle(false);
                 setSearchTerm("");
+                setOpenDetailShopId(null)
               }}
             >
               MySelectshop

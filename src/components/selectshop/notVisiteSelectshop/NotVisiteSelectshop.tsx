@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import SelectshopInfoCard from "../common/SelectshopInfoCard";
 import SelectshopDetail from "../common/SelectshopDetail";
@@ -15,10 +15,14 @@ import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
 import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
-import { currentPageStore, searchTermStore } from "@/globalState";
+import {
+  currentPageStore,
+  openDetailShopIdStore,
+  searchTermStore,
+} from "@/globalState";
 
 const NotVisiteSelectshop = () => {
-  const [activeShopId, setActiveShopId] = useState<string | null>(null);
+  const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
   const { currentPage, setCurrentPage } = currentPageStore();
   const { data: userData } = useSession();
   const { searchTerm } = searchTermStore();
@@ -66,10 +70,10 @@ const NotVisiteSelectshop = () => {
           {currentItems?.map((selectshop: TPlace) => (
             <li
               key={selectshop.id}
-              onClick={() => setActiveShopId(selectshop.id)}
+              onClick={() => setOpenDetailShopId(selectshop.id)}
             >
               <SelectshopInfoCard selectshop={selectshop} />
-              {activeShopId === selectshop.id && (
+              {openDetailShopId === selectshop.id && (
                 <SelectshopDetail selectshop={selectshop} />
               )}
             </li>
@@ -79,14 +83,14 @@ const NotVisiteSelectshop = () => {
         <NoSearchResult />
       )}
 
-      {currentItems.length >= 15 &&
+      {currentItems.length >= 15 && (
         <CustomPagination
           selectshops={notVisitedSelectshops}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           scrollRef={scrollRef}
         />
-      }
+      )}
     </S.SearchResultsContainer>
   );
 };

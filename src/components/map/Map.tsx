@@ -4,6 +4,7 @@ import { Map } from "react-kakao-maps-sdk";
 import RenderMarkers from "./RenderMarkers";
 import MyLocationMaker from "./MyLocationMaker";
 import { boundsStore, myLocationStore } from "@/globalState";
+import { SquareLoader } from "react-spinners";
 
 const MapComponent = () => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
@@ -36,15 +37,22 @@ const MapComponent = () => {
   }, []);
 
   return (
-    <Map
-      id="map"
-      center={{ lat: center.lat, lng: center.lng }}
-      style={{ width: "100%", height: "100%" }}
-      onCreate={setMap}
-    >
-      <RenderMarkers />
-      {!isLoading && <MyLocationMaker center={center} />}
-    </Map>
+    <>
+      {isLoading && (
+        <div style={{ width: "100%", height: "400px", background: "#eee" }}>
+          지도 불러오는 중...
+        </div>
+      )}
+      <Map
+        id="map"
+        center={center}
+        style={{ width: "100%", height: "100%" }}
+        onCreate={setMap}
+      >
+        <RenderMarkers />
+        {!isLoading && <MyLocationMaker center={center} />}
+      </Map>
+    </>
   );
 };
 
