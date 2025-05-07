@@ -20,6 +20,7 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: yarn
+
       # 캐시 설정하기
       - name: Cache Yarn dependencies
         uses: actions/cache@v3
@@ -29,17 +30,19 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       # yarn install, build
       - name: Install deps and build
         run: |
           yarn install
           npx prisma generate
           yarn build
+          
       # 빌드 파일 압축하기
       - name: Compress build files
         run: |
           tar -zcvf build.tar.gz .next public node_modules package.json yarn.lock
-          
+
       # # Gituhb Actions IP 가져오기
       # - name: Get Github Actions IP
       #   id: ip
