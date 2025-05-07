@@ -35,8 +35,11 @@ jobs:
       - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: |
           yarn install
-          npx prisma generate
-          yarn build
+
+      - name: Run Prisma generate & Build
+          run: |
+            npx prisma generate
+            yarn build
 
       # 빌드 파일 압축하기
       - name: Compress build files
