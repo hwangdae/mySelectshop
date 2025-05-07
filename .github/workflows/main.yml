@@ -91,6 +91,11 @@ jobs:
       #     source: build.tar.gz
       #     target: /home/${{ secrets.REMOTE_USER }}/mySelectshop
 
+      - name: Add EC2 to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.REMOTE_SSH_PORT }} ${{ secrets.REMOTE_IP }} >> ~/.ssh/known_hosts
+
       - name: Upload with scp
         run: scp -P ${{ secrets.REMOTE_SSH_PORT }} build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
 
