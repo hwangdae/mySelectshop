@@ -23,6 +23,7 @@ jobs:
 
       # 캐시 설정하기
       - name: Cache Yarn dependencies
+        id: yarn-cache
         uses: actions/cache@v3
         with:
           path: |
@@ -87,8 +88,7 @@ jobs:
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           source: build.tar.gz
           target: /home/${{ secrets.REMOTE_USER }}/mySelectshop
-          tar_exec: "" 
-          rm: false
+
       # - name: Upload with scp
       #   run: scp -i ${{ secrets.REMOTE_PRIVATE_KEY }} -P ${{ secrets.REMOTE_SSH_PORT }} build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
 
