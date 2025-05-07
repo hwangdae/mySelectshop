@@ -37,7 +37,10 @@ jobs:
           yarn install
           # npx prisma generate
           # yarn build
-      - run: yarn build
+      - run: |
+          npx prisma generate
+          yarn build
+
       # 빌드 파일 압축하기
       - name: Compress build files
         run: |
