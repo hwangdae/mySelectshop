@@ -37,11 +37,6 @@ const MapComponent = () => {
 
   return (
     <>
-      {isLoading && (
-        <div style={{ width: "100%", height: "400px", background: "#eee" }}>
-          지도 불러오는 중...
-        </div>
-      )}
       <Map
         id="map"
         center={center}
