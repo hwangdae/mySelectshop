@@ -41,7 +41,7 @@ jobs:
       # 빌드 파일 압축하기
       - name: Compress build files
         run: |
-          tar -zcvf build.tar.gz .next public node_modules package.json yarn.lock
+          tar zcvf build.tar.gz .next public node_modules package.json yarn.lock
 
       # Gituhb Actions IP 가져오기
       - name: Get Github Actions IP
