@@ -37,9 +37,9 @@ jobs:
           yarn install
 
       - name: Run Prisma generate & Build
-          run: |
-            npx prisma generate
-            yarn build
+        run: |
+          npx prisma generate
+          yarn build
 
       # 빌드 파일 압축하기
       - name: Compress build files
@@ -93,7 +93,6 @@ jobs:
 
       # - name: Upload with scp
       #   run: scp -i ${{ secrets.REMOTE_PRIVATE_KEY }} -P ${{ secrets.REMOTE_SSH_PORT }} build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
-
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
