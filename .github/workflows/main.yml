@@ -82,17 +82,27 @@ jobs:
       #       yarn build
       #       pm2 restart mySelectshop || pm2 start yarn --name mySelectshop -- start
 
-      - name: Upload and deploy to EC2
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.REMOTE_IP }}
-          username: ${{ secrets.REMOTE_USER }}
-          key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          source: build.tar.gz
-          target: /home/${{ secrets.REMOTE_USER }}/mySelectshop
+      # - name: Upload and deploy to EC2
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.REMOTE_IP }}
+      #     username: ${{ secrets.REMOTE_USER }}
+      #     key: ${{ secrets.REMOTE_PRIVATE_KEY }}
+      #     source: build.tar.gz
+      #     target: /home/${{ secrets.REMOTE_USER }}/mySelectshop
 
       # - name: Upload with scp
       #   run: scp -i ${{ secrets.REMOTE_PRIVATE_KEY }} -P ${{ secrets.REMOTE_SSH_PORT }} build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
+
+      - name: Save private key
+        run: |
+          echo "${{ secrets.REMOTE_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Upload with scp
+        run: |
+          scp -i private_key.pem -P ${{ secrets.REMOTE_SSH_PORT }} \
+          build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
