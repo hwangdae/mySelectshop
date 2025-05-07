@@ -42,7 +42,7 @@ const Header = () => {
                 setOpenDetailShopId(null)
               }}
             >
-              MySelectshop1111111
+              MySelectshop
             </button>
           </S.Logo>
           {!userData?.user ? (
