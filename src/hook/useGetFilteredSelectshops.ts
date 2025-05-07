@@ -1,6 +1,4 @@
-import { getReview } from "@/lib/review";
 import { TPlace, TReview } from "@/types";
-import { useQuery } from "@tanstack/react-query";
 import { Session } from "next-auth";
 
 const matchesSearchTerm = (selectshop: TPlace, searchTerm: string) => {
@@ -13,7 +11,6 @@ const useGetFilteredSelectshops = (
   searchTerm: string,
   userData: Session | null
 ) => {
-
   const filteredShops = selectshops.filter((selectshop) =>
     matchesSearchTerm(selectshop, searchTerm)
   );

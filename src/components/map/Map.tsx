@@ -4,7 +4,6 @@ import { Map } from "react-kakao-maps-sdk";
 import RenderMarkers from "./RenderMarkers";
 import MyLocationMaker from "./MyLocationMaker";
 import { boundsStore, myLocationStore } from "@/globalState";
-import { SquareLoader } from "react-spinners";
 
 const MapComponent = () => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
