@@ -31,14 +31,12 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-
-      # yarn install, build
-      - name: Install deps and build
+      - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
         run: |
           yarn install
-          npx prisma generate
-          yarn build
-
+          # npx prisma generate
+          # yarn build
+      - run: yarn build
       # 빌드 파일 압축하기
       - name: Compress build files
         run: |
