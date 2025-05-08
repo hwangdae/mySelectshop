@@ -1,51 +1,15 @@
 name: main branch auto ci process script
 
-on: # 아래 job을 실행시킬 상황
+on:
   push:
     branches: [main]
 
 jobs:
   deploy:
     name: deploy
-    runs-on: ubuntu-latest # 실행될 인스턴스 OS와 버전
+    runs-on: ubuntu-latest
 
     steps:
-      # repository에서 소스 파일을 러너의 디렉토리에 가져온다.
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      # 버전에 맞게 node.js 설치
-      - name: use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          cache: yarn
-
-      # 캐시 설정하기
-      - name: Cache Yarn dependencies
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
-        run: |
-          yarn install
-
-      - name: Run Prisma generate & Build
-        run: |
-          npx prisma generate
-          yarn build
-
-      # 빌드 파일 압축하기
-      - name: Compress build files
-        run: |
-          tar zcvf build.tar.gz .next public node_modules package.json yarn.lock
-
       # Gituhb Actions IP 가져오기
       - name: Get Github Actions IP
         id: ip
@@ -67,48 +31,20 @@ jobs:
             --protocol tcp --port 22 \
             --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-      # - name: excuting remote ssh commands
-      #   uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
-      #   with:
-      #     host: ${{ secrets.REMOTE_IP }} # 인스턴스 IP
-      #     username: ${{ secrets.REMOTE_USER }} # 우분투 아이디
-      #     key: ${{ secrets.REMOTE_PRIVATE_KEY }} # ec2 instance pem key
-      #     port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
-      #     script: | # 실행할 스크립트
-      #       cd mySelectshop
-      #       git pull origin main
-      #       yarn install
-      #       npx prisma generate
-      #       yarn build
-      #       pm2 restart mySelectshop || pm2 start yarn --name mySelectshop -- start
-
-      # - name: Upload and deploy to EC2
-      #   uses: appleboy/scp-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.REMOTE_IP }}
-      #     username: ${{ secrets.REMOTE_USER }}
-      #     key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-      #     source: build.tar.gz
-      #     target: /home/${{ secrets.REMOTE_USER }}/mySelectshop
-
-      - name: Add EC2 to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p ${{ secrets.REMOTE_SSH_PORT }} ${{ secrets.REMOTE_IP }} >> ~/.ssh/known_hosts
-
-      - name: Upload with scp
-        run: scp -P ${{ secrets.REMOTE_SSH_PORT }} build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/${{ secrets.REMOTE_USER }}/mySelectshop
-
+      # SSH 접속, 배포 자동화 스크립트 실행
       - name: excuting remote ssh commands
-        uses: appleboy/ssh-action@v0.1.6 # ssh 접속하는 오픈소스
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.REMOTE_IP }} # 인스턴스 IP
           username: ${{ secrets.REMOTE_USER }} # 우분투 아이디
           key: ${{ secrets.REMOTE_PRIVATE_KEY }} # ec2 instance pem key
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
-          script: | # 실행할 스크립트
+          script: |
             cd mySelectshop
-            tar -zxvf build.tar.gz
+            git pull origin main
+            yarn install
+            npx prisma generate
+            yarn build
             pm2 restart mySelectshop || pm2 start yarn --name mySelectshop -- start
 
       # Github Actions 퍼블릭 IP 삭제하기
