@@ -7,6 +7,8 @@ import { styleColor } from "@/styles/styleColor";
 import MyReview from "../common/MyReview";
 import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
+import { useQuery } from "@tanstack/react-query";
+import { getReviews } from "@/lib/bestReviewers";
 
 interface PropsType {
   user: TBestReviewer;
@@ -14,53 +16,68 @@ interface PropsType {
 }
 
 const ReviewList = ({ user, selectshops }: PropsType) => {
-  const { name, reviews } = user;
+  const { id, name } = user;
   const [detailReview, setDetailReview] = useState<TReviewWithShopInfo>();
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
 
+  const { data: reviews } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => getReviews(id),
+  });
   const filteredReviews = reviews?.filter((review: TReview) => {
     return selectshops.some(
       (selectshop: TPlace) => selectshop.id === review.selectshopId
     );
   });
 
-  const reviewsWithShopInfo = filteredReviews?.map((review: TReview) => {
+  const reviewsWithShopInfo = reviews?.map((review: TReview) => {
     const shopInfo = selectshops.find(
       (shop) => shop.id === review.selectshopId
     );
     return { ...review, shopInfo };
   });
-
+  // const reviewsWithShopInfo: TReviewWithShopInfo[] = reviews?.map(
+  //   (review: TReview) => {
+  //     const shopInfo = selectshops.find(
+  //       (selectshop: TPlace) => selectshop!.id === review!.selectshopId
+  //     );
+  //     return { ...review, shopInfo };
+  //   }
+  // );
+  // const reviewsWithShopInfo: TReviewWithShopInfo[] = reviews?.map(
+  //   (review: TReview) => {
+  //     const shopInfo = selectshops.find(
+  //       (selectshop: TPlace) => selectshop!.id === review!.selectshopId
+  //     );
+  //     return { ...review, shopInfo };
+  //   }
+  // );
   useEffect(() => {
-    if (
-      reviewsWithShopInfo &&
-      reviewsWithShopInfo.length > 0 &&
-      typeof window !== "undefined" &&
-      window.kakao &&
-      window.kakao.maps &&
-      window.kakao.maps.services
-    ) {
-      const bounds = new window.kakao.maps.LatLngBounds();
-      const shopCoordinates = reviewsWithShopInfo?.map(
-        (review) => review.shopInfo
-      );
-      shopCoordinates?.forEach((coordinate) => {
-        const position = {
-          lat: coordinate?.y as number,
-          lng: coordinate?.x as number,
-        };
-        bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
-      });
-      setShopCoordinates(shopCoordinates as TPlace[]);
-      setBounds(bounds);
+    if (!reviewsWithShopInfo) {
+      alert("aa");
+      return;
     }
+    const bounds = new window.kakao.maps.LatLngBounds();
+    const shopCoordinates = reviewsWithShopInfo.map(
+      (review: TReviewWithShopInfo) => review.shopInfo
+    );
+    console.log(shopCoordinates, "여기가 첫번째");
+    shopCoordinates.forEach((coordinate: TPlace | undefined) => {
+      const position = {
+        lat: coordinate?.y as number,
+        lng: coordinate?.x as number,
+      };
+      bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
+    });
+    setShopCoordinates(shopCoordinates as TPlace[]);
+    setBounds(bounds);
+
     return () => {
       setShopCoordinates([]);
     };
   }, []);
-
   return (
     <S.ReviewListContainer>
       {isReviewOpen ? (

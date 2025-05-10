@@ -20,15 +20,8 @@ const NearbySelectshop = () => {
   const { searchPlaces, pagination, selectshops, center } = useKakaoSearch();
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.kakao &&
-      window.kakao.maps &&
-      window.kakao.maps.services
-    ) {
       if (center.lat && center.lng) {
         searchPlaces(currentPage);
-      }
     }
   }, [currentPage, center.lat, center.lng]);
 

@@ -105,7 +105,13 @@ const useKakaoSearch = () => {
     setBounds(bounds);
   };
 
-  return { searchPlaces, searchAllPlaces, pagination, selectshops, center };
+  return {
+    searchPlaces,
+    searchAllPlaces,
+    pagination,
+    selectshops,
+    center,
+  };
 };
 
 export default useKakaoSearch;

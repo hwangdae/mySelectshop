@@ -43,7 +43,7 @@ const Follow = ({ followTypeParams }: PropsType) => {
     queryKey: ["userList"],
     queryFn: getUserList,
   });
-
+  console.log(userList)
   const isMutualFollow = () => {
     return (
       followerData?.some(

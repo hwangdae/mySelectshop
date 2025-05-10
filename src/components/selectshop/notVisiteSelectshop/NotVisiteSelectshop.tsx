@@ -45,15 +45,8 @@ const NotVisiteSelectshop = () => {
   );
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.kakao &&
-      window.kakao.maps &&
-      window.kakao.maps.services
-    ) {
-      if (center.lat && center.lng) {
-        searchAllPlaces();
-      }
+    if (center.lat && center.lng) {
+      searchAllPlaces();
     }
   }, [currentPage, center.lat, center.lng]);
 

@@ -26,7 +26,6 @@ const RenderMarkers = () => {
   const pathname = usePathname();
   const { data: userData } = useSession();
   const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
-
   const { data: reviewData } = useQuery({
     queryKey: ["review"],
     queryFn: getReview,
@@ -50,7 +49,7 @@ const RenderMarkers = () => {
         return [];
     }
   };
-
+  console.log(shopCoordinates,"asdasdasdasdasd")
   return (
     <>
       {markerList().map((selectshop: TPlace, index: number) => (
@@ -62,9 +61,10 @@ const RenderMarkers = () => {
           style={{ listStyle: "none" }}
         >
           <Marker key={selectshop.id} selectshop={selectshop} index={index} />
-          {pathname !== "/bestReviewer" && openDetailShopId === selectshop.id && (
-            <SelectshopDetail selectshop={selectshop} />
-          )}
+          {pathname !== "/bestReviewer" &&
+            openDetailShopId === selectshop.id && (
+              <SelectshopDetail selectshop={selectshop} />
+            )}
         </li>
       ))}
     </>

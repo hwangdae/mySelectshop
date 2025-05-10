@@ -7,23 +7,34 @@ import styled from "styled-components";
 import UserProfile from "./UserProfile";
 import ReviewList from "./ReviewList";
 import useKakaoSearch from "@/hook/useKakaoSearch";
-import { getBestReviewers } from "@/lib/bestReviewers";
-import { TBestReviewer } from "@/types";
+import { getBestReviewers, getTopReviewUsers } from "@/lib/bestReviewers";
+import { TBestReviewer, TPlace } from "@/types";
 import { myAddressStore } from "@/globalState";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<string>("");
-  const { searchAllPlaces, selectshops } = useKakaoSearch();
+  const { searchAllPlaces, selectshops, center } = useKakaoSearch();
   const { myAddress } = myAddressStore();
 
   const { data: bestReviewers } = useQuery({
-    queryKey: ["bestReviewers"],
-    queryFn: getBestReviewers,
+    queryKey: [
+      "bestReviewers",
+      // selectshops.map((selectshop: TPlace) => selectshop.id),
+      JSON.stringify(selectshops.map((s) => s.id)),
+    ],
+    queryFn: () =>
+      getTopReviewUsers(selectshops.map((selectshop: TPlace) => selectshop.id)),
+    enabled: selectshops.length > 0,
   });
-
+  // const { data: bestReviewers } = useQuery({
+  //   queryKey: ["bestReviewers"],
+  //   queryFn: getBestReviewers,
+  // });
   useEffect(() => {
-    searchAllPlaces();
-  }, []);
+    if (center.lat && center.lng) {
+      searchAllPlaces();
+    }
+  }, [center.lat, center.lng]);
 
   return (
     <S.BestReviewerContainer>
@@ -58,10 +69,7 @@ const BestReviewer = () => {
                         key={bestReviewer.id}
                         onClick={() => setActiveuserId(bestReviewer.id)}
                       >
-                        <UserProfile
-                          user={bestReviewer}
-                          index={index}
-                        />
+                        <UserProfile user={bestReviewer} index={index} />
                         {activeUserId === bestReviewer.id && (
                           <ReviewList
                             user={bestReviewer}
@@ -88,7 +96,7 @@ const S = {
     height: 100%;
   `,
   InnerContainer: styled.div`
-    padding: 20px 12px;
+    padding: 0px 12px;
     height: 100%;
   `,
   NoBestReviewer: styled.div`
@@ -114,6 +122,7 @@ const S = {
   BestReviewerTitleWrap: styled.div`
     display: flex;
     align-items: center;
+    padding-top: 20px;
     margin-bottom: 30px;
     ${styleFont.title.tit_lg}
   `,
