@@ -2,34 +2,32 @@
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import UserProfile from "./UserProfile";
 import ReviewList from "./ReviewList";
 import useKakaoSearch from "@/hook/useKakaoSearch";
-import { getBestReviewers, getTopReviewUsers } from "@/lib/bestReviewers";
-import { TBestReviewer, TPlace } from "@/types";
-import { myAddressStore } from "@/globalState";
+import { getBestReviewersByRegion } from "@/lib/bestReviewers";
+import { TBestReviewer } from "@/types";
+import { normalizeAddress } from "@/utils/normalizeAddress";
+import useMyAddress from "@/hook/useMyAddress";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<string>("");
   const { searchAllPlaces, selectshops, center } = useKakaoSearch();
-  const { myAddress } = myAddressStore();
+  const { myAddress } = useMyAddress();
+  const region = useMemo(() => {
+    if (!myAddress) return "";
+    const parts = myAddress.split(" ");
+    return normalizeAddress(parts[0]) + parts[1];
+  }, [myAddress]);
 
   const { data: bestReviewers } = useQuery({
-    queryKey: [
-      "bestReviewers",
-      // selectshops.map((selectshop: TPlace) => selectshop.id),
-      JSON.stringify(selectshops.map((s) => s.id)),
-    ],
-    queryFn: () =>
-      getTopReviewUsers(selectshops.map((selectshop: TPlace) => selectshop.id)),
-    enabled: selectshops.length > 0,
+    queryKey: ["bestReviewers", region],
+    queryFn: () => getBestReviewersByRegion(region),
+    enabled: !!region,
   });
-  // const { data: bestReviewers } = useQuery({
-  //   queryKey: ["bestReviewers"],
-  //   queryFn: getBestReviewers,
-  // });
+
   useEffect(() => {
     if (center.lat && center.lng) {
       searchAllPlaces();
@@ -40,7 +38,7 @@ const BestReviewer = () => {
     <S.BestReviewerContainer>
       <S.InnerContainer>
         {bestReviewers?.filter((bestReviewer: TBestReviewer) => {
-          return bestReviewer.reviews?.length > 0;
+          return bestReviewer._count.reviews > 0;
         }).length === 0 ? (
           <S.NoBestReviewer>
             <span>🏆</span>

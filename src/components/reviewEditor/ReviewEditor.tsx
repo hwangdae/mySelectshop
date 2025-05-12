@@ -22,6 +22,7 @@ import ImageUploader from "./ImageUploader";
 
 interface PropsType {
   selectshopId?: string;
+  addressName?: string;
   setIsWriteReviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   type?: string;
   prevReview?: TReview;
@@ -30,6 +31,7 @@ interface PropsType {
 
 const ReviewEditor = ({
   selectshopId,
+  addressName,
   setIsWriteReviewOpen,
   type,
   prevReview,
@@ -93,8 +95,11 @@ const ReviewEditor = ({
       : [];
     const newUploadedImages =
       uploadImages!.length > 0 ? uploadImages : existingImages;
+    const region = addressName?.split(" ").slice(0, 3).join("");
+    console.log(region);
     const newReview: TNewReview = {
       selectshopId,
+      region,
       reviewImages:
         newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
       description,
@@ -114,7 +119,7 @@ const ReviewEditor = ({
           ...newReview,
           id: prevReview?.id,
         };
-        await reviewMutate.mutateAsync(updateReview);
+        await reviewMutate.mutate(updateReview);
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }

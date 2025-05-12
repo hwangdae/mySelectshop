@@ -12,7 +12,7 @@ export const GET = async (request: Request) => {
         })
       : await prisma.review.findMany();
     return NextResponse.json(reviews);
-  } catch (error:unknown) {
+  } catch (error: unknown) {
     console.log(error);
   }
 };
@@ -22,6 +22,7 @@ export const POST = async (request: Request) => {
     const body = await request.json();
     const {
       selectshopId,
+      region,
       reviewImages,
       description,
       advantages,
@@ -33,6 +34,7 @@ export const POST = async (request: Request) => {
     const review = await prisma.review.create({
       data: {
         selectshopId,
+        region,
         reviewImages,
         description,
         advantages,
@@ -54,6 +56,7 @@ export const PATCH = async (request: Request) => {
     const {
       id,
       selectshopId,
+      region,
       reviewImages,
       description,
       advantages,
@@ -65,6 +68,7 @@ export const PATCH = async (request: Request) => {
       where: { id },
       data: {
         selectshopId,
+        region,
         reviewImages,
         description,
         advantages,
@@ -74,8 +78,8 @@ export const PATCH = async (request: Request) => {
       },
     });
     return NextResponse.json(updateReview);
-  } catch (error:unknown) {
-    console.log(error)
+  } catch (error: unknown) {
+    console.log(error);
   }
 };
 

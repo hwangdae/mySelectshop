@@ -83,6 +83,7 @@ model Review {
   disAdvantages String[]
   tags          String?
   selectshopId  String
+  region        String
   userId        String
   user          User     @relation(fields: [userId], references: [id], name: "UserReviews")
 

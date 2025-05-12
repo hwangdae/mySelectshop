@@ -9,6 +9,7 @@ export interface TReview {
   tags: string | null;
   userId: string;
   selectshopId: string;
+  region: string;
 }
 
 export interface TReviewWithShopInfo extends TReview {
@@ -30,6 +31,7 @@ export interface TReviewFormData {
 export interface TNewReview {
   id?: string;
   selectshopId: string | undefined;
+  region: string | undefined;
   reviewImages: string | null | undefined;
   description: string;
   advantages: string[] | null | undefined;

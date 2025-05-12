@@ -10,16 +10,16 @@ import useInitializeMapState from "@/hook/useInitializeMapState";
 import { useSession } from "next-auth/react";
 import { getReviewsBySelectshop } from "@/lib/review";
 import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
-import WriteReviewContainer from "@/components/reviewEditor/ReviewEditor";
 import MyReview from "@/components/common/MyReview";
 import { TPlace, TReview } from "@/types";
+import ReviewEditor from "@/components/reviewEditor/ReviewEditor";
 
 interface PropsType {
   selectshop: TPlace;
 }
 
 const SelectshopDetail = ({ selectshop }: PropsType) => {
-  const { id, place_name, x, y } = selectshop;
+  const { id, address_name, place_name, x, y } = selectshop;
   const { data: userData } = useSession();
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
   const [isEditReview, setIsEditReview] = useState(false);
@@ -71,9 +71,10 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
         )}
       </S.DetailSelectshopHeader>
       {isWriteReviewOpen ? (
-        <WriteReviewContainer
+        <ReviewEditor
           type="write"
           selectshopId={id}
+          addressName={address_name}
           setIsWriteReviewOpen={setIsWriteReviewOpen}
         />
       ) : myReview ? (

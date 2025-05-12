@@ -1,47 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import LocationDot from "@/assets/LocationDot.svg";
 import { styleFont } from "@/styles/styleFont";
 import { styleColor } from "@/styles/styleColor";
-import { myAddressStore, myLocationStore } from "@/globalState";
-
-type RegionCodeResult = {
-  region_type: string;
-  address_name: string;
-  region_1depth_name: string;
-  region_2depth_name: string;
-  region_3depth_name: string;
-  code: string;
-};
+import useMyAddress from "@/hook/useMyAddress";
 
 const MyAddress = () => {
-  const { center } = myLocationStore();
-  const { myAddress, setMyAddress } = myAddressStore();
-
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.kakao &&
-      window.kakao.maps &&
-      window.kakao.maps.services
-    ) {
-      const geocoder = new kakao.maps.services.Geocoder();
-
-      const updateAddressFromGeocode = function (
-        data: RegionCodeResult[],
-        status: string
-      ) {
-        if (status === kakao.maps.services.Status.OK) {
-          setMyAddress(data[0].address_name);
-        }
-      };
-      geocoder.coord2RegionCode(
-        center.lng,
-        center.lat,
-        updateAddressFromGeocode
-      );
-    }
-  }, [center]);
+  const { myAddress } = useMyAddress();
 
   return (
     <S.MyAddress>

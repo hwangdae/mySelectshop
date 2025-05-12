@@ -8,7 +8,7 @@ import MyReview from "../common/MyReview";
 import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
 import { useQuery } from "@tanstack/react-query";
-import { getReviews } from "@/lib/bestReviewers";
+import { getReviewsByUserId } from "@/lib/bestReviewers";
 
 interface PropsType {
   user: TBestReviewer;
@@ -22,62 +22,43 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
 
-  const { data: reviews } = useQuery({
+  const { data: reviews = [] } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => getReviews(id),
-  });
-  const filteredReviews = reviews?.filter((review: TReview) => {
-    return selectshops.some(
-      (selectshop: TPlace) => selectshop.id === review.selectshopId
-    );
+    queryFn: () => getReviewsByUserId(id),
   });
 
-  const reviewsWithShopInfo = reviews?.map((review: TReview) => {
+  const reviewsWithShopInfo = reviews.map((review: TReview) => {
     const shopInfo = selectshops.find(
       (shop) => shop.id === review.selectshopId
     );
     return { ...review, shopInfo };
   });
-  // const reviewsWithShopInfo: TReviewWithShopInfo[] = reviews?.map(
-  //   (review: TReview) => {
-  //     const shopInfo = selectshops.find(
-  //       (selectshop: TPlace) => selectshop!.id === review!.selectshopId
-  //     );
-  //     return { ...review, shopInfo };
-  //   }
-  // );
-  // const reviewsWithShopInfo: TReviewWithShopInfo[] = reviews?.map(
-  //   (review: TReview) => {
-  //     const shopInfo = selectshops.find(
-  //       (selectshop: TPlace) => selectshop!.id === review!.selectshopId
-  //     );
-  //     return { ...review, shopInfo };
-  //   }
-  // );
+
   useEffect(() => {
-    if (!reviewsWithShopInfo) {
-      alert("aa");
-      return;
-    }
-    const bounds = new window.kakao.maps.LatLngBounds();
     const shopCoordinates = reviewsWithShopInfo.map(
       (review: TReviewWithShopInfo) => review.shopInfo
     );
-    console.log(shopCoordinates, "여기가 첫번째");
-    shopCoordinates.forEach((coordinate: TPlace | undefined) => {
+
+    if (shopCoordinates.length === 0) return;
+
+    const bounds = new window.kakao.maps.LatLngBounds();
+
+    shopCoordinates.forEach((shop: TPlace) => {
       const position = {
-        lat: coordinate?.y as number,
-        lng: coordinate?.x as number,
+        lat: shop.y,
+        lng: shop.x,
       };
       bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
     });
-    setShopCoordinates(shopCoordinates as TPlace[]);
+
+    setShopCoordinates(shopCoordinates);
     setBounds(bounds);
 
     return () => {
       setShopCoordinates([]);
     };
-  }, []);
+  }, [reviews]);
+
   return (
     <S.ReviewListContainer>
       {isReviewOpen ? (

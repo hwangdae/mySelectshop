@@ -1,14 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const region = searchParams.get("region") ?? undefined;
   try {
     const bestReviewers = await prisma.user.findMany({
+      where: {
+        reviews: {
+          some: { region },
+        },
+      },
       select: {
         id: true,
         name: true,
         image: true,
-        reviews: true,
+        _count: {
+          select: { reviews: true },
+        },
       },
       orderBy: {
         reviews: { _count: "desc" },
