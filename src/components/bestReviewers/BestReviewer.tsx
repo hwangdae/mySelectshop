@@ -16,10 +16,11 @@ const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<string>("");
   const { searchAllPlaces, selectshops, center } = useKakaoSearch();
   const { myAddress } = useMyAddress();
+  
   const region = useMemo(() => {
     if (!myAddress) return "";
     const parts = myAddress.split(" ");
-    return normalizeAddress(parts[0]) + parts[1];
+    return normalizeAddress(parts[0]) + parts[1] + parts[2];
   }, [myAddress]);
 
   const { data: bestReviewers } = useQuery({

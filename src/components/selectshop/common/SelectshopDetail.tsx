@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SelectshopReview from "./SelectshopReview";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { styleFont } from "@/styles/styleFont";
 import AllReview from "./AllReview";
 import { Button } from "@mui/material";
@@ -26,9 +26,20 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
   const { deleteReviewMutate } = useDeleteReview(id, userData?.user?.id);
   useInitializeMapState(y, x);
 
-  const { data: reviewData } = useQuery({
+  const { data: reviewData }: any = useInfiniteQuery({
     queryKey: ["reviewsBySelectshop", id],
     queryFn: () => getReviewsBySelectshop(id),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      //이전에 받은 페이지 데이터를 여기에 넘겨준다.
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1;
+      }
+    },
+    select: (data) => ({
+      pages: data?.pages.flatMap((page) => page),
+      pageParams: data.pageParams,
+    }),
     enabled: !!id,
   });
 
@@ -110,10 +121,8 @@ const S = {
     width: 330px;
     height: 100vh;
     z-index: 1;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    display: flex;
+    flex-direction: column;
   `,
   DetailSelectshopHeader: styled.div`
     display: flex;
@@ -139,5 +148,18 @@ const S = {
   `,
   AllReviewContainer: styled.ul`
     padding: 0px 18px;
+    overflow-y: auto;
+    flex: 1;
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: ${styleColor.INDIGO.PRIMARY};
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(206, 206, 206, 0.1);
+    }
   `,
 };

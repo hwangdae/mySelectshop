@@ -1,5 +1,5 @@
 import { styleFont } from "@/styles/styleFont";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import Review from "./Review";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
@@ -7,8 +7,14 @@ import { styleColor } from "@/styles/styleColor";
 import MyReview from "../common/MyReview";
 import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
-import { useQuery } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+  useQuery,
+} from "@tanstack/react-query";
 import { getReviewsByUserId } from "@/lib/bestReviewers";
+import { useInView } from "react-intersection-observer";
 
 interface PropsType {
   user: TBestReviewer;
@@ -21,20 +27,52 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
+  const { ref, inView } = useInView();
+  const {
+    data: reviews = [],
 
-  const { data: reviews = [] } = useQuery({
-    queryKey: ["reviews"],
-    queryFn: () => getReviewsByUserId(id),
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  }: any = useInfiniteQuery({
+    queryKey: ["reviews", id],
+    queryFn: ({ pageParam }) => getReviewsByUserId(id, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1;
+      }
+    },
   });
+  console.log(reviews, "리뷰스");
 
-  const reviewsWithShopInfo = reviews.map((review: TReview) => {
+  const flatReviews: TReview[] = reviews?.pages?.flatMap(
+    (page: { reviews: TReview[] }) => page.reviews
+  );
+
+  console.log(flatReviews, "플랫리뷰스");
+  const reviewsWithShopInfo = flatReviews?.map((review: TReview) => {
     const shopInfo = selectshops.find(
-      (shop) => shop.id === review.selectshopId
+      (selectshop: TPlace) => selectshop.id === review.selectshopId
     );
     return { ...review, shopInfo };
   });
+  console.log(reviewsWithShopInfo, "합친 데이터");
+  // const reviewsWithShopInfo: TReviewWithShopInfo[] = reviews?.map(
+  //   (review: TReview) => {
+  //     const shopInfo = selectshops.find(
+  //       (shop) => shop.id === review.selectshopId
+  //     );
+  //     return { ...review, shopInfo };
+  //   }
+  // );
 
   useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
+
+  useEffect(() => {
+    if (!reviews || reviews.length === 0) return;
     const shopCoordinates = reviewsWithShopInfo.map(
       (review: TReviewWithShopInfo) => review.shopInfo
     );
@@ -43,7 +81,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
 
     const bounds = new window.kakao.maps.LatLngBounds();
 
-    shopCoordinates.forEach((shop: TPlace) => {
+    shopCoordinates.forEach((shop: any) => {
       const position = {
         lat: shop.y,
         lng: shop.x,
@@ -51,7 +89,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       bounds.extend(new window.kakao.maps.LatLng(position.lat, position.lng));
     });
 
-    setShopCoordinates(shopCoordinates);
+    setShopCoordinates(shopCoordinates as any);
     setBounds(bounds);
 
     return () => {
@@ -92,6 +130,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
           })}
         </S.ReviewListWrap>
       )}
+      <h1 ref={ref}>Load more</h1>
     </S.ReviewListContainer>
   );
 };

@@ -33,6 +33,7 @@ const MyReview = ({
     tags,
     shopInfo,
   } = review;
+  console.log(review)
 
   useInitializeMapState(shopInfo?.y || 0, shopInfo?.x || 0);
 
@@ -119,6 +120,7 @@ const S = {
     background-color: ${styleColor.GRAY[0]};
     padding: 10px;
     border-radius: 4px;
+    overflow-wrap: break-word;
   `,
   TagList: styled.ul`
     list-style: none !important ;

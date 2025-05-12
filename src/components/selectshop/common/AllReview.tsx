@@ -49,5 +49,6 @@ const S = {
     margin-bottom: 10px;
     ${styleFont.text.txt_sm}
     font-weight: 400;
+    overflow-wrap: break-word;
   `,
 };
