@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import Marker from "./Marker";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
-import { getReview } from "@/lib/review";
+import { getReviewBySelectshop } from "@/lib/review";
 import { TPlace } from "@/types";
 import {
   boundsStore,
@@ -26,9 +26,10 @@ const RenderMarkers = () => {
   const pathname = usePathname();
   const { data: userData } = useSession();
   const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
-  const { data: reviewData = [] } = useQuery({
+
+  const { data: reviewData } = useQuery({
     queryKey: ["review"],
-    queryFn: getReview,
+    queryFn: getReviewBySelectshop,
     enabled: !!bounds,
   });
 
@@ -49,7 +50,7 @@ const RenderMarkers = () => {
         return [];
     }
   };
-  
+
   return (
     <>
       {markerList().map((selectshop: TPlace, index: number) => (

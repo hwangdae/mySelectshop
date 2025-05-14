@@ -6,6 +6,7 @@ const useReview = (type?: string, id?: string) => {
 
   const success = () => {
     queryClient.invalidateQueries({ queryKey: ["review"] });
+    queryClient.invalidateQueries({ queryKey: ["myReview", id] });
     queryClient.invalidateQueries({ queryKey: ["reviewsBySelectshop", id] });
   };
 

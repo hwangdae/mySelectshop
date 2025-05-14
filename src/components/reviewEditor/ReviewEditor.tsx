@@ -96,7 +96,7 @@ const ReviewEditor = ({
     const newUploadedImages =
       uploadImages!.length > 0 ? uploadImages : existingImages;
     const region = addressName?.split(" ").slice(0, 3).join("");
-    console.log(region);
+
     const newReview: TNewReview = {
       selectshopId,
       region,

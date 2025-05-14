@@ -40,23 +40,7 @@ const Review = ({ review }: PropsType) => {
 export default Review;
 
 const S = {
-  ReviewContainer: styled.div`
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: 0px 0px 8px 1px rgba(182, 182, 182, 0.1);
-    margin-bottom: 20px;
-    h2 {
-      width: 100%;
-      height: 80px;
-      border-radius: 4px 4px 0px 0px;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  `,
+  ReviewContainer: styled.div``,
   TextWrap: styled.div`
     padding: 22px 14px 14px 14px;
   `,

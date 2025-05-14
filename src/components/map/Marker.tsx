@@ -1,4 +1,4 @@
-import { getReviewsBySelectshop } from "@/lib/review";
+import { getReviewCountByShop } from "@/lib/review";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { TPlace } from "@/types";
@@ -16,9 +16,9 @@ const Marker = ({ selectshop, index }: PropsType) => {
   const { id, place_name, x, y } = selectshop;
   const position = { lat: y, lng: x };
 
-  const { data: reviewData } = useQuery({
-    queryKey: ["reviewsBySelectshop", id],
-    queryFn: () => getReviewsBySelectshop(id),
+  const { data: reviewCount } = useQuery({
+    queryKey: ["reviewCountByShop", id],
+    queryFn: () => getReviewCountByShop(id),
     enabled: !!id,
   });
 
@@ -26,10 +26,8 @@ const Marker = ({ selectshop, index }: PropsType) => {
     <CustomOverlayMap key={`marker-${y},${x}-${index}`} position={position}>
       <S.MarkerContainer>
         <S.SelectshopPlaceName>{place_name}</S.SelectshopPlaceName>
-        {reviewData?.length !== 0 && (
-          <S.SelectshopReviewCount>
-            +{reviewData?.length}
-          </S.SelectshopReviewCount>
+        {reviewCount !== 0 && (
+          <S.SelectshopReviewCount>+{reviewCount}</S.SelectshopReviewCount>
         )}
       </S.MarkerContainer>
     </CustomOverlayMap>

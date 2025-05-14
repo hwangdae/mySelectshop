@@ -33,7 +33,6 @@ const MyReview = ({
     tags,
     shopInfo,
   } = review;
-  console.log(review)
 
   useInitializeMapState(shopInfo?.y || 0, shopInfo?.x || 0);
 

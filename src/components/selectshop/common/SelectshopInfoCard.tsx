@@ -5,8 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import PatchCheck from "@/assets/PatchCheck.svg";
 import FullfillPatchCheck from "@/assets/FullfillPatchCheck.svg";
 import { useSession } from "next-auth/react";
-import { getReviewsBySelectshop } from "@/lib/review";
-import { TPlace, TReview } from "@/types";
+import {
+  getMyReview,
+  getReviewCountByShop,
+} from "@/lib/review";
+import { TPlace } from "@/types";
 import { searchTermStore } from "@/globalState";
 
 interface PropsType {
@@ -18,18 +21,17 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
   const { searchTerm } = searchTermStore();
   const { data: userData } = useSession();
 
-  const { data: reviewData } = useQuery({
-    queryKey: ["reviewsBySelectshop", id],
-    queryFn: () => getReviewsBySelectshop(id),
+  const { data: myReview } = useQuery({
+    queryKey: ["myReview", id],
+    queryFn: () => getMyReview(id, userData?.user?.id),
     enabled: !!id,
   });
 
-  const myReview =
-    reviewData && userData?.user?.id
-      ? reviewData.find(
-          (review: TReview) => review.userId === userData?.user?.id
-        )
-      : null;
+  const { data: reviewCount } = useQuery({
+    queryKey: ["reviewCountByShop", id],
+    queryFn: () => getReviewCountByShop(id),
+    enabled: !!id,
+  });
 
   const highlightedText = (text: string, query: string) => {
     if (query !== "" && text.includes(query)) {
@@ -49,10 +51,6 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
     return text;
   };
 
-  const shopReviews = reviewData?.filter(
-    (review: TReview) => review.selectshopId === id
-  );
-
   return (
     <S.SelectshopContainer>
       <S.SlectshopContents>
@@ -64,11 +62,11 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
             <S.SelectshopStats>
               <S.SelectshopDistance>
                 {Number(distance) >= 1000
-                  ? `${(Number(distance)/1000).toFixed(1)}km`
+                  ? `${(Number(distance) / 1000).toFixed(1)}km`
                   : `${distance}m`}
               </S.SelectshopDistance>
               <span style={{ color: `${styleColor.GRAY[400]}` }}>·</span>
-              <S.ReviewCount>리뷰수 {shopReviews?.length || 0}</S.ReviewCount>
+              <S.ReviewCount>리뷰수 {reviewCount || 0}</S.ReviewCount>
             </S.SelectshopStats>
           </S.SelectshopHeader>
           <S.SelectshopAddressName>{address_name}</S.SelectshopAddressName>

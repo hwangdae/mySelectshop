@@ -5,8 +5,8 @@ const options: Record<
   string,
   { maxSizeMB: number; maxWidthOrHeight: number; useWebWorker: boolean }
 > = {
-  small: { maxSizeMB: 0.5, maxWidthOrHeight: 300, useWebWorker: true },
-  medium: { maxSizeMB: 0.8, maxWidthOrHeight: 720, useWebWorker: true },
+  small: { maxSizeMB: 0.5, maxWidthOrHeight: 600, useWebWorker: true },
+  medium: { maxSizeMB: 0.8, maxWidthOrHeight: 1000, useWebWorker: true },
   large: { maxSizeMB: 1, maxWidthOrHeight: 1280, useWebWorker: true },
 };
 

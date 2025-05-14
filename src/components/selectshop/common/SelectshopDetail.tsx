@@ -1,51 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SelectshopReview from "./SelectshopReview";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 import { styleFont } from "@/styles/styleFont";
 import AllReview from "./AllReview";
 import { Button } from "@mui/material";
 import { styleColor } from "@/styles/styleColor";
 import useInitializeMapState from "@/hook/useInitializeMapState";
 import { useSession } from "next-auth/react";
-import { getReviewsBySelectshop } from "@/lib/review";
+import { getMyReview, getPaginatedReviewsByShop } from "@/lib/review";
 import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
 import MyReview from "@/components/common/MyReview";
 import { TPlace, TReview } from "@/types";
 import ReviewEditor from "@/components/reviewEditor/ReviewEditor";
+import { useInView } from "react-intersection-observer";
+import CommonSpinner from "@/components/ui/CommonSpinner";
 
 interface PropsType {
   selectshop: TPlace;
 }
 
+type TPaginatedReviewResponse = {
+  page: number;
+  total_pages: number;
+  reviews: TReview[];
+};
+
 const SelectshopDetail = ({ selectshop }: PropsType) => {
   const { id, address_name, place_name, x, y } = selectshop;
   const { data: userData } = useSession();
+  const userId = userData?.user?.id;
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
   const [isEditReview, setIsEditReview] = useState(false);
-  const { deleteReviewMutate } = useDeleteReview(id, userData?.user?.id);
+  const { deleteReviewMutate } = useDeleteReview(id, userId);
+  const { ref, inView } = useInView();
   useInitializeMapState(y, x);
 
-  const { data: reviewData }: any = useInfiniteQuery({
-    queryKey: ["reviewsBySelectshop", id],
-    queryFn: () => getReviewsBySelectshop(id),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      //이전에 받은 페이지 데이터를 여기에 넘겨준다.
-      if (lastPage.page < lastPage.total_pages) {
-        return lastPage.page + 1;
-      }
-    },
-    select: (data) => ({
-      pages: data?.pages.flatMap((page) => page),
-      pageParams: data.pageParams,
-    }),
-    enabled: !!id,
+  const { data: myReview } = useQuery({
+    queryKey: ["myReview", id],
+    queryFn: () => getMyReview(id, userId),
   });
 
-  const myReview = reviewData?.find((review: TReview) => {
-    return review?.userId === userData?.user?.id;
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
+      queryKey: ["reviewsBySelectshop", id],
+      queryFn: ({ pageParam = 1 }) =>
+        getPaginatedReviewsByShop(id, pageParam as number),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.page < lastPage.total_pages) {
+          return lastPage.page + 1 ? lastPage.page + 1 : undefined;
+        }
+      },
+      select: (data) => {
+        return data?.pages?.flatMap((page) => page.reviews);
+      },
+    });
+  console.log(data);
+  // const allReviews = data?.pages.flatMap((page) => page.reviews) ?? [];
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
 
   const deleteReviewButton = () => {
     if (confirm("리뷰를 삭제 하시겠어요?")) {
@@ -101,9 +120,14 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
       )}
       {!isWriteReviewOpen && (
         <S.AllReviewContainer>
-          {reviewData?.map((review: TReview) => (
+          {data?.map((review: TReview) => (
             <AllReview key={review.id} review={review} id={id} />
           ))}
+          {hasNextPage && (
+            <S.LoadingSpinner ref={ref}>
+              <CommonSpinner color={`${styleColor.YELLOW.PRIMARY}`} size={15} />
+            </S.LoadingSpinner>
+          )}
         </S.AllReviewContainer>
       )}
     </S.DetailContainer>
@@ -161,5 +185,10 @@ const S = {
     &::-webkit-scrollbar-track {
       background: rgba(206, 206, 206, 0.1);
     }
+  `,
+  LoadingSpinner: styled.h1`
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
   `,
 };

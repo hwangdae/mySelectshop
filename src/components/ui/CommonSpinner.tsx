@@ -3,10 +3,18 @@ import React from "react";
 import { ClipLoader } from "react-spinners";
 import styled from "styled-components";
 
-const CommonSpinner = () => {
+interface OptionType {
+  color?: string;
+  size?: number;
+}
+
+const CommonSpinner = ({
+  color = `${styleColor.WHITE}`,
+  size = 10,
+}: OptionType) => {
   return (
     <S.SppinerWrapper>
-      <ClipLoader color={`${styleColor.WHITE}}`} size={10} />
+      <ClipLoader color={color} size={size} />
     </S.SppinerWrapper>
   );
 };

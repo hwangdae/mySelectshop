@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import { getPaginatedItems } from "@/utils/pagenate";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
-import { getReview } from "@/lib/review";
+import { getReviewBySelectshop } from "@/lib/review";
 import { TPlace } from "@/types";
 import { openDetailShopIdStore, searchTermStore } from "@/globalState";
 
@@ -27,7 +27,7 @@ const VisitedSelectshop = () => {
 
   const { data: reviewData } = useQuery({
     queryKey: ["review"],
-    queryFn: getReview,
+    queryFn: getReviewBySelectshop,
     enabled: !!userData,
     refetchOnWindowFocus: false,
   });

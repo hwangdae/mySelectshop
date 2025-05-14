@@ -6,11 +6,10 @@ export const GET = async (request: Request) => {
   const selectshopId = searchParams.get("selectshopId") ?? undefined;
 
   try {
-    const reviews = selectshopId
-      ? await prisma.review.findMany({
-          where: { selectshopId },
-        })
-      : await prisma.review.findMany();
+    const reviews = await prisma.review.findMany({
+      where: { selectshopId },
+    });
+
     return NextResponse.json(reviews);
   } catch (error: unknown) {
     console.log(error);
@@ -80,6 +79,7 @@ export const PATCH = async (request: Request) => {
     return NextResponse.json(updateReview);
   } catch (error: unknown) {
     console.log(error);
+    return NextResponse.json({ error: "server error" }, { status: 500 });
   }
 };
 

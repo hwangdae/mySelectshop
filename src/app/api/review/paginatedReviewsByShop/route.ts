@@ -3,31 +3,28 @@ import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
-  const userId = searchParams.get("userId") ?? undefined;
+  const selectshopId = searchParams.get("selectshopId") ?? undefined;
   const pageParam = parseInt(searchParams.get("pageParam") || "1");
   const pageSize = 6;
-
   try {
     const [reviews, totalCount] = await Promise.all([
       prisma.review.findMany({
-        where: { userId },
+        where: { selectshopId },
         skip: pageSize * (pageParam - 1),
         take: pageSize,
       }),
       prisma.review.count({
-        where: { userId },
+        where: { selectshopId },
       }),
     ]);
-
     const totalPages = Math.ceil(totalCount / pageSize);
-
+    
     return NextResponse.json({
       reviews,
       page: pageParam,
       total_pages: totalPages,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
-    return NextResponse.json({ error: "server error" }, { status: 500 });
   }
 };
