@@ -13,13 +13,13 @@ import CustomPagination from "../../common/CustomPagination";
 import { useSession } from "next-auth/react";
 import useGetFilteredSelectshops from "@/hook/useGetFilteredSelectshops";
 import useDebounce from "@/hook/useDebounce";
-import { getReview } from "@/lib/review";
 import { TPlace } from "@/types";
 import {
   currentPageStore,
   openDetailShopIdStore,
   searchTermStore,
 } from "@/globalState";
+import { getReviewBySelectshop } from "@/lib/review";
 
 const NotVisiteSelectshop = () => {
   const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
@@ -31,7 +31,7 @@ const NotVisiteSelectshop = () => {
 
   const { data: reviewData } = useQuery({
     queryKey: ["review"],
-    queryFn: getReview,
+    queryFn: getReviewBySelectshop,
     enabled: !!userData,
     refetchOnWindowFocus: false,
   });

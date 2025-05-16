@@ -1,4 +1,3 @@
-import { TPaginatedReviewResponse } from "@/components/bestReviewers/ReviewList";
 import axios from "axios";
 
 export const getBestReviewersByRegion = async (region: string) => {

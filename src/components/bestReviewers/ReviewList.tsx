@@ -77,7 +77,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
 
     const bounds = new window.kakao.maps.LatLngBounds();
 
-    shopCoordinates.forEach((shop: any) => {
+    shopCoordinates.forEach((shop: TPlace) => {
       if (shop) {
         bounds.extend(new window.kakao.maps.LatLng(shop.y, shop.x));
       }
