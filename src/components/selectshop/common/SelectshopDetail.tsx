@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import SelectshopReview from "./SelectshopReview";
-import {
-  InfiniteData,
-  useInfiniteQuery,
-  useQuery,
-} from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { styleFont } from "@/styles/styleFont";
 import AllReview from "./AllReview";
 import { Button } from "@mui/material";
@@ -17,8 +13,8 @@ import useDeleteReview from "@/hook/mutate/review/useDeleteReview";
 import MyReview from "@/components/common/MyReview";
 import { TPlace, TReview } from "@/types";
 import ReviewEditor from "@/components/reviewEditor/ReviewEditor";
-import { useInView } from "react-intersection-observer";
 import CommonSpinner from "@/components/ui/CommonSpinner";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface PropsType {
   selectshop: TPlace;
@@ -37,7 +33,7 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
   const [isEditReview, setIsEditReview] = useState(false);
   const { deleteReviewMutate } = useDeleteReview(id, userId);
-  const { ref, inView } = useInView();
+  const parentRef = useRef<HTMLUListElement>(null);
   useInitializeMapState(y, x);
 
   const { data: myReview } = useQuery({
@@ -45,26 +41,31 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
     queryFn: () => getMyReview(id, userId),
   });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
-      queryKey: ["reviewsBySelectshop", id],
-      queryFn: ({ pageParam = 1 }) =>
-        getPaginatedReviewsByShop(id, pageParam as number),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.page < lastPage.total_pages) {
-          return lastPage.page + 1 ? lastPage.page + 1 : undefined;
-        }
-      },
-      select: (data) => {
-        return data?.pages?.flatMap((page) => page.reviews);
-      },
-    });
-  console.log(data);
-  // const allReviews = data?.pages.flatMap((page) => page.reviews) ?? [];
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
-  }, [inView]);
+  const {
+    data = [],
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
+    queryKey: ["reviewsBySelectshop", id],
+    queryFn: ({ pageParam = 1 }) =>
+      getPaginatedReviewsByShop(id, pageParam as number),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1 ? lastPage.page + 1 : undefined;
+      }
+    },
+    select: (data) => {
+      return data?.pages?.flatMap((page) => page.reviews);
+    },
+  });
+
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? data.length + 1 : data.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 154,
+  });
 
   const deleteReviewButton = () => {
     if (confirm("리뷰를 삭제 하시겠어요?")) {
@@ -119,15 +120,47 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
         />
       )}
       {!isWriteReviewOpen && (
-        <S.AllReviewContainer>
-          {data?.map((review: TReview) => (
-            <AllReview key={review.id} review={review} id={id} />
-          ))}
-          {hasNextPage && (
-            <S.LoadingSpinner ref={ref}>
-              <CommonSpinner color={`${styleColor.YELLOW.PRIMARY}`} size={15} />
-            </S.LoadingSpinner>
-          )}
+        <S.AllReviewContainer ref={parentRef}>
+          <div
+            style={{
+              height: `${rowVirtualizer.getTotalSize()}px`,
+              width: "100%",
+              position: "relative",
+            }}
+          >
+            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+              const isLoaderRow = virtualRow.index >= data.length;
+              const review = data[virtualRow.index];
+
+              if (isLoaderRow && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+
+              return (
+                <div
+                  key={virtualRow.key}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                >
+                  {isLoaderRow ? (
+                    <S.LoadingSpinner>
+                      <CommonSpinner
+                        color={styleColor.YELLOW.PRIMARY}
+                        size={15}
+                      />
+                    </S.LoadingSpinner>
+                  ) : (
+                    <AllReview key={review.id} review={review} id={id} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </S.AllReviewContainer>
       )}
     </S.DetailContainer>

@@ -7,8 +7,8 @@ import styled from "styled-components";
 import Conversation from "@/assets/Conversation.svg";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
-import { groupMessagesByDate } from "@/utils/groupMessagesByDate";
-import { TMessage } from "@/types/chat";
+import { flattenMessagesWithDate } from "@/utils/flattenMessagesWithDate";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface PropsType {
   currentUser: TUserWithChat;
@@ -21,11 +21,19 @@ interface PropsType {
 
 const Chat = ({ currentUser, receiver }: PropsType) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
 
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
   );
 
+  const flatList = flattenMessagesWithDate(conversation?.messages || []);
+
+  const rowVirtualizer = useVirtualizer({
+    count: flatList.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 40,
+  });
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",
@@ -34,7 +42,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
 
   useEffect(() => {
     scrollToBottom();
-  });
+  }, [conversation?.messages.length]);
 
   return (
     <S.ChatContainer>
@@ -44,41 +52,63 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
           receiverImage={receiver.receiverImage}
         />
       </div>
-      <S.Conversation>
-        {conversation !== undefined ? (
-          Object.entries(groupMessagesByDate(conversation.messages)).map(
-            ([date, messages]: [string, TMessage[]]) => (
-              <div key={date}>
-                <S.DateLineWrap key={date}>
-                  <S.DateDivider>{date}</S.DateDivider>
-                </S.DateLineWrap>
-                {messages?.map((message: TMessage) => {
-                  return (
-                    <Message
-                      key={message.id}
-                      receiverName={receiver.receiverName}
-                      receiverImage={receiver.receiverImage}
-                      messageImage={message.image}
-                      messageText={message.text}
-                      isSender={message.senderId === currentUser.id}
-                    />
-                  );
-                })}
-              </div>
-            )
-          )
-        ) : (
-          <S.FirstConversationContainer>
-            <S.ConversationSvg>
-              <Conversation
-                width={"50px"}
-                height={"50px"}
-                fill={`${styleColor.YELLOW.PRIMARY}`}
-              />
-            </S.ConversationSvg>
-            <S.ConversationTitle>첫 대화를 시작해 보세요.</S.ConversationTitle>
-          </S.FirstConversationContainer>
-        )}
+      <S.Conversation ref={parentRef}>
+        <div
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {conversation !== undefined ? (
+            <>
+              {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+                const item = flatList[virtualItem.index];
+                return (
+                  <div
+                    key={virtualItem.key}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: `${virtualItem.size}px`,
+                      transform: `translateY(${virtualItem.start}px)`,
+                    }}
+                  >
+                    {item.type === "date" ? (
+                      <S.DateLineWrap>
+                        <S.DateDivider>{item.value}</S.DateDivider>
+                      </S.DateLineWrap>
+                    ) : (
+                      <Message
+                        key={item.value.id}
+                        receiverName={receiver.receiverName}
+                        receiverImage={receiver.receiverImage}
+                        messageImage={item.value.image}
+                        messageText={item.value.text}
+                        isSender={item.value.senderId === currentUser.id}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            <S.FirstConversationContainer>
+              <S.ConversationSvg>
+                <Conversation
+                  width={"50px"}
+                  height={"50px"}
+                  fill={`${styleColor.YELLOW.PRIMARY}`}
+                />
+              </S.ConversationSvg>
+              <S.ConversationTitle>
+                첫 대화를 시작해 보세요.
+              </S.ConversationTitle>
+            </S.FirstConversationContainer>
+          )}
+        </div>
         <div ref={messagesEndRef}></div>
       </S.Conversation>
       <S.ChatInputContainer>

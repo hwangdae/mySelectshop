@@ -37,7 +37,7 @@ const Review = ({ review }: PropsType) => {
   );
 };
 
-export default Review;
+export default React.memo(Review);
 
 const S = {
   ReviewContainer: styled.div``,

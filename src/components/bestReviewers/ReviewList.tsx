@@ -1,5 +1,5 @@
 import { styleFont } from "@/styles/styleFont";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import Review from "./Review";
 import ArrowLeft from "@/assets/ArrowLeft.svg";
@@ -9,10 +9,8 @@ import { TBestReviewer, TPlace, TReview, TReviewWithShopInfo } from "@/types";
 import { boundsStore, shopCoordinatesStore } from "@/globalState";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getReviewsByUserId } from "@/lib/bestReviewers";
-import { useInView } from "react-intersection-observer";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import CommonSpinner from "../ui/CommonSpinner";
-import { FixedSizeList } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 
 interface PropsType {
   user: TBestReviewer;
@@ -31,7 +29,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
-  const { ref, inView } = useInView();
+  const parentRef = useRef<HTMLUListElement>(null);
 
   const {
     data = [],
@@ -46,28 +44,34 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       if (lastPage.page < lastPage.total_pages) {
         return lastPage.page + 1;
       }
+      return undefined;
     },
     select: (data) => {
       return data?.pages?.flatMap((page) => page.reviews);
     },
   });
+  const reviewsWithShopInfo = useMemo(() => {
+    return data.map((review) => {
+      const shopInfo = selectshops.find(
+        (selectshop: TPlace) => selectshop.id === review.selectshopId
+      );
+      return { ...review, shopInfo };
+    });
+  }, [data, selectshops]);
 
-  const reviewsWithShopInfo = data.map((review: TReview) => {
-    const shopInfo = selectshops.find(
-      (selectshop: TPlace) => selectshop.id === review.selectshopId
-    );
-    return { ...review, shopInfo };
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage
+      ? reviewsWithShopInfo.length + 1
+      : reviewsWithShopInfo.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 200,
   });
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
-  }, [inView]);
-
-  useEffect(() => {
     if (!data || data.length === 0) return;
-    const shopCoordinates = reviewsWithShopInfo.map(
-      (review: TReviewWithShopInfo) => review.shopInfo
-    );
+    const shopCoordinates = reviewsWithShopInfo
+      .map((review) => review.shopInfo)
+      .filter((shop) => !!shop);
 
     if (shopCoordinates.length === 0) return;
 
@@ -104,47 +108,55 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       {isReviewOpen && detailReview ? (
         <MyReview review={detailReview} nickName={name} />
       ) : (
-        <S.ReviewListWrap>
-          <AutoSizer
+        <S.ReviewListWrap ref={parentRef}>
+          <div
             style={{
+              height: `${rowVirtualizer.getTotalSize()}px`,
               width: "100%",
-              height: "100%",
-              marginTop: "20px",
+              position: "relative",
             }}
           >
-            {({ width, height }) => (
-              <FixedSizeList
-                height={height}
-                width={width}
-                itemCount={reviewsWithShopInfo.length}
-                itemSize={200}
-                itemData={reviewsWithShopInfo}
-              >
-                {({ index, style, data }) => {
-                  const review: TReviewWithShopInfo = data[index];
-                  return (
-                    <S.ReviewItemWrap style={style}>
-                      <S.ReviewItem
-                        key={review.id}
-                        onClick={() => {
-                          setDetailReview(review);
-                          setIsReviewOpen(true);
-                        }}
-                      >
-                        <Review key={review.selectshopId} review={review} />
-                      </S.ReviewItem>
-                    </S.ReviewItemWrap>
-                  );
-                }}
-              </FixedSizeList>
-            )}
-          </AutoSizer>
+            {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+              const isLoaderRow =
+                virtualItem.index >= reviewsWithShopInfo.length;
+              const review = reviewsWithShopInfo[virtualItem.index];
+              if (isLoaderRow && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+              }
+
+              return (
+                <div
+                  key={virtualItem.key}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    transform: `translateY(${virtualItem.start}px)`,
+                  }}
+                >
+                  {isLoaderRow ? (
+                    <S.LoadingSpinner>
+                      <CommonSpinner
+                        color={`${styleColor.YELLOW.PRIMARY}`}
+                        size={15}
+                      />
+                    </S.LoadingSpinner>
+                  ) : (
+                    <S.ReviewItem
+                      onClick={() => {
+                        setDetailReview(review);
+                        setIsReviewOpen(true);
+                      }}
+                    >
+                      <Review review={review} />
+                    </S.ReviewItem>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </S.ReviewListWrap>
-      )}
-      {hasNextPage && (
-        <S.LoadingSpinner ref={ref}>
-          <CommonSpinner color={`${styleColor.YELLOW.PRIMARY}`} size={15} />
-        </S.LoadingSpinner>
       )}
     </S.ReviewListContainer>
   );
@@ -180,23 +192,20 @@ const S = {
     font-weight: 600;
   `,
   ReviewListWrap: styled.ul`
-    height: calc(100% - 66px);
+    height: calc(100% - 46px);
     padding: 0px 12px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     > div {
-      > div {
-        overflow-y: scroll;
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
+      margin-top: 20px;
     }
   `,
-  ReviewItemWrap: styled.li``,
-  ReviewItem: styled.div`
+  ReviewItem: styled.li`
     cursor: pointer;
     border-radius: 4px;
     box-shadow: 0px 0px 8px 1px rgba(182, 182, 182, 0.1);
-    margin-bottom: 20px;
     h2 {
       width: 100%;
       height: 80px;
