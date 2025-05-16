@@ -20,19 +20,19 @@ const MapComponent = () => {
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(() => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const lat = position.coords.latitude;
-              const lng = position.coords.longitude;
-              // setCenter(lat,lng)
-              //테스트를 위해 위치 고정(성수)
-              setCenter(37.546912668813, 127.0411420343);
-              setIsLoading(false);
-            },
-            (error) => console.error("Geolocation error:", error.message)
-          );
-        }
+        // 테스트를 위해 현재 좌표 고정(성수)
+        // if (navigator.geolocation) {
+        //   navigator.geolocation.getCurrentPosition(
+        //     (position) => {
+        //       const lat = position.coords.latitude;
+        //       const lng = position.coords.longitude;
+        //       setCenter(lat, lng);
+        setCenter(37.546912668813, 127.0411420343);
+        setIsLoading(false);
+        // },
+        // (error) => console.error("Geolocation error:", error.message)
+        //   );
+        // }
       });
     }
   }, []);
