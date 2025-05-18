@@ -20,7 +20,7 @@ const BestReviewer = () => {
   const region = useMemo(() => {
     if (!myAddress) return "";
     const parts = myAddress.split(" ");
-    return normalizeAddress(parts[0]) + parts[1] + parts[2];
+    return normalizeAddress(parts[0]) + parts[1];
   }, [myAddress]);
 
   const { data: bestReviewers } = useQuery({

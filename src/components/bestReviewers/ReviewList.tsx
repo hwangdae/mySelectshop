@@ -37,9 +37,9 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const region = useMemo(() => {
     if (!myAddress) return "";
     const parts = myAddress.split(" ");
-    return normalizeAddress(parts[0]) + parts[1] + parts[2];
+    return normalizeAddress(parts[0]) + parts[1];
   }, [myAddress]);
-
+  console.log(region)
   const {
     data = [],
     fetchNextPage,
