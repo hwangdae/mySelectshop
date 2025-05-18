@@ -1,14 +1,14 @@
 import { TMessage } from "@/types/chat";
 import dayjs from "dayjs";
 
-type VirtualItem =
+export type MessageItem =
   | { type: "date"; value: string }
   | { type: "message"; value: TMessage };
 
 export const flattenMessagesWithDate = (
   messages: TMessage[]
-): VirtualItem[] => {
-  const result: VirtualItem[] = [];
+): MessageItem[] => {
+  const result: MessageItem[] = [];
   let lastDate = "";
 
   messages.forEach((message) => {

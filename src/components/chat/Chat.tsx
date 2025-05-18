@@ -8,7 +8,6 @@ import Conversation from "@/assets/Conversation.svg";
 import { styleColor } from "@/styles/styleColor";
 import { styleFont } from "@/styles/styleFont";
 import { flattenMessagesWithDate } from "@/utils/flattenMessagesWithDate";
-import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface PropsType {
   currentUser: TUserWithChat;
@@ -21,7 +20,6 @@ interface PropsType {
 
 const Chat = ({ currentUser, receiver }: PropsType) => {
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
-  const parentRef = useRef<HTMLDivElement>(null);
 
   const conversation = currentUser?.conversations.find((conversation) =>
     conversation.users.find((user) => user.id === receiver.receiverId)
@@ -29,11 +27,6 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
 
   const flatList = flattenMessagesWithDate(conversation?.messages || []);
 
-  const rowVirtualizer = useVirtualizer({
-    count: flatList.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 40,
-  });
   const scrollToBottom = () => {
     messagesEndRef?.current?.scrollIntoView({
       behavior: "smooth",
@@ -52,29 +45,18 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
           receiverImage={receiver.receiverImage}
         />
       </div>
-      <S.Conversation ref={parentRef}>
-        <div
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-            width: "100%",
-            position: "relative",
-          }}
-        >
+      <S.Conversation>
+        <ul>
           {conversation !== undefined ? (
             <>
-              {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-                const item = flatList[virtualItem.index];
+              {flatList.map((item) => {
                 return (
-                  <div
-                    key={virtualItem.key}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: `${virtualItem.size}px`,
-                      transform: `translateY(${virtualItem.start}px)`,
-                    }}
+                  <li
+                    key={
+                      item.type === "date"
+                        ? `date-${item.value}`
+                        : item.value.id
+                    }
                   >
                     {item.type === "date" ? (
                       <S.DateLineWrap>
@@ -90,7 +72,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
                         isSender={item.value.senderId === currentUser.id}
                       />
                     )}
-                  </div>
+                  </li>
                 );
               })}
             </>
@@ -108,7 +90,7 @@ const Chat = ({ currentUser, receiver }: PropsType) => {
               </S.ConversationTitle>
             </S.FirstConversationContainer>
           )}
-        </div>
+        </ul>
         <div ref={messagesEndRef}></div>
       </S.Conversation>
       <S.ChatInputContainer>
