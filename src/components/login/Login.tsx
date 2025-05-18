@@ -44,6 +44,7 @@ const Login = () => {
         return;
       }
       alert("로그인이 완료 되었습니다.");
+      window.location.reload();
       closeModal();
     } catch (err) {
       console.error(err);
