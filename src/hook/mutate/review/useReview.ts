@@ -8,6 +8,7 @@ const useReview = (type?: string, id?: string) => {
     queryClient.invalidateQueries({ queryKey: ["review"] });
     queryClient.invalidateQueries({ queryKey: ["myReview", id] });
     queryClient.invalidateQueries({ queryKey: ["reviewsBySelectshop", id] });
+    queryClient.invalidateQueries({ queryKey: ["reviewCountByShop", id] });
   };
 
   const reviewMutate = useMutation({
