@@ -42,6 +42,9 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your-upload-preset
 아이디: admin1@dev.com
 비밀번호: admin1234!
 ```
+## 📍 테스트 좌표 (Test Location)
+리뷰는 위치 기반으로 표시되기 때문에, 이를 위해 테스트용 좌표(성수)를 선택할 수 있는 기능을 추가했습니다.
+
 ## ✨ 기술 스택 (Tech Stack)
 
 | 기술            | 설명 |

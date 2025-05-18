@@ -24,7 +24,7 @@ const CustomPagination = ({
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: 0 });
     }
-  }, [currentPage]);
+  }, [currentPage, scrollRef]);
 
   return (
     <S.PaginationContainer>

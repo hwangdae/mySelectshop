@@ -19,7 +19,7 @@ const CONTENTSTABNAV = [
 const Contents = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { center } = myLocationStore();
+  const { center, setCenter } = myLocationStore();
   const { lat, lng } = center;
   useInitializeMapState(lat, lng);
   const { openModal } = useModal();

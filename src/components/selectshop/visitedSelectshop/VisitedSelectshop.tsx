@@ -49,7 +49,7 @@ const VisitedSelectshop = () => {
   const currentItems = getPaginatedItems(visitedSelectshops, currentPage);
 
   return (
-    <S.SearchResultsContainer>
+    <S.SearchResultsContainer ref={scrollRef}>
       {currentItems.length === 0 && debouncedSearchTerm === "" ? (
         <S.VisitedShopMessage>
           🏬 아직 방문한 편집샵이 없어요.
@@ -91,14 +91,12 @@ const S = {
   SearchResultsContainer: styled.div`
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
     &::-webkit-scrollbar {
       display: none;
     }
   `,
-  SearchResultsInner: styled.ul`
-    height: 100%;
-  `,
+  SearchResultsInner: styled.ul``,
   VisitedShopMessage: styled.h1`
     display: flex;
     justify-content: center;
