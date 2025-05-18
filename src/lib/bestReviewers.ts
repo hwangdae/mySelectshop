@@ -5,9 +5,13 @@ export const getBestReviewersByRegion = async (region: string) => {
   return res.data;
 };
 
-export const getReviewsByUserId = async (userId: string, pageParam: number) => {
+export const getReviewsByUserId = async (
+  userId: string,
+  region: string,
+  pageParam: number
+) => {
   const res = await axios.get(
-    `/api/bestReviewers/reviews?userId=${userId}&pageParam=${pageParam}`
+    `/api/bestReviewers/reviews?userId=${userId}&region=${region}&pageParam=${pageParam}`
   );
   return res.data;
 };

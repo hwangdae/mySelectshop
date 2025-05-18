@@ -16,7 +16,7 @@ const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<string>("");
   const { searchAllPlaces, selectshops, center } = useKakaoSearch();
   const { myAddress } = useMyAddress();
-  
+
   const region = useMemo(() => {
     if (!myAddress) return "";
     const parts = myAddress.split(" ");
@@ -39,7 +39,7 @@ const BestReviewer = () => {
     <S.BestReviewerContainer>
       <S.InnerContainer>
         {bestReviewers?.filter((bestReviewer: TBestReviewer) => {
-          return bestReviewer._count.reviews > 0;
+          return bestReviewer.reviews.length > 0;
         }).length === 0 ? (
           <S.NoBestReviewer>
             <span>🏆</span>

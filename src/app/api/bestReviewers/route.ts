@@ -7,17 +7,13 @@ export const GET = async (request: Request) => {
   try {
     const bestReviewers = await prisma.user.findMany({
       where: {
-        reviews: {
-          some: { region },
-        },
+        reviews: { some: { region } },
       },
       select: {
         id: true,
         name: true,
         image: true,
-        _count: {
-          select: { reviews: true },
-        },
+        reviews: { where: { region } },
       },
       orderBy: {
         reviews: { _count: "desc" },

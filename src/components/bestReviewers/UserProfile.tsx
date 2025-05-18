@@ -13,7 +13,7 @@ interface PropsType {
 }
 
 const UserProfile = ({ user, index }: PropsType) => {
-  const { id, image, name, _count } = user;
+  const { id, image, name, reviews } = user;
 
   const { data: followerCount } = useQuery({
     queryKey: ["followCount", id],
@@ -32,7 +32,7 @@ const UserProfile = ({ user, index }: PropsType) => {
           <S.UserActivity>
             <S.Activity>
               <h3>
-                리뷰수<span>{_count.reviews}</span>
+                리뷰수<span>{reviews.length}</span>
               </h3>
             </S.Activity>
             <S.Activity>

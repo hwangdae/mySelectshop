@@ -11,6 +11,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getReviewsByUserId } from "@/lib/bestReviewers";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import CommonSpinner from "../ui/CommonSpinner";
+import useMyAddress from "@/hook/useMyAddress";
+import { normalizeAddress } from "@/utils/normalizeAddress";
 
 interface PropsType {
   user: TBestReviewer;
@@ -30,6 +32,13 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
   const parentRef = useRef<HTMLUListElement>(null);
+  const { myAddress } = useMyAddress();
+
+  const region = useMemo(() => {
+    if (!myAddress) return "";
+    const parts = myAddress.split(" ");
+    return normalizeAddress(parts[0]) + parts[1] + parts[2];
+  }, [myAddress]);
 
   const {
     data = [],
@@ -38,7 +47,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
     isFetchingNextPage,
   } = useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
     queryKey: ["reviews", id],
-    queryFn: ({ pageParam = 1 }) => getReviewsByUserId(id, pageParam as number),
+    queryFn: ({ pageParam = 1 }) => getReviewsByUserId(id,region, pageParam as number),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total_pages) {
