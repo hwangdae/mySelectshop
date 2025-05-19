@@ -21,8 +21,13 @@ export interface TConversation {
   users: TUser[];
 }
 
-export interface TProfile {
+export interface TProfileData {
   id: string | undefined;
   name: string;
-  image: string;
+  image: string | null | undefined;
+}
+
+export interface TProfileFormValues {
+  name: string;
+  image: File | null;
 }

@@ -48,7 +48,7 @@ export const registerLoginSchema = z.object({
 });
 
 export const profileUpdateSchema = z.object({
-  uploadImage: z.string(),
+  image: z.string().nullable().optional(),
   name: z
     .string()
     .min(3, { message: "3자리 이상 입력해주세요." })

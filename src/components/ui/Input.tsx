@@ -1,25 +1,25 @@
 import React from "react";
-import { FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import styled from "styled-components";
 
-interface InputProps {
-  id: string;
+interface InputProps<T extends FieldValues> {
+  id: Path<T>;
   type?: string;
   disabled?: boolean;
   placeholder: string;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<T>;
 }
 
-const Input = ({
+const Input = <T extends FieldValues>({
   id,
   type = "text",
   disabled,
   placeholder,
   register,
-}: InputProps) => {
+}: InputProps<T>) => {
   return (
     <S.Input
-      id={id}
+      id={String(id)}
       type={type}
       disabled={disabled}
       placeholder={placeholder}

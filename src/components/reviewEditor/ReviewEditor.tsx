@@ -96,7 +96,6 @@ const ReviewEditor = ({
     const newUploadedImages =
       uploadImages!.length > 0 ? uploadImages : existingImages;
     const region = addressName?.split(" ").slice(0, 2).join("");
-    console.log(region)
     const newReview: TNewReview = {
       selectshopId,
       region,
@@ -119,7 +118,7 @@ const ReviewEditor = ({
           ...newReview,
           id: prevReview?.id,
         };
-        await reviewMutate.mutate(updateReview);
+        reviewMutate.mutate(updateReview);
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }

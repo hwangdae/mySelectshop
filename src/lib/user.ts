@@ -1,4 +1,4 @@
-import { TProfile } from "@/types";
+import { TProfileData } from "@/types";
 import axios from "axios";
 
 export const getUserList = async () => {
@@ -6,6 +6,6 @@ export const getUserList = async () => {
   return res.data;
 };
 
-export const profileUpdate = async (updateProfileData: TProfile) => {
+export const profileUpdate = async (updateProfileData: TProfileData) => {
   await axios.patch("/api/user/profile", updateProfileData);
 };

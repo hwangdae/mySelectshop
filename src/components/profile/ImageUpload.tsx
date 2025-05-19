@@ -4,22 +4,20 @@ import styled from "styled-components";
 import Camera from "@/assets/Camera.svg";
 import { imageCompressionFn } from "@/utils/imageCompression";
 import { previewImage } from "@/utils/previewImage";
-import { FieldValues, UseFormSetValue } from "react-hook-form";
 
 interface PropsType {
   previewProfileImage: string | ArrayBuffer | null;
   setPreviewProfileImage: React.Dispatch<
     React.SetStateAction<string | ArrayBuffer | null>
   >;
-  setValue: UseFormSetValue<FieldValues>;
+  setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
 const ImageUpload = ({
   previewProfileImage,
   setPreviewProfileImage,
-  setValue,
+  setFile,
 }: PropsType) => {
-  
   const onchangeImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -28,7 +26,7 @@ const ImageUpload = ({
       const fileType = uploadImageFile.type.split("/")[1];
       if (!["jpg", "jpeg", "png", "webp"].includes(fileType)) {
         alert(
-          '파일은 "*jpg, *jpeg, *png" 만 가능합니다.\n이미지를 다시 업로드 해주세요.'
+          '파일은 "*jpg, *jpeg, *png *webp" 만 가능합니다.\n이미지를 다시 업로드 해주세요.'
         );
         return;
       }
@@ -38,7 +36,7 @@ const ImageUpload = ({
       );
       if (compressionFile) {
         previewImage(compressionFile, setPreviewProfileImage);
-        setValue("uploadImage", compressionFile);
+        setFile(compressionFile);
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +46,11 @@ const ImageUpload = ({
   return (
     <S.ProfileImageContainer>
       <S.ProfileImage
-        src={previewProfileImage ? `${previewProfileImage}` : "/images/basicUserImage.png"}
+        src={
+          previewProfileImage
+            ? `${previewProfileImage}`
+            : "/images/basicUserImage.png"
+        }
         alt="프로필 이미지"
       />
       <S.ImageLabel htmlFor="profileImg">

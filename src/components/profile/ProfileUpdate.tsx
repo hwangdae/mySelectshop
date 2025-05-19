@@ -7,31 +7,33 @@ import ImageUpload from "./ImageUpload";
 import { signOut, useSession } from "next-auth/react";
 import { uploadImageToCloudinary } from "@/utils/uploadImageToCloudinary";
 import { useModal } from "@/context/ModalContext";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileUpdateSchema } from "@/validators/auth";
 import { ErrorMessage } from "@hookform/error-message";
 import Input from "../ui/Input";
 import CommonSpinner from "../ui/CommonSpinner";
 import { profileUpdate } from "@/lib/user";
+import { TProfileFormValues } from "@/types";
 
 const ProfileUpdate = () => {
+  const [file, setFile] = useState<File | undefined>();
   const [previewProfileImage, setPreviewProfileImage] = useState<
     string | ArrayBuffer | null
   >("");
   const [isLoading, setIsLoading] = useState(false);
   const { data: userData, update } = useSession();
   const { closeModal } = useModal();
-
+  console.log(file);
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<TProfileFormValues>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
-      uploadImage: userData?.user?.image || "",
+      image: null,
       name: userData?.user?.name || "",
     },
   });
@@ -42,17 +44,15 @@ const ProfileUpdate = () => {
     }
   }, [userData]);
 
-  const profileUpdateHandleSubmit: SubmitHandler<FieldValues> = async (
-    body
-  ) => {
+  const profileUpdateHandleSubmit: SubmitHandler<TProfileFormValues> = async ({
+    name,
+  }) => {
     setIsLoading(true);
-    const imageUrl = body.uploadImage
-      ? await uploadImageToCloudinary(body.uploadImage as File)
-      : null;
+    const imageUrl = file ? await uploadImageToCloudinary(file) : null;
     const updateProfileData = {
       id: userData?.user?.id,
       image: imageUrl || (userData?.user?.image as string),
-      name: body.name || (userData?.user?.name as string),
+      name: name || (userData?.user?.name as string),
     };
     try {
       profileUpdate(updateProfileData);
@@ -77,7 +77,7 @@ const ProfileUpdate = () => {
             <ImageUpload
               previewProfileImage={previewProfileImage}
               setPreviewProfileImage={setPreviewProfileImage}
-              setValue={setValue}
+              setFile={setFile}
             />
             <h1>{userData?.user?.email}</h1>
             <Input
