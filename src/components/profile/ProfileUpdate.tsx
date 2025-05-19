@@ -28,7 +28,6 @@ const ProfileUpdate = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<TProfileFormValues>({
     resolver: zodResolver(profileUpdateSchema),

@@ -19,7 +19,7 @@ const Input = <T extends FieldValues>({
 }: InputProps<T>) => {
   return (
     <S.Input
-      id={String(id)}
+      id={id}
       type={type}
       disabled={disabled}
       placeholder={placeholder}
