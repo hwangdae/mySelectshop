@@ -33,13 +33,13 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { setBounds } = boundsStore();
   const parentRef = useRef<HTMLUListElement>(null);
   const { myAddress } = useMyAddress();
-
+  console.log(parentRef,"aa")
   const region = useMemo(() => {
     if (!myAddress) return "";
     const parts = myAddress.split(" ");
     return normalizeAddress(parts[0]) + parts[1];
   }, [myAddress]);
-  console.log(region)
+  console.log(region);
   const {
     data = [],
     fetchNextPage,
@@ -47,7 +47,8 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
     isFetchingNextPage,
   } = useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
     queryKey: ["reviews", id],
-    queryFn: ({ pageParam = 1 }) => getReviewsByUserId(id,region, pageParam as number),
+    queryFn: ({ pageParam = 1 }) =>
+      getReviewsByUserId(id, region, pageParam as number),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total_pages) {

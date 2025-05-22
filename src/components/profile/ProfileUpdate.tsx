@@ -24,7 +24,7 @@ const ProfileUpdate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: userData, update } = useSession();
   const { closeModal } = useModal();
-  console.log(file);
+
   const {
     register,
     handleSubmit,
