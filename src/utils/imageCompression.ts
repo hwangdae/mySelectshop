@@ -4,6 +4,7 @@ import { convertImageToWebp } from "./convertImageToWebp";
 const options: Record<
   string,
   { maxSizeMB: number; maxWidthOrHeight: number; useWebWorker: boolean }
+  
 > = {
   small: { maxSizeMB: 0.5, maxWidthOrHeight: 600, useWebWorker: true },
   medium: { maxSizeMB: 0.8, maxWidthOrHeight: 1000, useWebWorker: true },

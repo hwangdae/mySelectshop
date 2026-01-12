@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import NoImage from "@/assets/NoImage.svg";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -23,17 +23,27 @@ const ImageUploader = ({
   const [previewImages] = useState<string[]>(
     prevReview ? prevReview.split(",") : []
   );
-
+  const [previewFiles, setPreviewFiles] = useState<File[]>([]);
+  const previewStartRef = useRef<number | null>(null);
   const onChangeImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      const compressedFiles = await Promise.all(
-        newFiles.map((file) => imageCompressionFn(file, "small"))
-      );
-      setFiles(compressedFiles);
-    }
+    if (!e.target.files) return;
+
+    const startTime = performance.now();
+    const newFiles = Array.from(e.target.files);
+    previewStartRef.current = performance.now();
+    // 미리보기 (원본)
+    setPreviewFiles(newFiles);
+
+    // 백그라운드 압축
+    const compressedFiles = await Promise.all(
+      newFiles.map((file) => imageCompressionFn(file, "small"))
+    );
+    setFiles(compressedFiles);
+
+    const endTime = performance.now();
+    console.log(`압축 소요 시간: ${(endTime - startTime).toFixed(0)}ms`);
   };
 
   return (
@@ -50,13 +60,24 @@ const ImageUploader = ({
               </S.SwiperSlide>
             ))}
           </S.ImageSwiper>
-        ) : files.length > 0 ? (
+        ) : previewFiles.length > 0 ? (
           <S.ImageSwiper slidesPerView={1}>
-            {files.map((file, index) => (
+            {previewFiles.map((file, index) => (
               <S.SwiperSlide key={index}>
                 <S.UploadImage
                   src={URL.createObjectURL(file)}
                   alt={`uploaded-${index}`}
+                  onLoad={() => {
+                    if (previewStartRef.current) {
+                      const end = performance.now();
+                      console.log(
+                        `미리보기 표시 시간: ${(
+                          end - previewStartRef.current
+                        ).toFixed(0)}ms`
+                      );
+                      previewStartRef.current = null;
+                    }
+                  }}
                 />
               </S.SwiperSlide>
             ))}
@@ -79,7 +100,7 @@ const ImageUploader = ({
   );
 };
 
-export default ImageUploader;
+export default React.memo(ImageUploader);
 
 const S = {
   Label: styled.label`

@@ -9,6 +9,7 @@ import {
   useFieldArray,
   SubmitHandler,
   FieldArrayWithId,
+  useWatch,
 } from "react-hook-form";
 import styled from "styled-components";
 import Trash from "@/assets/Trash.svg";
@@ -45,7 +46,6 @@ const ReviewEditor = ({
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm<TReviewFormData>({
     resolver: zodResolver(registerReviewSchema),
@@ -63,7 +63,10 @@ const ReviewEditor = ({
       tags: prevReview?.tags || "",
     },
   });
-
+const description = useWatch({
+  control,
+  name: "description",
+});
   const {
     fields: advantageFields,
     append: advantageAppend,
@@ -89,6 +92,7 @@ const ReviewEditor = ({
     tags,
   }) => {
     setIsLoading(true);
+     const startTime = performance.now(); // 측정 시작
     const uploadImages = await uploadImagesFn(files);
     const existingImages = prevReview?.reviewImages
       ? prevReview.reviewImages.split(",")
@@ -122,6 +126,9 @@ const ReviewEditor = ({
         alert("수정이 완료 되었습니다.");
         setIsEditReview!(false);
       }
+      const endTime = performance.now(); // 여기서 종료 시간 측정
+      console.log(`총 소요 시간: ${(endTime - startTime).toFixed(0)}ms`);
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -152,7 +159,7 @@ const ReviewEditor = ({
                 maxLength={50}
               />
               <S.StringLength>
-                {watch("description").length}
+                {description.length ?? 0}
                 /50
               </S.StringLength>
             </S.TextAreaWrap>
