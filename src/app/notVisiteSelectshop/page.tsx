@@ -1,10 +1,8 @@
-import NotVisiteSelectshop from '@/components/selectshop/notVisiteSelectshop/NotVisiteSelectshop'
-import React from 'react'
+import NotVisiteSelectshop from "@/features/selectshop/notVisiteSelectshop/NotVisiteSelectshop";
+import React from "react";
 
 const NotVisiteSelectshopPage = () => {
-  return (
-    <NotVisiteSelectshop/>
-  )
-}
+  return <NotVisiteSelectshop />;
+};
 
-export default NotVisiteSelectshopPage
+export default NotVisiteSelectshopPage;

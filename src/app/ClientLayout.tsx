@@ -1,14 +1,14 @@
 "use client";
-import Header from "@/components/sidebar/Header";
+import Header from "@/features/sidebar/Header";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import styled from "styled-components";
 import { ThemeProvider } from "@mui/material";
-import { theme } from "@/styles/defaultTheme";
+import { theme } from "@/shared/styles/defaultTheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import GlobalModal from "@/components/common/GlobalModal";
 import { ModalProvider } from "../context/ModalContext";
-import MapComponent from "@/components/map/Map";
+import MapComponent from "@/features/map/Map";
+import GlobalModal from "@/shared/components/GlobalModal";
 
 const queryClient = new QueryClient();
 

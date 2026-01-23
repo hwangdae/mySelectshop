@@ -1,4 +1,4 @@
-import ProfileUpdate from '@/components/profile/ProfileUpdate'
+import ProfileUpdate from '@/features/profile/components/ProfileUpdate'
 import React from 'react'
 
 const UpdateProfilePage = () => {

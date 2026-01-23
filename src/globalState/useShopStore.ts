@@ -1,4 +1,4 @@
-import { TMarker, TPlace } from "@/types";
+import { TMarker, TPlace } from "@/shared/types";
 import { create } from "zustand";
 
 interface MarkersType {
@@ -16,8 +16,8 @@ interface ShopCoordinatesType {
 }
 
 interface OpenDetailShopIdType {
-  openDetailShopId: string | null;
-  setOpenDetailShopId: (openDetailShopId: string | null) => void;
+  openDetailShopId: string;
+  setOpenDetailShopId: (openDetailShopId: string) => void;
 }
 
 export const markersStore = create<MarkersType>((set) => ({
@@ -36,6 +36,6 @@ export const shopCoordinatesStore = create<ShopCoordinatesType>((set) => ({
 }));
 
 export const openDetailShopIdStore = create<OpenDetailShopIdType>((set) => ({
-  openDetailShopId: null,
+  openDetailShopId: "",
   setOpenDetailShopId: (state) => set({ openDetailShopId: state }),
 }));

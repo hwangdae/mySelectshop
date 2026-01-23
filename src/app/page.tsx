@@ -1,5 +1,5 @@
 "use client";
-import Contents from "@/components/sidebar/Contents";
+import Contents from "@/features/sidebar/Contents";
 
 export default function Home() {
   return <Contents />;

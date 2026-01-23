@@ -1,4 +1,4 @@
-import VisitedSelectshop from '@/components/selectshop/visitedSelectshop/VisitedSelectshop'
+import VisitedSelectshop from '@/features/selectshop/visitedSelectshop/VisitedSelectshop'
 import React from 'react'
 
 const VisitedSelectshopPage = () => {
