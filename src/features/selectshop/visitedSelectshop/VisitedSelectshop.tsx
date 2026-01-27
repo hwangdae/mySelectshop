@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import SelectshopInfoCard from "../components/SelectshopInfoCard";
-import SelectshopDetail from "../components/SelectshopDetail";
+import SelectshopDetail from "../detail/SelectshopDetail";
 import useKakaoSearch from "@/shared/hook/useKakaoSearch";
 import { useQuery } from "@tanstack/react-query";
 import { styleFont } from "@/shared/styles/styleFont";

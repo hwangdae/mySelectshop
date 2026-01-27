@@ -14,7 +14,9 @@ interface PropsType {
   isMutualFollow?: () => void;
 }
 const User = ({ user, type, isMutualFollow }: PropsType) => {
-  const { data: userData } = useSession();
+  const { data: userData, status } = useSession();
+  const isSessionReady = status === "authenticated";
+  const isMe = userData?.user?.id === user?.id;
   return (
     <S.UserContainer $type={type}>
       <S.UserInfo>
@@ -26,10 +28,10 @@ const User = ({ user, type, isMutualFollow }: PropsType) => {
         <S.UserName $type={type}>{user?.name}</S.UserName>
       </S.UserInfo>
       <S.ActionButtons>
-        {!userData?.user?.id || userData?.user?.id !== user?.id && (
-          <ChatButton user={user} type={type} />
+        {isSessionReady && !isMe && <ChatButton user={user} type={type} />}
+        {isSessionReady && (
+          <Follow id={user?.id} isMutualFollow={isMutualFollow} />
         )}
-        <Follow id={user?.id} isMutualFollow={isMutualFollow} />
       </S.ActionButtons>
     </S.UserContainer>
   );

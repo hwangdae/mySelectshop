@@ -11,9 +11,9 @@ import { getReviewsByUserId } from "@/features/bestReviewers/api";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import CommonSpinner from "../../../shared/ui/CommonSpinner";
 import useMyAddress from "@/shared/hook/useMyAddress";
-import { normalizeAddress } from "@/shared/utils/normalizeAddress";
 import { TBestReviewer } from "../types";
 import MyReview from "@/shared/components/MyReview";
+import { getRegionFromAddress } from "@/shared/utils/getRegionFromAddress";
 
 interface PropsType {
   user: TBestReviewer;
@@ -33,14 +33,10 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
   const parentRef = useRef<HTMLUListElement>(null);
+
   const { myAddress } = useMyAddress();
-  console.log(parentRef,"aa")
-  const region = useMemo(() => {
-    if (!myAddress) return "";
-    const parts = myAddress.split(" ");
-    return normalizeAddress(parts[0]) + parts[1];
-  }, [myAddress]);
-  console.log(region);
+  const region = getRegionFromAddress(myAddress);
+
   const {
     data = [],
     fetchNextPage,
@@ -64,12 +60,12 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const reviewsWithShopInfo = useMemo(() => {
     return data.map((review) => {
       const shopInfo = selectshops.find(
-        (selectshop: TPlace) => selectshop.id === review.selectshopId
+        (selectshop: TPlace) => selectshop.id === review.selectshopId,
       );
       return { ...review, shopInfo };
     });
   }, [data, selectshops]);
-  console.log(data,"데이터")
+  console.log(data, "데이터");
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage
       ? reviewsWithShopInfo.length + 1

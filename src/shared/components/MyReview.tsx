@@ -7,23 +7,28 @@ import Tags from "./Tags";
 import CommonSwiper from "../ui/CommonSwiper";
 import { TReviewWithShopInfo } from "@/shared/types";
 import ReviewEditor from "@/features/reviewEditor/component/ReviewEditor";
+// import dynamic from "next/dynamic";
+
+// const CommonSwiper = dynamic(() => import("../ui/CommonSwiper"), {
+//   loading: () => <div>aasdasdadasd</div>,
+//   ssr: false,
+// });
 
 interface PropsType {
   review: TReviewWithShopInfo;
   nickName?: string;
   type?: string;
-  isEditReview?: boolean;
-  setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
+  isEdit?: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MyReview = ({
   review,
   nickName,
   type,
-  isEditReview,
-  setIsEditReview,
+  isEdit,
+  setIsEdit,
 }: PropsType) => {
-  
   const {
     reviewImages,
     description,
@@ -36,12 +41,12 @@ const MyReview = ({
 
   useInitializeMapState(shopInfo?.y || 0, shopInfo?.x || 0);
 
-  return isEditReview ? (
+  return isEdit ? (
     <ReviewEditor
       type="edit"
       prevReview={review}
       selectshopId={selectshopId}
-      setIsEditReview={setIsEditReview}
+      setIsEdit={setIsEdit}
     />
   ) : (
     <S.MyReviewContainer>

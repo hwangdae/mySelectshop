@@ -10,9 +10,9 @@ import ProfileImage from "@/shared/ui/ProfileImage";
 import UserActivity from "./UserActivity";
 
 const Profile = () => {
-  const { data: userData } = useSession();
+  const { data: userData, status } = useSession();
   const { openModal } = useModal();
-
+  if(status ==="loading") return <div>로딩</div>
   return (
     <div>
       {userData && (

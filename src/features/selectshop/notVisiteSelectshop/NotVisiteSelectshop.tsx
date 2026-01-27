@@ -24,7 +24,7 @@ import NoSearchResult from "@/shared/components/NoSearchResult";
 import CustomPagination from "@/shared/components/CustomPagination";
 
 const SelectshopDetail = dynamic(
-  () => import("../components/SelectshopDetail"),
+  () => import("../detail/SelectshopDetail"),
   { ssr: false }
 );
 

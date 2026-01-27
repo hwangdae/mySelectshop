@@ -16,11 +16,13 @@ const Marker = ({ selectshop, index }: PropsType) => {
   const { id, place_name, x, y } = selectshop;
   const position = { lat: y, lng: x };
 
-  const { data: reviewCount } = useQuery({
+  const { data: reviewCount, isLoading } = useQuery({
     queryKey: ["reviewCountByShop", id],
     queryFn: () => getReviewCountByShop(id),
     enabled: !!id,
   });
+  
+  if (isLoading) return null;
 
   return (
     <CustomOverlayMap key={`marker-${y},${x}-${index}`} position={position}>

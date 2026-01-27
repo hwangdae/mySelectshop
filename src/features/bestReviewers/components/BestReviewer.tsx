@@ -2,33 +2,30 @@
 import { styleColor } from "@/shared/styles/styleColor";
 import { styleFont } from "@/shared/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useKakaoSearch from "@/shared/hook/useKakaoSearch";
 import { getBestReviewersByRegion } from "@/features/bestReviewers/api";
-import { normalizeAddress } from "@/shared/utils/normalizeAddress";
 import useMyAddress from "@/shared/hook/useMyAddress";
 import { TBestReviewer } from "../types";
 import UserProfile from "./UserProfile";
 import ReviewList from "./ReviewList";
+import { getRegionFromAddress } from "@/shared/utils/getRegionFromAddress";
 
 const BestReviewer = () => {
   const [activeUserId, setActiveuserId] = useState<string>("");
   const { searchAllPlaces, selectshops, center } = useKakaoSearch();
-  const { myAddress } = useMyAddress();
 
-  const region = useMemo(() => {
-    if (!myAddress) return "";
-    const parts = myAddress.split(" ");
-    return normalizeAddress(parts[0]) + parts[1];
-  }, [myAddress]);
+  const { myAddress } = useMyAddress();
+  const region = getRegionFromAddress(myAddress);
+
 
   const { data: bestReviewers } = useQuery({
     queryKey: ["bestReviewers", region],
     queryFn: () => getBestReviewersByRegion(region),
     enabled: !!region,
   });
-  console.log(bestReviewers)
+
   useEffect(() => {
     if (center.lat && center.lng) {
       searchAllPlaces();

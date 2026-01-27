@@ -3,15 +3,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import useKakaoSearch from "@/shared/hook/useKakaoSearch";
 import SelectshopInfoCard from "../components/SelectshopInfoCard";
-// import SelectshopDetail from "../common/SelectshopDetail";
 import useDebounce from "@/shared/hook/useDebounce";
 import { TPlace } from "@/shared/types";
 import { openDetailShopIdStore, searchTermStore } from "@/globalState";
 import dynamic from "next/dynamic";
 import NoSearchResult from "@/shared/components/NoSearchResult";
 import Pagination from "@/shared/components/Pagination";
+// import SelectshopDetail from "../components/SelectshopDetail";
 
-const SelectshopDetail = dynamic(() => import("../components/SelectshopDetail"), {
+const SelectshopDetail = dynamic(() => import("../detail/SelectshopDetail"), {
   ssr: false,
 });
 
@@ -53,9 +53,6 @@ const NearbySelectshop = () => {
               }}
             >
               <SelectshopInfoCard selectshop={selectshop} />
-              {/* {openDetailShopId === selectshop.id && (
-                <SelectshopDetail selectshop={selectshop} />
-              )} */}
             </li>
           ))}
         </S.SearchResultsInner>

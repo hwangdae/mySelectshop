@@ -9,6 +9,7 @@ import { getMyReview, getReviewCountByShop } from "@/features/reviewEditor/api";
 import { TPlace } from "@/shared/types";
 import { searchTermStore } from "@/globalState";
 import React from "react";
+import { highlightText } from "@/shared/utils/highlightText";
 
 interface PropsType {
   selectshop: TPlace;
@@ -31,31 +32,13 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
     enabled: !!id,
   });
 
-  const highlightedText = (text: string, query: string) => {
-    if (query !== "" && text.includes(query)) {
-      const parts = text.split(new RegExp(`(${query})`, "gi"));
-      return (
-        <>
-          {parts.map((part, index) => {
-            return part.toLowerCase() === query.toLowerCase() ? (
-              <S.HighlightText key={`${part}+${index}`}>{part}</S.HighlightText>
-            ) : (
-              <span key={`${part}-${index}`}>{part}</span>
-            );
-          })}
-        </>
-      );
-    }
-    return text;
-  };
-
   return (
     <S.SelectshopContainer>
       <S.SlectshopContents>
         <S.SelectshopInfo>
           <S.SelectshopHeader>
             <S.SelectshopName>
-              {highlightedText(place_name, searchTerm)}
+              {highlightText(place_name, searchTerm)}
             </S.SelectshopName>
             <S.SelectshopStats>
               <S.SelectshopDistance>

@@ -24,24 +24,25 @@ import ImageUploader from "./ImageUploader";
 interface PropsType {
   selectshopId?: string;
   addressName?: string;
-  setIsWriteReviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   type?: string;
   prevReview?: TReview;
-  setIsEditReview?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsWriteReviewOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ReviewEditor = ({
   selectshopId,
   addressName,
   setIsWriteReviewOpen,
-  type,
+  type = "write",
   prevReview,
-  setIsEditReview,
+  setIsEdit,
 }: PropsType) => {
-  const [files, setFiles] = useState<File[]>([]);
   const { data: userData } = useSession();
+  const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { reviewMutate } = useReview(type, selectshopId);
+
   const {
     register,
     handleSubmit,
@@ -63,10 +64,10 @@ const ReviewEditor = ({
       tags: prevReview?.tags || "",
     },
   });
-const description = useWatch({
-  control,
-  name: "description",
-});
+  const description = useWatch({
+    control,
+    name: "description",
+  });
   const {
     fields: advantageFields,
     append: advantageAppend,
@@ -85,54 +86,51 @@ const description = useWatch({
     name: "disAdvantages",
   });
 
-  const ReviewEditSubmit: SubmitHandler<TReviewFormData> = async ({
-    description,
-    advantages,
-    disAdvantages,
-    tags,
-  }) => {
-
-    setIsLoading(true);
-
-     const startTime = performance.now(); // 측정 시작
-    const uploadImages = await uploadImagesFn(files);
+  const buildReviewPayload = async (
+    formData: TReviewFormData,
+  ): Promise<TNewReview> => {
+    const uploadedImages = await uploadImagesFn(files);
     const existingImages = prevReview?.reviewImages
       ? prevReview.reviewImages.split(",")
       : [];
     const newUploadedImages =
-      uploadImages!.length > 0 ? uploadImages : existingImages;
-
-    const region = addressName?.split(" ").slice(0, 2).join("");
-
-    const newReview: TNewReview = {
+      uploadedImages!.length > 0 ? uploadedImages : existingImages;
+    return {
       selectshopId,
-      region,
+      userId: userData?.user?.id,
+      region: addressName?.split(" ").slice(0, 2).join(""),
       reviewImages:
         newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
-      description,
-      advantages: advantages?.map((item) => item.value) || null,
-      disAdvantages: disAdvantages?.map((item) => item.value) || null,
-      tags: tags,
-      userId: userData?.user?.id,
+      description: formData.description,
+      advantages: formData.advantages?.map((v) => v.value) ?? null,
+      disAdvantages: formData.disAdvantages?.map((v) => v.value) ?? null,
+      tags: formData.tags,
     };
+  };
+
+  const ReviewEditSubmit: SubmitHandler<TReviewFormData> = async (formData) => {
+    setIsLoading(true);
+
+    const startTime = performance.now(); // 측정 시작
+
+    const payload = await buildReviewPayload(formData);
 
     try {
       if (type === "write") {
-        reviewMutate.mutate(newReview);
+        reviewMutate.mutate(payload);
         alert("작성이 완료 되었습니다.");
         setIsWriteReviewOpen!(false);
       } else if (type === "edit") {
         const updateReview = {
-          ...newReview,
+          ...payload,
           id: prevReview?.id,
         };
         reviewMutate.mutate(updateReview);
         alert("수정이 완료 되었습니다.");
-        setIsEditReview!(false);
+        setIsEdit!(false);
       }
       const endTime = performance.now(); // 여기서 종료 시간 측정
       console.log(`총 소요 시간: ${(endTime - startTime).toFixed(0)}ms`);
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -188,7 +186,7 @@ const description = useWatch({
             {advantageFields.map(
               (
                 field: FieldArrayWithId<TReviewFormData, "advantages", "id">,
-                index
+                index,
               ) => (
                 <div key={field.id} style={{ marginBottom: "10px" }}>
                   <S.InputWrap>
@@ -210,7 +208,7 @@ const description = useWatch({
                     )}
                   />
                 </div>
-              )
+              ),
             )}
           </S.InputLiRow>
           <S.InputLiRow>
@@ -226,7 +224,7 @@ const description = useWatch({
             {disAdvantageFields.map(
               (
                 field: FieldArrayWithId<TReviewFormData, "disAdvantages", "id">,
-                index
+                index,
               ) => {
                 return (
                   <div key={field.id} style={{ marginBottom: "10px" }}>
@@ -250,7 +248,7 @@ const description = useWatch({
                     />
                   </div>
                 );
-              }
+              },
             )}
           </S.InputLiRow>
           <S.InputLiRow>

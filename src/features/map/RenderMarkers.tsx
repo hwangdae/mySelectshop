@@ -15,7 +15,7 @@ import {
   selectshopsStore,
   shopCoordinatesStore,
 } from "@/globalState";
-import SelectshopDetail from "../selectshop/components/SelectshopDetail";
+import SelectshopDetail from "../selectshop/detail/SelectshopDetail";
 
 const RenderMarkers = () => {
   const { selectshops } = selectshopsStore();
