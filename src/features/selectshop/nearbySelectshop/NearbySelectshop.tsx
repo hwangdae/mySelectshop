@@ -52,7 +52,7 @@ const NearbySelectshop = () => {
                 setOpenDetailShopId(selectshop.id);
               }}
             >
-              <SelectshopInfoCard selectshop={selectshop} />
+              <SelectshopInfoCard selectshop={selectshop}/>
             </li>
           ))}
         </S.SearchResultsInner>

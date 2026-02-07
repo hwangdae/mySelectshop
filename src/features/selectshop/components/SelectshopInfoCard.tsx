@@ -13,6 +13,7 @@ import { highlightText } from "@/shared/utils/highlightText";
 
 interface PropsType {
   selectshop: TPlace;
+  fetchReview?: boolean;
 }
 
 const SelectshopInfoCard = ({ selectshop }: PropsType) => {
@@ -25,7 +26,7 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
     queryFn: () => getMyReview(id, userData?.user?.id),
     enabled: !!id,
   });
-
+  console.log(myReview,"리뷰데이터2")
   const { data: reviewCount } = useQuery({
     queryKey: ["reviewCountByShop", id],
     queryFn: () => getReviewCountByShop(id),
@@ -80,7 +81,6 @@ const SelectshopInfoCard = ({ selectshop }: PropsType) => {
 };
 
 export default React.memo(SelectshopInfoCard);
-
 
 const S = {
   SelectshopContainer: styled.div`

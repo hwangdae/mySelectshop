@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Camera from "@/shared/assets/Camera.svg";
 import { imageCompressionFn } from "@/shared/utils/imageCompression";
 import { previewImage } from "@/shared/utils/previewImage";
+import Image from "next/image";
 
 interface PropsType {
   previewProfileImage: string | ArrayBuffer | null;
@@ -19,20 +20,20 @@ const ImageUpload = ({
   setFile,
 }: PropsType) => {
   const onchangeImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     try {
       const uploadImageFile = e.target.files![0];
       const fileType = uploadImageFile.type.split("/")[1];
       if (!["jpg", "jpeg", "png", "webp"].includes(fileType)) {
         alert(
-          '파일은 "*jpg, *jpeg, *png *webp" 만 가능합니다.\n이미지를 다시 업로드 해주세요.'
+          '파일은 "*jpg, *jpeg, *png *webp" 만 가능합니다.\n이미지를 다시 업로드 해주세요.',
         );
         return;
       }
       const compressionFile = await imageCompressionFn(
         uploadImageFile,
-        "small"
+        "small",
       );
       if (compressionFile) {
         previewImage(compressionFile, setPreviewProfileImage);
@@ -46,6 +47,8 @@ const ImageUpload = ({
   return (
     <S.ProfileImageContainer>
       <S.ProfileImage
+        width={100}
+        height={100}
         src={
           previewProfileImage
             ? `${previewProfileImage}`
@@ -79,9 +82,7 @@ const S = {
     right: 0px;
     top: 0px;
   `,
-  ProfileImage: styled.img`
-    width: 100px;
-    height: 100px;
+  ProfileImage: styled(Image)`
     border: solid 1px ${styleColor.GRAY[200]};
     border-radius: 100%;
     object-fit: cover;

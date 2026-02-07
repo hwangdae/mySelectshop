@@ -22,11 +22,11 @@ import { getReviewBySelectshop } from "@/features/reviewEditor/api";
 import dynamic from "next/dynamic";
 import NoSearchResult from "@/shared/components/NoSearchResult";
 import CustomPagination from "@/shared/components/CustomPagination";
+import SelectshopSkeletonList from "@/shared/ui/SelectshopSkeletonList";
 
-const SelectshopDetail = dynamic(
-  () => import("../detail/SelectshopDetail"),
-  { ssr: false }
-);
+const SelectshopDetail = dynamic(() => import("../detail/SelectshopDetail"), {
+  ssr: false,
+});
 
 const NotVisiteSelectshop = () => {
   const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
@@ -36,7 +36,7 @@ const NotVisiteSelectshop = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data: reviewData } = useQuery({
+  const { data: reviewData, isLoading } = useQuery({
     queryKey: ["review"],
     queryFn: getReviewBySelectshop,
     enabled: !!userData,
@@ -48,25 +48,32 @@ const NotVisiteSelectshop = () => {
     selectshops,
     reviewData,
     debouncedSearchTerm,
-    userData
+    userData,
   );
 
   useEffect(() => {
     if (center.lat && center.lng) {
       searchAllPlaces();
     }
-  }, [currentPage, center.lat, center.lng]);
+  }, [center.lat, center.lng]);
 
   const currentItems = getPaginatedItems(notVisitedSelectshops, currentPage);
 
+  const isInitialLoading = isLoading || selectshops.length === 0 || !reviewData;
+  const hasNoVisitedShop =
+    isInitialLoading && currentItems.length === 0 && debouncedSearchTerm === "";
+  const hasSearchResult = currentItems.length > 0;
+
   return (
     <S.SearchResultsContainer ref={scrollRef}>
-      {currentItems.length === 0 && debouncedSearchTerm === "" ? (
+      {isInitialLoading && <SelectshopSkeletonList />}
+      {hasNoVisitedShop && (
         <S.VisitedShopMessage>
           🏬 모든 편집샵을 다 방문 했어요.
         </S.VisitedShopMessage>
-      ) : currentItems.length > 0 ? (
-        <S.SearchResultsInner>
+      )}
+      {!isLoading && hasSearchResult && (
+        <S.List>
           {currentItems?.map((selectshop: TPlace) => (
             <li
               key={selectshop.id}
@@ -78,10 +85,9 @@ const NotVisiteSelectshop = () => {
               )}
             </li>
           ))}
-        </S.SearchResultsInner>
-      ) : (
-        <NoSearchResult />
+        </S.List>
       )}
+      {!hasNoVisitedShop && !hasSearchResult && <NoSearchResult />}
 
       {currentItems.length >= 15 && (
         <CustomPagination
@@ -106,7 +112,7 @@ const S = {
       display: none;
     }
   `,
-  SearchResultsInner: styled.ul``,
+  List: styled.ul``,
   VisitedShopMessage: styled.h1`
     display: flex;
     justify-content: center;

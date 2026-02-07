@@ -6,6 +6,13 @@ type ModalPayload =
   | { type: "profile" }
   | { type: "chat" }
   | { type: "follow"; params: { followType: "follower" | "following" } }
+  | {
+      type: "alert";
+      params: {
+        message: string;
+        onConfirm?: () => void;
+      };
+    }
   | { type: null };
 
 interface ModalContextProps {

@@ -15,11 +15,12 @@ import styled from "styled-components";
 import Trash from "@/shared/assets/Trash.svg";
 import { ErrorMessage } from "@hookform/error-message";
 import { useSession } from "next-auth/react";
-import { uploadImagesFn } from "@/shared/utils/uploadImages";
+import { uploadImagesFn } from "@/shared/utils/uploadImagesFn";
 import CommonSpinner from "../../../shared/ui/CommonSpinner";
 import useReview from "@/features/reviewEditor/hooks/mutate/useReview";
 import { TReviewFormData, TNewReview, TReview } from "@/shared/types";
 import ImageUploader from "./ImageUploader";
+import { useModal } from "@/context/ModalContext";
 
 interface PropsType {
   selectshopId?: string;
@@ -38,6 +39,9 @@ const ReviewEditor = ({
   prevReview,
   setIsEdit,
 }: PropsType) => {
+
+  const { openModal } = useModal();
+
   const { data: userData } = useSession();
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,30 +93,44 @@ const ReviewEditor = ({
   const buildReviewPayload = async (
     formData: TReviewFormData,
   ): Promise<TNewReview> => {
-    const uploadedImages = await uploadImagesFn(files);
-    const existingImages = prevReview?.reviewImages
-      ? prevReview.reviewImages.split(",")
-      : [];
-    const newUploadedImages =
-      uploadedImages!.length > 0 ? uploadedImages : existingImages;
-    return {
-      selectshopId,
-      userId: userData?.user?.id,
-      region: addressName?.split(" ").slice(0, 2).join(""),
-      reviewImages:
-        newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
-      description: formData.description,
-      advantages: formData.advantages?.map((v) => v.value) ?? null,
-      disAdvantages: formData.disAdvantages?.map((v) => v.value) ?? null,
-      tags: formData.tags,
-    };
+    try {
+      // const uploadedImages = await uploadImagesFn(files);
+      const { images: uploadedImages, failed } = await uploadImagesFn(files);
+
+      if (failed.length > 0) {
+        openModal({
+          type: "alert",
+          params: {
+            message: `${failed.map((f) => f.name).join(", ")} 이미지 업로드에 실패했습니다.\n실패된 이미지는 수정을 통해 다시 등록해 주세요.`,
+          },
+        });
+      }
+
+      const existingImages = prevReview?.reviewImages
+        ? prevReview.reviewImages.split(",")
+        : [];
+      const newUploadedImages =
+        uploadedImages!.length > 0 ? uploadedImages : existingImages;
+      return {
+        selectshopId,
+        userId: userData?.user?.id,
+        region: addressName?.split(" ").slice(0, 2).join(""),
+        reviewImages:
+          newUploadedImages!.length > 0 ? newUploadedImages?.join(",") : null,
+        description: formData.description,
+        advantages: formData.advantages?.map((v) => v.value) ?? null,
+        disAdvantages: formData.disAdvantages?.map((v) => v.value) ?? null,
+        tags: formData.tags,
+      };
+    } catch (error) {
+      throw error;
+    }
   };
 
   const ReviewEditSubmit: SubmitHandler<TReviewFormData> = async (formData) => {
     setIsLoading(true);
 
     const startTime = performance.now(); // 측정 시작
-
     const payload = await buildReviewPayload(formData);
 
     try {
@@ -130,9 +148,12 @@ const ReviewEditor = ({
         setIsEdit!(false);
       }
       const endTime = performance.now(); // 여기서 종료 시간 측정
+
       console.log(`총 소요 시간: ${(endTime - startTime).toFixed(0)}ms`);
     } catch (error) {
       console.log(error);
+      alert("리뷰 작성에 실패했습니다. 다시 시도해 주세요.");
+      return;
     } finally {
       setIsLoading(false);
     }

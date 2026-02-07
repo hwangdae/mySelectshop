@@ -6,7 +6,7 @@ import LoginPage from "@/app/auth/login/page";
 import UpdateProfilePage from "@/app/auth/profile/page";
 import ChatPage from "@/app/chat/page";
 import Follow from "@/features/follow/components/Follow";
-
+import AlertModal from "@/ui/AlertModal";
 
 export default function GlobalModal() {
   const { modal, closeModal } = useModal();
@@ -19,6 +19,12 @@ export default function GlobalModal() {
       {modal.type === "chat" && <ChatPage />}
       {modal.type === "follow" && modal.params && (
         <Follow followTypeParams={modal.params.followType} />
+      )}
+      {modal.type === "alert" && modal.params && (
+        <AlertModal
+          message={modal.params.message}
+          onConfirm={modal.params.onConfirm}
+        />
       )}
     </Modal>
   );

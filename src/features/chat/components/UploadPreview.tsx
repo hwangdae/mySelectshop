@@ -5,6 +5,7 @@ import { formatFileSize } from "@/shared/utils/formatFileSize";
 import Trash from "@/shared/assets/Trash.svg";
 import X from "@/shared/assets/X.svg";
 import { styleFont } from "@/shared/styles/styleFont";
+import Image from "next/image";
 
 interface PropsType {
   previewImages: File[];
@@ -110,7 +111,7 @@ const S = {
     align-items: center;
     gap: 10px;
   `,
-  PreviewImage: styled.img`
+  PreviewImage: styled(Image)`
     width: 50px;
     height: 50px;
     object-fit: cover;

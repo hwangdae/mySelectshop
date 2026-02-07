@@ -3,7 +3,7 @@ import Send from "@/shared/assets/Send.svg";
 import styled from "styled-components";
 import { styleColor } from "@/shared/styles/styleColor";
 import useChatMutate from "@/features/chat/hooks/useChat";
-import { uploadImagesFn } from "@/shared/utils/uploadImages";
+import { uploadImagesFn } from "@/shared/utils/uploadImagesFn";
 import { TNewChat } from "@/features/chat/types";
 import ImageUploader from "./ImageUploader";
 import { styleFont } from "@/shared/styles/styleFont";
@@ -27,9 +27,9 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
     setIsLoading(true);
     e.preventDefault();
 
-    const imageUrl = image ? await uploadImagesFn(image) : null;
+    const { images } = image ? await uploadImagesFn(image) : { images: [] };
 
-    if (!message.trim() && (!imageUrl || imageUrl.length === 0)) {
+    if (!message.trim() && (!images || images.length === 0)) {
       setMessage("");
       setIsLoading(false);
       return;
@@ -37,12 +37,12 @@ const Input = ({ receiverId, currentUserId }: PropsType) => {
 
     const newChat: TNewChat = {
       text: message,
-      image: imageUrl?.join(","),
+      image: images?.join(","),
       receiverId: receiverId,
       senderId: currentUserId,
     };
 
-    if (message || imageUrl) {
+    if (message || images) {
       try {
         chatMutate.mutate(newChat);
         setMessage("");

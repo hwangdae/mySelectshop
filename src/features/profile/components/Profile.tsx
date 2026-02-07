@@ -8,11 +8,12 @@ import { useSession } from "next-auth/react";
 import { useModal } from "@/context/ModalContext";
 import ProfileImage from "@/shared/ui/ProfileImage";
 import UserActivity from "./UserActivity";
+import SkeletonProfile from "./SkeletonProfile";
 
 const Profile = () => {
   const { data: userData, status } = useSession();
   const { openModal } = useModal();
-  if(status ==="loading") return <div>로딩</div>
+  if (status === "loading") return <SkeletonProfile />;
   return (
     <div>
       {userData && (
@@ -29,7 +30,9 @@ const Profile = () => {
                 width={"60px"}
                 height={"60px"}
               />
-              <S.ProfileUpdateButton onClick={() => openModal({type :"profile"})}>
+              <S.ProfileUpdateButton
+                onClick={() => openModal({ type: "profile" })}
+              >
                 <ProfileUpdate
                   width={"15px"}
                   height={"15px"}

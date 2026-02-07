@@ -19,14 +19,14 @@ const useKakaoSearch = () => {
 
   const placeMapRef = useRef<Map<string, TPlace>>(new Map());
 
-  /** Kakao SDK 사용 가능 여부 체크 */
+  // Kakao SDK 사용 가능 여부 체크
   const isKakaoAvailable = () =>
     typeof window !== "undefined" &&
     window.kakao &&
     window.kakao.maps &&
     window.kakao.maps.services;
 
-  /** 검색 옵션 생성 */
+  // 검색 옵션 생성
   const createSearchOptions = useCallback(
     (page: number): kakao.maps.services.PlacesSearchOptions => ({
       location: new window.kakao.maps.LatLng(center.lat, center.lng),
@@ -36,7 +36,7 @@ const useKakaoSearch = () => {
     [center.lat, center.lng],
   );
 
-  /** 실제 검색 실행 */
+  // 실제 검색 실행
   const executeSearch = useCallback(
     (
       page: number,
@@ -63,7 +63,7 @@ const useKakaoSearch = () => {
     [createSearchOptions],
   );
 
-  /** 단일 페이지 검색 */
+  // 단일 페이지 검색
   const searchPlaces = useCallback(
     (page: number = 1) => {
       placeMapRef.current.clear();
@@ -72,7 +72,7 @@ const useKakaoSearch = () => {
     [executeSearch],
   );
 
-  /** 전체 페이지 검색 */
+  // 전체 페이지 검색
   const searchAllPlaces = useCallback(
     (page: number = 1, accumulated: TPlace[] = []) => {
       if (page === 1) {
@@ -83,7 +83,7 @@ const useKakaoSearch = () => {
     [executeSearch],
   );
 
-  /** 검색 콜백 */
+  // 검색 콜백
   const placesSearchCB = (
     data: kakao.maps.services.PlacesSearchResultItem[],
     status: string,
@@ -125,7 +125,7 @@ const useKakaoSearch = () => {
     }
   };
 
-  /** 마커 및 바운드 처리 */
+  // 마커 및 바운드 처리
   const displayPlaces = (places: TPlace[]) => {
     const bounds = new window.kakao.maps.LatLngBounds();
     const markers: TMarker[] = [];

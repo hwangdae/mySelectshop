@@ -1,7 +1,6 @@
 "use client";
 import Header from "@/features/sidebar/Header";
 import { SessionProvider } from "next-auth/react";
-import React from "react";
 import styled from "styled-components";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "@/shared/styles/defaultTheme";
@@ -9,10 +8,23 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalProvider } from "../context/ModalContext";
 import MapComponent from "@/features/map/Map";
 import GlobalModal from "@/shared/components/GlobalModal";
+// import dynamic from "next/dynamic";
 
+// const MapComponent = dynamic(() => import("@/features/map/Map"), {
+//   ssr: false,
+// });
 const queryClient = new QueryClient();
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
+  // const [mounted, setMounted] = useState(false);
+
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
+
+  // if (!mounted) {
+  //   return <div>로딩!~@@@@@@@@@@@@@@@@@@@@</div>;
+  // }
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>

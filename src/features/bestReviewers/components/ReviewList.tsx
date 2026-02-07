@@ -12,9 +12,11 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import CommonSpinner from "../../../shared/ui/CommonSpinner";
 import useMyAddress from "@/shared/hook/useMyAddress";
 import { TBestReviewer } from "../types";
-import MyReview from "@/shared/components/MyReview";
+// import MyReview from "@/shared/components/MyReview";
 import { getRegionFromAddress } from "@/shared/utils/getRegionFromAddress";
-
+import dynamic from "next/dynamic";
+import SelectshopSkeletonList from "@/shared/ui/SelectshopSkeletonList";
+const MyReview = dynamic(() => import("@/shared/components/MyReview"));
 interface PropsType {
   user: TBestReviewer;
   selectshops: TPlace[];
@@ -33,7 +35,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
   const { setShopCoordinates } = shopCoordinatesStore();
   const { setBounds } = boundsStore();
   const parentRef = useRef<HTMLUListElement>(null);
-
+  console.log("렌더링```````````````````````````````````");
   const { myAddress } = useMyAddress();
   const region = getRegionFromAddress(myAddress);
 
@@ -42,6 +44,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useInfiniteQuery<TPaginatedReviewResponse, Error, TReview[]>({
     queryKey: ["reviews", id],
     queryFn: ({ pageParam = 1 }) =>
@@ -65,7 +68,7 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       return { ...review, shopInfo };
     });
   }, [data, selectshops]);
-  console.log(data, "데이터");
+
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage
       ? reviewsWithShopInfo.length + 1
@@ -97,6 +100,13 @@ const ReviewList = ({ user, selectshops }: PropsType) => {
       setShopCoordinates([]);
     };
   }, [data]);
+
+  if (isLoading)
+    return (
+      <S.ReviewListContainer>
+        <SelectshopSkeletonList />
+      </S.ReviewListContainer>
+    );
 
   return (
     <S.ReviewListContainer>

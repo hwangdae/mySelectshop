@@ -13,9 +13,15 @@ import useGetFilteredSelectshops from "@/shared/hook/useGetFilteredSelectshops";
 import useDebounce from "@/shared/hook/useDebounce";
 import { getReviewBySelectshop } from "@/features/reviewEditor/api";
 import { TPlace } from "@/shared/types";
-import { openDetailShopIdStore, searchTermStore } from "@/globalState";
+import {
+  myLocationStore,
+  openDetailShopIdStore,
+  searchTermStore,
+} from "@/globalState";
 import NoSearchResult from "@/shared/components/NoSearchResult";
 import CustomPagination from "@/shared/components/CustomPagination";
+import SelectshopSkeletonList from "@/shared/ui/SelectshopSkeletonList";
+import { getUnvisitedSelectshops } from "../components/getUnvisitedSelectshops";
 
 const VisitedSelectshop = () => {
   const { openDetailShopId, setOpenDetailShopId } = openDetailShopIdStore();
@@ -24,15 +30,25 @@ const VisitedSelectshop = () => {
   const { searchTerm } = searchTermStore();
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const { data: reviewData } = useQuery({
+  const { center } = myLocationStore();
+  const { data: reviewData, isLoading } = useQuery({
     queryKey: ["review"],
     queryFn: getReviewBySelectshop,
     enabled: !!userData,
     refetchOnWindowFocus: false,
   });
-
-  const { searchPlaces, selectshops, getPlaceById, center } = useKakaoSearch();
+  const { data: review } = useQuery({
+    queryKey: ["reviewssd"],
+    queryFn: () =>
+      getUnvisitedSelectshops(userData?.user?.id, center.lat, center.lng),
+    enabled: !!userData,
+    refetchOnWindowFocus: false,
+  });
+  console.log(
+    review,
+    "리뷰데이터1111111111111111111111111111111111111111111111111111111111111",
+  );
+  const { searchPlaces, selectshops, getPlaceById } = useKakaoSearch();
   const place = openDetailShopId ? getPlaceById(openDetailShopId) : undefined;
 
   const { visitedSelectshops } = useGetFilteredSelectshops(
@@ -50,28 +66,31 @@ const VisitedSelectshop = () => {
 
   const currentItems = getPaginatedItems(visitedSelectshops, currentPage);
 
+  const isInitialLoading = isLoading || selectshops.length === 0 || !reviewData;
+  const hasNoVisitedShop =
+    isInitialLoading && currentItems.length === 0 && debouncedSearchTerm === "";
+  const hasSearchResult = currentItems.length > 0;
+
   return (
     <S.SearchResultsContainer ref={scrollRef}>
-      {currentItems.length === 0 && debouncedSearchTerm === "" ? (
-        <S.VisitedShopMessage>
-          🏬 아직 방문한 편집샵이 없어요.
-        </S.VisitedShopMessage>
-      ) : currentItems.length > 0 ? (
-        <S.SearchResultsInner>
-          {currentItems?.map((selectshop: TPlace) => (
+      {isInitialLoading && <SelectshopSkeletonList />}
+      {hasNoVisitedShop && (
+        <S.EmptyMessage>🏬 아직 방문한 편집샵이 없어요.</S.EmptyMessage>
+      )}
+      {!isLoading && hasSearchResult && (
+        <S.List>
+          {currentItems.map((selectshop: TPlace) => (
             <li
               key={selectshop.id}
-              onClick={() => {
-                setOpenDetailShopId(selectshop.id);
-              }}
+              onClick={() => setOpenDetailShopId(selectshop.id)}
             >
               <SelectshopInfoCard selectshop={selectshop} />
             </li>
           ))}
-        </S.SearchResultsInner>
-      ) : (
-        <NoSearchResult />
+        </S.List>
       )}
+
+      {!hasNoVisitedShop && !hasSearchResult && <NoSearchResult />}
       {currentItems.length >= 15 && (
         <CustomPagination
           selectshops={visitedSelectshops}
@@ -96,8 +115,8 @@ const S = {
       display: none;
     }
   `,
-  SearchResultsInner: styled.ul``,
-  VisitedShopMessage: styled.h1`
+  List: styled.ul``,
+  EmptyMessage: styled.h1`
     display: flex;
     justify-content: center;
     align-items: center;

@@ -3,7 +3,8 @@ import NoImage from "@/shared/assets/NoImage.svg";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { imageCompressionFn } from "@/shared/utils/imageCompression";
+// import { imageCompressionFn } from "@/shared/utils/imageCompression";
+import Image from "next/image";
 
 interface PropsType extends React.InputHTMLAttributes<HTMLInputElement> {
   files: File[];
@@ -21,12 +22,12 @@ const ImageUploader = ({
   ...props
 }: PropsType) => {
   const [previewImages] = useState<string[]>(
-    prevReview ? prevReview.split(",") : []
+    prevReview ? prevReview.split(",") : [],
   );
   const [previewFiles, setPreviewFiles] = useState<File[]>([]);
   const previewStartRef = useRef<number | null>(null);
   const onChangeImageUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (!e.target.files) return;
 
@@ -37,10 +38,10 @@ const ImageUploader = ({
     setPreviewFiles(newFiles);
 
     // 백그라운드 압축
-    const compressedFiles = await Promise.all(
-      newFiles.map((file) => imageCompressionFn(file, "small"))
-    );
-    setFiles(compressedFiles);
+    // const compressedFiles = await Promise.all(
+    //   newFiles.map((file) => imageCompressionFn(file, "large")),
+    // );
+    setFiles(newFiles);
 
     const endTime = performance.now();
     console.log(`압축 소요 시간: ${(endTime - startTime).toFixed(0)}ms`);
@@ -54,6 +55,8 @@ const ImageUploader = ({
             {previewImages.map((file: string, index: number) => (
               <S.SwiperSlide key={index}>
                 <S.UploadImage
+                  width={100}
+                  height={100}
                   src={file}
                   alt={`${index + 1}번째 업로드 이미지`}
                 />
@@ -65,6 +68,8 @@ const ImageUploader = ({
             {previewFiles.map((file, index) => (
               <S.SwiperSlide key={index}>
                 <S.UploadImage
+                  width={100}
+                  height={100}
                   src={URL.createObjectURL(file)}
                   alt={`uploaded-${index}`}
                   onLoad={() => {
@@ -73,7 +78,7 @@ const ImageUploader = ({
                       console.log(
                         `미리보기 표시 시간: ${(
                           end - previewStartRef.current
-                        ).toFixed(0)}ms`
+                        ).toFixed(0)}ms`,
                       );
                       previewStartRef.current = null;
                     }
@@ -111,7 +116,7 @@ const S = {
   ImageInput: styled.input`
     display: none;
   `,
-  UploadImage: styled.img`
+  UploadImage: styled(Image)`
     width: 100%;
     height: 100%;
     object-fit: cover;

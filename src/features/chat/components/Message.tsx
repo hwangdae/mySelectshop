@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { styleColor } from "@/shared/styles/styleColor";
 import { styleFont } from "@/shared/styles/styleFont";
 import ProfileImage from "@/shared/ui/ProfileImage";
+import Image from "next/image";
 
 interface PropsType {
   receiverName: string;
@@ -75,7 +76,7 @@ const S = {
     width: 130px;
     height: 170px;
   `,
-  Image: styled.img`
+  Image: styled(Image)`
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -87,7 +88,9 @@ const S = {
     color: ${styleColor.WHITE};
     padding: 10px;
     background-color: ${(props) =>
-      props.$isSender ? `${styleColor.RED.PRIMARY}` : `${styleColor.BLACK[300]}`};
+      props.$isSender
+        ? `${styleColor.RED.PRIMARY}`
+        : `${styleColor.BLACK[300]}`};
     border-radius: 4px;
     word-break: break-all;
     text-align: ${(props) => (props.$isSender ? "right" : "left")};

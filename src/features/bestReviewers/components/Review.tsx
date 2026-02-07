@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { styleColor } from "@/shared/styles/styleColor";
 import { styleFont } from "@/shared/styles/styleFont";
 import { TReviewWithShopInfo } from "@/shared/types";
+// import Image from "next/image";
 
 interface PropsType {
   review: TReviewWithShopInfo;
