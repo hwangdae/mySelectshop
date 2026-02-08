@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 // import { Noto_Sans_KR } from "next/font/google";
 import "@/shared/styles/globals.css";
-import ClientLayout from "./ClientLayout";
 import Script from "next/script";
 import localFont from "next/font/local";
+import Providers from "./Providers";
+import StyledComponentsRegistry from "@/lib/registry";
 
 // const notoSansKr = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -51,7 +52,11 @@ export default function RootLayout({
         />
       </head>
       <body className={Pretendard.className}>
-        <ClientLayout>{children}</ClientLayout>
+        <StyledComponentsRegistry>
+          <Providers>
+            {children}
+          </Providers>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

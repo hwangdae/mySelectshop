@@ -1,6 +1,8 @@
-"use client";
 import Contents from "@/features/sidebar/Contents";
+import React from "react";
 
-export default function Home() {
+const page = () => {
   return <Contents />;
-}
+};
+
+export default page;

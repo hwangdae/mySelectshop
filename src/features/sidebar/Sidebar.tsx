@@ -1,37 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Header";
-import Contents from "./Contents";
-import { usePathname } from "next/navigation";
-import VisitedSelectshopPage from "@/app/visitedSelectshop/page";
-import NearbySelectshopPage from "@/app/nearbySelectshop/page";
-import NotVisiteSelectshopPage from "@/app/notVisiteSelectshop/page";
-import BestReviewerPage from "@/app/bestReviewer/page";
+// import Contents from "./Contents";
+// import { usePathname } from "next/navigation";
+// import VisitedSelectshopPage from "@/app/(withSidebar)/visitedSelectshop/page";
+// import NearbySelectshopPage from "@/app/(withSidebar)/nearbySelectshop/page";
+// import NotVisiteSelectshopPage from "@/app/(withSidebar)/notVisiteSelectshop/page";
+// import BestReviewerPage from "@/app/(withSidebar)/bestReviewer/page";
 
-const Sidebar = () => {
-  const pathname = usePathname();
+const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  // const pathname = usePathname();
 
-  const renderContent = () => {
-    switch (pathname) {
-      case "/nearbySelectshop":
-        return <NearbySelectshopPage />;
-      case "/visitedSelectshop":
-        return <VisitedSelectshopPage />;
-      case "/notVisiteSelectshop":
-        return <NotVisiteSelectshopPage />;
-      case "/bestReviewer":
-        return <BestReviewerPage />;
-      default:
-        return <Contents />;
-    }
-  };
+  // const renderContent = () => {
+  //   switch (pathname) {
+  //     case "/nearbySelectshop":
+  //       return <NearbySelectshopPage />;
+  //     case "/visitedSelectshop":
+  //       return <VisitedSelectshopPage />;
+  //     case "/notVisiteSelectshop":
+  //       return <NotVisiteSelectshopPage />;
+  //     case "/bestReviewer":
+  //       return <BestReviewerPage />;
+  //     default:
+  //       return <Contents />;
+  //   }
+  // };
 
   return (
     <S.SideContainer>
       <S.StyleHeader>
         <Header />
       </S.StyleHeader>
-      <S.StyleContent>{renderContent()}</S.StyleContent>
+      <S.StyleContent>{children}</S.StyleContent>
     </S.SideContainer>
   );
 };

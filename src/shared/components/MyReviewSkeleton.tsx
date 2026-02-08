@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { styleFont } from "../styles/styleFont";
 
 const MyReviewSkeleton = () => {
   return (
@@ -11,14 +12,14 @@ const MyReviewSkeleton = () => {
       <S.ReviewTextWrap>
         {/* 제목 + 설명 */}
         <S.ReviewTextRow>
-          <S.SkeletonTitle />
+          <S.SkeletonTitle>📒 나의 후기</S.SkeletonTitle>
           <S.SkeletonText width="90%" />
           <S.SkeletonText width="70%" />
         </S.ReviewTextRow>
 
         {/* 장점 */}
         <S.ReviewTextRow>
-          <S.SkeletonTitle />
+          <S.SkeletonTitle>👍 셀렉샵 장점</S.SkeletonTitle>
           <S.SkeletonList>
             <S.SkeletonText width="80%" />
             <S.SkeletonText width="75%" />
@@ -27,7 +28,7 @@ const MyReviewSkeleton = () => {
 
         {/* 단점 */}
         <S.ReviewTextRow>
-          <S.SkeletonTitle />
+          <S.SkeletonTitle>👎 설렉샵 단점</S.SkeletonTitle>
           <S.SkeletonList>
             <S.SkeletonText width="85%" />
             <S.SkeletonText width="60%" />
@@ -36,7 +37,7 @@ const MyReviewSkeleton = () => {
 
         {/* 태그 */}
         <S.ReviewTextRow>
-          <S.SkeletonTitle />
+          <S.SkeletonTitle>🏷️ 태그</S.SkeletonTitle>
           <S.SkeletonTagRow>
             <S.SkeletonTag />
             <S.SkeletonTag />
@@ -50,23 +51,28 @@ const MyReviewSkeleton = () => {
 
 export default MyReviewSkeleton;
 
-const skeletonBase = `
-  background-color: #e5e7eb; /* gray-200 */
-  border-radius: 6px;
-`;
+// const skeletonBase = `
+//   background-color:  #f0f0f0;
+//   border-radius: 6px;
+// `;
 
 const S = {
   MyReviewContainer: styled.div`
+    width: 100%;
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    padding: 16px 0;
+    padding: 0 0 16px 0;
   `,
 
   ImageWrap: styled.div`
+    width: 100%;
     flex-shrink: 0;
   `,
 
   ReviewTextWrap: styled.div`
+    padding: 0px 12px;
+    width: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -81,21 +87,20 @@ const S = {
   SkeletonImage: styled.div`
     width: 330px;
     height: 180px;
-    ${skeletonBase};
+    background-color: #f0f0f0;
   `,
 
   SkeletonTitle: styled.div`
-    width: 120px;
-    height: 20px;
-    margin-bottom: 10px;
-    ${skeletonBase};
+    ${styleFont.title.tit_md}
+    font-weight: 500;
+    margin-bottom: 15px;
   `,
 
   SkeletonText: styled.div<{ width?: string }>`
     width: ${({ width }) => width || "100%"};
     height: 14px;
     margin-bottom: 6px;
-    ${skeletonBase};
+    background-color: #f0f0f0;
   `,
 
   SkeletonList: styled.div`

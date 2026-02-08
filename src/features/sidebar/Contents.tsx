@@ -1,3 +1,4 @@
+'use client';
 import { styleColor } from "@/shared/styles/styleColor";
 import { styleFont } from "@/shared/styles/styleFont";
 import styled from "styled-components";
