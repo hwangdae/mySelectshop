@@ -8,6 +8,13 @@ import CommonSwiper from "../ui/CommonSwiper";
 import { TReviewWithShopInfo } from "@/shared/types";
 import ReviewEditor from "@/features/reviewEditor/component/ReviewEditor";
 // import dynamic from "next/dynamic";
+// const ReviewEditor = dynamic(
+//   () => import("@/features/reviewEditor/component/ReviewEditor"),
+//   {
+//     ssr: false,
+//   },
+// );
+// import dynamic from "next/dynamic";
 
 // const CommonSwiper = dynamic(() => import("../ui/CommonSwiper"), {
 //   loading: () => <div>aasdasdadasd</div>,
@@ -22,13 +29,7 @@ interface PropsType {
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MyReview = ({
-  review,
-  nickName,
-  type,
-  isEdit,
-  setIsEdit,
-}: PropsType) => {
+const MyReview = ({ review, nickName, type, isEdit, setIsEdit }: PropsType) => {
   const {
     reviewImages,
     description,
@@ -41,51 +42,59 @@ const MyReview = ({
 
   useInitializeMapState(shopInfo?.y || 0, shopInfo?.x || 0);
 
-  return isEdit ? (
-    <ReviewEditor
-      type="edit"
-      prevReview={review}
-      selectshopId={selectshopId}
-      setIsEdit={setIsEdit}
-    />
-  ) : (
-    <S.MyReviewContainer>
-      <S.ImageWrap>
-        {reviewImages === null || reviewImages === "" ? (
-          <NoImage width={"330px"} height={"180px"} />
-        ) : (
-          <CommonSwiper slideImages={reviewImages} />
-        )}
-      </S.ImageWrap>
-      <S.ReviewTextWrap>
-        <S.ReviewTextRow>
-          <S.ReviewTitle>
-            📒 {type === "bestReviewerList" ? `${nickName}님의` : "나의"} 후기
-          </S.ReviewTitle>
-          <S.ReviewDescription>{description}</S.ReviewDescription>
-        </S.ReviewTextRow>
-        <S.ReviewTextRow>
-          <S.ReviewTitle>👍 셀렉샵 장점</S.ReviewTitle>
-          <ul>
-            {advantages?.map((advantage: string, index: number) => {
-              return <li key={`${advantage}-${index}`}>{advantage}</li>;
-            })}
-          </ul>
-        </S.ReviewTextRow>
-        <S.ReviewTextRow>
-          <S.ReviewTitle>👎 설렉샵 단점</S.ReviewTitle>
-          <ul>
-            {disAdvantages?.map((disAdvantage: string, index: number) => {
-              return <li key={`${disAdvantage}-${index}`}>{disAdvantage}</li>;
-            })}
-          </ul>
-        </S.ReviewTextRow>
-        <S.ReviewTextRow>
-          <S.ReviewTitle>🏷️ 태그</S.ReviewTitle>
-          <Tags tags={tags} type={"myReview"} />
-        </S.ReviewTextRow>
-      </S.ReviewTextWrap>
-    </S.MyReviewContainer>
+  return (
+    <>
+      {isEdit && (
+        <ReviewEditor
+          type="edit"
+          prevReview={review}
+          selectshopId={selectshopId}
+          setIsEdit={setIsEdit}
+        />
+      )}
+      {!isEdit && (
+        <S.MyReviewContainer>
+          <S.ImageWrap>
+            {reviewImages === null || reviewImages === "" ? (
+              <NoImage width={"330px"} height={"180px"} />
+            ) : (
+              <CommonSwiper slideImages={reviewImages} />
+            )}
+          </S.ImageWrap>
+          <S.ReviewTextWrap>
+            <S.ReviewTextRow>
+              <S.ReviewTitle>
+                📒 {type === "bestReviewerList" ? `${nickName}님의` : "나의"}{" "}
+                후기
+              </S.ReviewTitle>
+              <S.ReviewDescription>{description}</S.ReviewDescription>
+            </S.ReviewTextRow>
+            <S.ReviewTextRow>
+              <S.ReviewTitle>👍 셀렉샵 장점</S.ReviewTitle>
+              <ul>
+                {advantages?.map((advantage: string, index: number) => {
+                  return <li key={`${advantage}-${index}`}>{advantage}</li>;
+                })}
+              </ul>
+            </S.ReviewTextRow>
+            <S.ReviewTextRow>
+              <S.ReviewTitle>👎 설렉샵 단점</S.ReviewTitle>
+              <ul>
+                {disAdvantages?.map((disAdvantage: string, index: number) => {
+                  return (
+                    <li key={`${disAdvantage}-${index}`}>{disAdvantage}</li>
+                  );
+                })}
+              </ul>
+            </S.ReviewTextRow>
+            <S.ReviewTextRow>
+              <S.ReviewTitle>🏷️ 태그</S.ReviewTitle>
+              <Tags tags={tags} type={"myReview"} />
+            </S.ReviewTextRow>
+          </S.ReviewTextWrap>
+        </S.MyReviewContainer>
+      )}
+    </>
   );
 };
 

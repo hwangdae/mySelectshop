@@ -18,7 +18,7 @@
     "@mui/material": "^6.4.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@next/bundle-analyzer": "^16.1.4",
-    "@prisma/client": "^6.18.0",
+    "@prisma/client": "^6.19.2",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-virtual": "^3.13.8",
     "@types/bcryptjs": "^2.4.6",
@@ -62,5 +62,10 @@
     "kakao.maps.d.ts": "^0.1.40",
     "typescript": "^5"
   },
-  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
+  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8",
+  "description": "내 주변의 쇼핑몰을 탐색하고 리뷰를 남길 수 있는 플랫폼입니다.<br>위치 기반 서비스를 통해 사용자 주변의 셀렉트샵을 찾아보고, 리뷰를 남기거나 다른 사람들의 리뷰를 확인할 수 있습니다.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

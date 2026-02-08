@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { TNewReview } from "@/shared/types";
 import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {
@@ -32,7 +33,7 @@ export const GET = async (request: Request) => {
 
     // 방문한 매장 ID만 내려줌
     return NextResponse.json(
-      reviews.map((review) => review.selectshopId)
+      reviews.map((review:TNewReview) => review.selectshopId)
     );
   } catch (error) {
     console.error(error);

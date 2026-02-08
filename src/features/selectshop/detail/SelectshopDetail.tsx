@@ -12,9 +12,11 @@ import dynamic from "next/dynamic";
 import { useSelectshopReviews } from "../hooks/useSelectshopReviews";
 import SelectshopDetailHeader from "../nearbySelectshop/components/SelectshopDetailHeader";
 import ReviewList from "./components/ReviewList";
+import MyReviewSkeleton from "@/shared/components/MyReviewSkeleton";
 
 const MyReview = dynamic(() => import("@/shared/components/MyReview"), {
   ssr: false,
+  loading: () => <MyReviewSkeleton />,
 });
 
 const ReviewEditor = dynamic(
@@ -54,6 +56,11 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
         setIsEdit={setIsEdit}
         onDelete={handleDelete}
       />
+      {/* 등록한 리뷰가 없을 떄 */}
+      {!isWriteOpen && !myReview && (
+        <SelectshopReview onWriteReviewClick={() => setIsWriteOpen(true)} />
+      )}
+
       {/* 리뷰 수정 컴포넌트 */}
       {isWriteOpen && (
         <ReviewEditor
@@ -63,13 +70,10 @@ const SelectshopDetail = ({ selectshop }: PropsType) => {
           setIsWriteReviewOpen={setIsWriteOpen}
         />
       )}
+
       {/* 등록한 리뷰가 있을 때 */}
       {!isWriteOpen && myReview && (
         <MyReview review={myReview} isEdit={isEdit} setIsEdit={setIsEdit} />
-      )}
-      {/* 등록한 리뷰가 없을 떄 */}
-      {!isWriteOpen && !myReview && (
-        <SelectshopReview onWriteReviewClick={() => setIsWriteOpen(true)} />
       )}
 
       {!isWriteOpen && (
