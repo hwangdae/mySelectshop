@@ -1,10 +1,11 @@
-'use client';
+"use client";
 import { ModalProvider } from "@/context/ModalContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { theme } from "@/shared/styles/defaultTheme";
 import React from "react";
 import { ThemeProvider } from "styled-components";
+import GlobalModal from "@/shared/components/GlobalModal";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider theme={theme}>
           <ModalProvider>
             {children}
+            <GlobalModal />
           </ModalProvider>
         </ThemeProvider>
       </QueryClientProvider>

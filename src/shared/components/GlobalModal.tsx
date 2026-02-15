@@ -10,7 +10,7 @@ import AlertModal from "@/ui/AlertModal";
 
 export default function GlobalModal() {
   const { modal, closeModal } = useModal();
-
+  console.log(modal)
   return (
     <Modal isOpen={!!modal.type} onClose={closeModal}>
       {modal.type === "login" && <LoginPage />}

@@ -39,14 +39,20 @@ const Header = () => {
                 router.push("/");
                 setShowFollowListToggle(false);
                 setSearchTerm("");
-                setOpenDetailShopId("")
+                setOpenDetailShopId("");
               }}
             >
               MySelectshop
             </button>
           </S.Logo>
           {!userData?.user ? (
-            <Button onClick={() => openModal({ type: "login" })}>로그인</Button>
+            <Button
+              onClick={() => {
+                openModal({ type: "login" });
+              }}
+            >
+              로그인
+            </Button>
           ) : (
             <Button
               onClick={() => {

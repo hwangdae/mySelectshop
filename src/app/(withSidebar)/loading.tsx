@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 const Loading = () => {
   return (
@@ -12,25 +13,14 @@ const Loading = () => {
       <div
         style={{
           width: 360,
-          backgroundColor: "#353535",
-          padding: 16,
+          backgroundColor: "#fff",
         }}
       >
-        <div
-          style={{
-            height: 40,
-            backgroundColor: "#202020",
-            borderRadius: 4,
-            marginBottom: 16,
-          }}
-        />
-        <div
-          style={{
-            height: 40,
-            backgroundColor: "#3d3dff",
-            borderRadius: 4,
-          }}
-        />
+        <S.List>
+          {Array.from({ length: 10 }).map((_, idx) => (
+            <S.Item key={idx} />
+          ))}
+        </S.List>
       </div>
 
       {/* Map Placeholder */}
@@ -40,3 +30,15 @@ const Loading = () => {
 };
 
 export default Loading;
+
+
+const S = {
+  List: styled.ul`
+  `,
+  Item: styled.li`
+    height: 150px;
+    margin: 20px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+  `,
+};
