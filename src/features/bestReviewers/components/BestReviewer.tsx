@@ -24,7 +24,7 @@ const BestReviewer = () => {
     queryFn: () => getBestReviewersByRegion(region),
     enabled: !!region,
   });
-
+  console.log(bestReviewers,"베스트리뷰어")
   useEffect(() => {
     if (center.lat && center.lng) {
       searchAllPlaces();

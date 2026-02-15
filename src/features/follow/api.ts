@@ -25,7 +25,10 @@ export const getFollowingCount = async (userId: string | undefined) => {
   const res = await axios.get(`/api/follow/followCount?followingId=${userId}`);
   return res.data;
 };
-
+export const getUserActivity = async (userId: string | undefined) => {
+  const res = await axios.get(`/api/user/activity?userId=${userId}`);
+  return res.data;
+};
 export const toggleFollow = async (id: string) => {
   return await axios.post("/api/follow", { id });
 };
