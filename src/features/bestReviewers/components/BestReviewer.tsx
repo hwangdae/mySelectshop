@@ -31,12 +31,8 @@ const BestReviewer = () => {
     }
   }, [center.lat, center.lng]);
 
-  const reviewersWithReviews: TBestReviewer[] =
-    bestReviewers?.filter(
-      (reviewer: TBestReviewer) => reviewer.reviews.length > 0,
-    ) ?? [];
 
-  if (reviewersWithReviews.length === 0) {
+  if (bestReviewers?.length === 0) {
     return (
       <S.BestReviewerContainer>
         <S.InnerContainer>
