@@ -99,6 +99,8 @@ model Follow {
   following User @relation(fields: [followingId], references: [id], onDelete: Cascade, name: "UserFollowing")
 
   @@id([followerId, followingId])
+  @@index([followingId])
+  @@index([followerId])
 }
 
 model Conversation {

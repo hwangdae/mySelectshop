@@ -8,4 +8,5 @@ export interface TBestReviewer {
     reviews: number;
   };
   reviews: TReview[];
+  reviewCount: number;
 }

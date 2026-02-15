@@ -1,6 +1,5 @@
 import { useModal } from "@/context/ModalContext";
-import { getFollowerCount, getFollowingCount } from "@/features/follow/api";
-import { getReviewCount } from "@/features/reviewEditor/api";
+import { getUserActivity } from "@/features/follow/api";
 import { styleColor } from "@/shared/styles/styleColor";
 import { styleFont } from "@/shared/styles/styleFont";
 import { useQuery } from "@tanstack/react-query";
@@ -14,19 +13,25 @@ interface PropsType {
 const UserActivity = ({ userId }: PropsType) => {
   const { openModal } = useModal();
 
-  const { data: followerCount } = useQuery({
-    queryKey: ["followerCount", userId],
-    queryFn: () => getFollowerCount(userId),
-  });
+  // const { data: followerCount } = useQuery({
+  //   queryKey: ["followerCount", userId],
+  //   queryFn: () => getFollowerCount(userId),
+  // });
 
-  const { data: followingCount } = useQuery({
-    queryKey: ["followingCount", userId],
-    queryFn: () => getFollowingCount(userId),
-  });
+  // const { data: followingCount } = useQuery({
+  //   queryKey: ["followingCount", userId],
+  //   queryFn: () => getFollowingCount(userId),
+  // });
 
-  const { data: reviewCount } = useQuery({
-    queryKey: ["reviewCount", userId],
-    queryFn: () => getReviewCount(userId),
+  // const { data: reviewCount } = useQuery({
+  //   queryKey: ["reviewCount", userId],
+  //   queryFn: () => getReviewCount(userId),
+  //   enabled: !!userId,
+  // });
+
+  const { data } = useQuery({
+    queryKey: ["userActivity", userId],
+    queryFn: () => getUserActivity(userId),
     enabled: !!userId,
   });
 
@@ -34,7 +39,7 @@ const UserActivity = ({ userId }: PropsType) => {
     <S.UserActivity>
       <S.Activity>
         <h3>리뷰수</h3>
-        <p>{reviewCount}</p>
+        <p>{data?.reviewCount}</p>
       </S.Activity>
       <S.Activity>
         <button
@@ -43,7 +48,7 @@ const UserActivity = ({ userId }: PropsType) => {
           }}
         >
           <h3>팔로워</h3>
-          <p>{followerCount || 0}</p>
+          <p>{data?.followerCount || 0}</p>
         </button>
       </S.Activity>
       <S.Activity>
@@ -53,7 +58,7 @@ const UserActivity = ({ userId }: PropsType) => {
           }}
         >
           <h3>팔로잉</h3>
-          <p>{followingCount || 0}</p>
+          <p>{data?.followingCount || 0}</p>
         </button>
       </S.Activity>
     </S.UserActivity>

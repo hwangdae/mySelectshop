@@ -24,19 +24,15 @@ const BestReviewer = () => {
     queryFn: () => getBestReviewersByRegion(region),
     enabled: !!region,
   });
-
+  console.log(bestReviewers,"베스트리뷰어")
   useEffect(() => {
     if (center.lat && center.lng) {
       searchAllPlaces();
     }
   }, [center.lat, center.lng]);
 
-  const reviewersWithReviews: TBestReviewer[] =
-    bestReviewers?.filter(
-      (reviewer: TBestReviewer) => reviewer.reviews.length > 0,
-    ) ?? [];
 
-  if (reviewersWithReviews.length === 0) {
+  if (bestReviewers?.length === 0) {
     return (
       <S.BestReviewerContainer>
         <S.InnerContainer>
